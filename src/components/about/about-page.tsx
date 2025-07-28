@@ -26,9 +26,11 @@ interface AboutPageProps {
   heroTitle: string;
   heroSubtitle: string;
   heroImage: string;
+  heroImageAlt?: string;
   storyTitle: string;
   storyContent: string;
   storyImage: string;
+  storyImageAlt?: string;
   values: Value[];
   teamTitle: string;
   teamSubtitle: string;
@@ -44,9 +46,11 @@ export default function AboutPage({
   heroTitle,
   heroSubtitle,
   heroImage,
+  heroImageAlt,
   storyTitle,
   storyContent,
   storyImage,
+  storyImageAlt,
   values,
   teamTitle,
   teamSubtitle,
@@ -60,16 +64,18 @@ export default function AboutPage({
   return (
     <div className="flex flex-col min-h-screen bg-white">
       <LandingHeader {...headerProps} />
-      <main className="flex-1">
+      <main className="flex-1 flex flex-col gap-0 md:gap-8">
         <AboutHero
           title={heroTitle}
           subtitle={heroSubtitle}
           backgroundImage={heroImage}
+          backgroundImageAlt={heroImageAlt}
         />
         <AboutStory
           title={storyTitle}
           content={storyContent}
           image={storyImage}
+          imageAlt={storyImageAlt}
         />
         {values && values.length > 0 && <AboutValues values={values} />}
         {teamMembers && teamMembers.length > 0 && (

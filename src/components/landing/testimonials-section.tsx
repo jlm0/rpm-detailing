@@ -79,7 +79,7 @@ const TestimonialsSection = ({
                 <div
                   className="flex-shrink-0 w-full md:w-1/2 lg:w-1/3 pl-4"
                   key={`${testimonial.name}-${index}`}>
-                  <Card className="bg-brandLightGray border-neutral-200 shadow-lg h-full">
+                  <Card className="bg-brandLightGray border-neutral-200 shadow-lg h-full min-h-[300px]">
                     <CardContent className="p-6 relative flex flex-col h-full">
                       <Quote className="absolute top-4 right-4 h-12 w-12 text-brandRed/20" />
                       <div className="flex items-center mb-4">
@@ -105,7 +105,7 @@ const TestimonialsSection = ({
               ))}
             </div>
           </div>
-          <div className="flex justify-center gap-4 mt-8">
+          <div className="flex justify-center gap-4 mt-8 md:mt-12">
             <Button
               variant="outline"
               size="icon"

@@ -8,21 +8,38 @@ import type { AboutPageData } from "@/types/payload-collections";
 import AboutPage from "./about-page";
 
 async function AboutPageContent() {
+  // Default navigation items if not in CMS
+  const defaultNavigation = [
+    { label: "Home", link: "/", order: 1 },
+    { label: "Services", link: "/services", order: 2 },
+    { label: "About", link: "/about", order: 3 },
+    { label: "Testimonials", link: "#testimonials", order: 4 },
+    { label: "Contact", link: "#contact", order: 5 },
+  ];
+
   try {
     const [aboutData, siteSettings] = await Promise.all([
-      getGlobalSettings("about-page"),
+      getGlobalSettings("about-page", { depth: 2 }),
       getGlobalSettings("site-settings")
     ]);
     const pageData = aboutData;
+
+    // Sort navigation by order field if it exists
+    const navigation = siteSettings?.navigation || defaultNavigation;
+    const sortedNavigation = Array.isArray(navigation) && navigation.length > 0
+      ? [...navigation].sort((a, b) => (a.order || 0) - (b.order || 0))
+      : defaultNavigation;
 
     return (
       <AboutPage
         heroTitle={pageData?.heroTitle || "About RPM Detailing"}
         heroSubtitle={pageData?.heroSubtitle || "Your trusted partner in premium auto detailing"}
         heroImage={pageData?.heroImage?.url || "/placeholder.svg"}
+        heroImageAlt={pageData?.heroImage?.alt || "About hero background"}
         storyTitle={pageData?.storyTitle || "Our Story"}
         storyContent={pageData?.storyContent || "RPM Detailing was founded with a passion for excellence and a commitment to providing the highest quality auto detailing services."}
         storyImage={pageData?.storyImage?.url || "/placeholder.svg"}
+        storyImageAlt={pageData?.storyImage?.alt || "Our story"}
         values={pageData?.values?.map(v => ({
           title: v.title || "",
           description: v.description || "",
@@ -36,7 +53,7 @@ async function AboutPageContent() {
           bio: m.bio,
           image: m.image?.url ? {
             url: m.image.url,
-            alt: m.image.alt
+            alt: m.image.alt || m.name || "Team member"
           } : undefined
         })) || []}
         ctaTitle={pageData?.ctaTitle || "Let's Work Together"}
@@ -45,7 +62,7 @@ async function AboutPageContent() {
         headerProps={{
           logo: siteSettings?.darkLogo?.url || '/placeholder.svg',
           companyName: siteSettings?.companyName || 'RPM Detailing',
-          navigation: siteSettings?.navigation || [],
+          navigation: sortedNavigation,
           headerCTA: {
             text: siteSettings?.headerCTA?.text || 'Book Now',
             link: siteSettings?.headerCTA?.link || '/booking',

@@ -24,9 +24,9 @@ export default function AboutCta({
           <h2 className="text-3xl lg:text-4xl font-bold mb-8">{title}</h2>
           <Link href={buttonLink}>
             <Button
-              size="lg"
+              size="default"
               variant="outline"
-              className="border-white text-white hover:bg-white hover:text-brandDark"
+              className="sm:text-base sm:px-6 sm:py-3 border-white text-white bg-transparent hover:bg-white hover:text-brandDark"
             >
               {buttonText}
               <ArrowRight className="ml-2 h-5 w-5" />

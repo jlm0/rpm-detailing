@@ -67,7 +67,7 @@ const CtaBannerSection = ({
         <ScrollAnimate
           variantName="fadeIn"
           staggerChildren={0.15}
-          className="grid md:grid-cols-3 gap-8 text-center mb-12">
+          className="grid md:grid-cols-3 gap-8 lg:gap-12 text-center mb-12">
           {ctaItems.map((item) => {
             const IconComponent = iconMap[item.iconName as keyof typeof iconMap] || Car;
             return (
@@ -90,7 +90,7 @@ const CtaBannerSection = ({
           <Link href={ctaButtonLink}>
             <Button
               variant="outline"
-              className="border-white text-white bg-transparent hover:bg-white hover:text-brandRed px-8 py-3 text-lg">
+              className="w-full sm:w-auto border-white text-white bg-transparent hover:bg-white hover:text-brandRed px-8 py-3 text-lg">
               {ctaButtonText}
             </Button>
           </Link>

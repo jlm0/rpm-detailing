@@ -56,7 +56,7 @@ const LandingFooter = ({
         <ScrollAnimate
           variantName="fadeIn"
           staggerChildren={0.1}
-          className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+          className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 xl:gap-16 mb-12">
           <ScrollAnimate variantName="fadeInUp">
             <div>
               <Link
@@ -81,15 +81,15 @@ const LandingFooter = ({
             <div>
               <h3 className="text-xl font-semibold text-white mb-4">Contact Info</h3>
               <ul className="space-y-3 text-sm">
-                <li className="flex items-center space-x-2 hover:text-white">
+                <li className="flex items-center space-x-2 hover:text-white transition-colors">
                   <Phone className="h-4 w-4 text-brandRed" />
                   <span>{phone}</span>
                 </li>
-                <li className="flex items-center space-x-2 hover:text-white">
+                <li className="flex items-center space-x-2 hover:text-white transition-colors">
                   <Mail className="h-4 w-4 text-brandRed" />
                   <span>{email}</span>
                 </li>
-                <li className="flex items-center space-x-2 hover:text-white">
+                <li className="flex items-center space-x-2 hover:text-white transition-colors">
                   <MapPin className="h-4 w-4 text-brandRed" />
                   <span>{address}</span>
                 </li>

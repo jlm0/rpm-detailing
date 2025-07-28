@@ -51,12 +51,12 @@ const HeroSection = ({
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveSlide((prev) => (prev + 1) % heroContent.length);
-    }, 5000); // Change slide every 5 seconds
+    }, 3000); // Change slide every 3 seconds
 
     return () => clearInterval(interval);
   }, [heroContent.length]);
   return (
-    <section className="relative bg-brandDark text-white h-[calc(100vh-80px)] min-h-[600px] flex items-center">
+    <section className="relative bg-brandDark text-white h-[calc(100vh-80px)] min-h-[600px] md:min-h-[700px] flex items-center">
       {/* Background image and overlay remain as is */}
       <div className="absolute inset-0">
         <Image
@@ -74,27 +74,30 @@ const HeroSection = ({
       </div>
 
       <div className="container mx-auto px-4 relative z-10 flex justify-between items-center h-full">
-        <ScrollAnimate
-          variantName="fadeInUp"
-          delay={0.2}
-          className="w-full md:w-1/2 lg:w-2/5 space-y-6">
-          <p className="text-sm uppercase tracking-wider">{heroContent[activeSlide].subtitle}</p>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight">
-            {heroContent[activeSlide].title}
-          </h1>
-          <Link href={ctaLink}>
-            <Button
-              variant="outline"
-              className="border-white text-white bg-transparent hover:bg-white hover:text-brandRed px-8 py-3 text-lg">
-              {ctaText}
-            </Button>
-          </Link>
-          <div className="absolute left-[-50px] top-1/2 transform -translate-y-1/2 space-y-4 hidden lg:block">
+        <div className="w-full md:w-1/2 lg:w-2/5 relative">
+          <ScrollAnimate
+            variantName="fadeInUp"
+            delay={0.2}>
+            <div className="min-h-[280px] lg:min-h-[320px] flex flex-col justify-center">
+              <p className="text-sm uppercase tracking-wider mb-4">{heroContent[activeSlide].subtitle}</p>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-8">
+                {heroContent[activeSlide].title}
+              </h1>
+            </div>
+            <Link href={ctaLink}>
+              <Button
+                variant="outline"
+                className="w-full sm:w-auto border-white text-white bg-transparent hover:bg-white hover:text-brandRed px-8 py-3 text-lg">
+                {ctaText}
+              </Button>
+            </Link>
+          </ScrollAnimate>
+          <div className="absolute left-[-50px] top-1/2 transform -translate-y-1/2 hidden lg:flex flex-col space-y-4">
             {["01", "02", "03"].map((num, index) => (
               <button
                 key={num}
                 onClick={() => setActiveSlide(index)}
-                className={`text-sm transition-all duration-300 ${
+                className={`text-sm transition-all duration-300 block ${
                   activeSlide === index 
                     ? 'text-white font-bold scale-110' 
                     : 'text-white/50 hover:text-white/70'
@@ -103,7 +106,7 @@ const HeroSection = ({
               </button>
             ))}
           </div>
-        </ScrollAnimate>
+        </div>
 
         {(showPhoneNumbers || showAddress) && (
           <ScrollAnimate

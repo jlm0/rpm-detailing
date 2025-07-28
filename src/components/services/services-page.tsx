@@ -42,7 +42,7 @@ export default function ServicesPage({
   return (
     <div className="flex flex-col min-h-screen bg-white">
       <LandingHeader {...headerProps} />
-      <main className="flex-1">
+      <main className="flex-1 flex flex-col gap-0 md:gap-8">
         <ServicesHero
           title={heroTitle}
           subtitle={heroSubtitle}

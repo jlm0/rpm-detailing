@@ -27,7 +27,7 @@ export default async function BookingPageWrapper() {
 
   return <BookingPageContent 
     calLink={calcomConfig.link}
-    eventSlug={calcomConfig.eventSlug}
+    eventSlug={calcomConfig.eventSlug || undefined}
     companyName={siteSettings.companyName || "RPM Detailing"}
     phone={siteSettings.phone}
     email={siteSettings.email}

@@ -62,21 +62,25 @@ export default buildConfig({
                 {
                   name: "companyName",
                   type: "text",
+                  required: true,
                   defaultValue: "RPM Detailing",
                 },
                 {
                   name: "phone",
                   type: "text",
+                  required: true,
                   defaultValue: "(425) 345-3564",
                 },
                 {
                   name: "email",
                   type: "email",
+                  required: true,
                   defaultValue: "support@rpm-detailing.com",
                 },
                 {
                   name: "address",
                   type: "text",
+                  required: true,
                   defaultValue: "Boise, ID, USA",
                 },
                 {

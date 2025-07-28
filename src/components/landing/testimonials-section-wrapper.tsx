@@ -22,6 +22,7 @@ async function TestimonialsSectionData() {
     // Fetch testimonials from CMS
     const testimonialsData = await getPayloadData<Testimonial>('testimonials', {
       limit: 10,
+      sort: '-createdAt',
     })
     
     // Default testimonials if CMS data not available

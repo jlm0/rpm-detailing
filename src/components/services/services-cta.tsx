@@ -29,7 +29,7 @@ export default function ServicesCta({
             <Button
               size="lg"
               variant="outline"
-              className="border-white text-white hover:bg-white hover:text-brandRed"
+              className="border-white text-white bg-transparent hover:bg-white hover:text-brandRed"
             >
               {buttonText}
               <ArrowRight className="ml-2 h-5 w-5" />

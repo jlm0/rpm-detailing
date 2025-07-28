@@ -26,7 +26,7 @@ interface AboutValuesProps {
 
 export default function AboutValues({ values }: AboutValuesProps) {
   return (
-    <section className="py-16 lg:py-24 bg-brandLightGray">
+    <section className="py-16 md:py-20 lg:py-24 bg-brandLightGray">
       <div className="container mx-auto px-4">
         <ScrollAnimate variantName="fadeInUp" className="text-center mb-12">
           <h2 className="text-3xl lg:text-4xl font-bold text-brandDark mb-4">
@@ -50,10 +50,10 @@ export default function AboutValues({ values }: AboutValuesProps) {
                   <CardContent className="p-6">
                     <div className="flex items-center mb-4">
                       <div className="p-3 bg-brandRed/10 rounded-lg">
-                        <IconComponent className="h-6 w-6 text-brandRed" />
+                        <IconComponent className="h-6 w-6 md:h-8 md:w-8 text-brandRed" />
                       </div>
                     </div>
-                    <h3 className="text-xl font-semibold text-brandDark mb-3">
+                    <h3 className="text-xl font-medium sm:font-semibold text-brandDark mb-3">
                       {value.title}
                     </h3>
                     <p className="text-brandMediumGray">

@@ -30,7 +30,7 @@ const BrandsSection = ({ brands }: BrandsSectionProps) => {
           variantName="fadeIn"
           staggerChildren={0.05}
           delay={0.2}
-          className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-8 items-center justify-items-center">
+          className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 xl:grid-cols-8 gap-8 items-center justify-items-center">
           {brands.map((brand) => (
             <ScrollAnimate
               variantName="zoomIn"
@@ -54,7 +54,8 @@ const BrandsSection = ({ brands }: BrandsSectionProps) => {
           className="text-center mt-12">
           <Button
             variant="outline"
-            className="border-white text-white bg-transparent hover:bg-white hover:text-brandRed">
+            size="default"
+            className="md:text-base md:px-6 md:py-3 border-white text-white bg-transparent hover:bg-white hover:text-brandRed">
             Book Your Make
           </Button>
         </ScrollAnimate>

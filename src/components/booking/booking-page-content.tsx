@@ -27,7 +27,7 @@ export default function BookingPageContent({
     <div className="min-h-screen bg-brandLightGray">
       {/* Header */}
       <header className="bg-brandDark text-white py-4">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 md:px-8">
           <Link href="/">
             <Button variant="ghost" className="text-white hover:text-brandRed">
               <ArrowLeft className="mr-2 h-4 w-4" />
@@ -38,9 +38,9 @@ export default function BookingPageContent({
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8 md:py-12">
+      <main className="container mx-auto px-4 md:px-8 py-8 md:py-12">
         <ScrollAnimate variantName="fadeInDown" className="text-center mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-brandDark mb-4">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-brandDark mb-4">
             Book Your Detailing Service
           </h1>
           <p className="text-brandMediumGray max-w-2xl mx-auto">
@@ -52,7 +52,7 @@ export default function BookingPageContent({
         <ScrollAnimate 
           variantName="fadeInUp" 
           delay={0.2}
-          className="max-w-5xl mx-auto bg-white rounded-lg shadow-xl p-4 md:p-8"
+          className="max-w-5xl mx-auto bg-white rounded-lg shadow-xl p-4 md:p-8 h-[600px] md:h-[800px] overflow-auto"
         >
           <CalEmbed calLink={calLink} eventSlug={eventSlug} />
         </ScrollAnimate>
@@ -61,7 +61,7 @@ export default function BookingPageContent({
         <ScrollAnimate 
           variantName="fadeInUp" 
           delay={0.4}
-          className="text-center mt-8 space-y-2"
+          className="text-center mt-8 space-y-2 md:space-y-4"
         >
           <p className="text-brandMediumGray">
             Having trouble booking? Contact us directly:

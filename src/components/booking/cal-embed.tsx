@@ -72,7 +72,7 @@ export default function CalEmbed({ calLink, eventSlug, config }: CalEmbedProps) 
 
   if (hasError) {
     return (
-      <div className="w-full h-full min-h-[600px] flex items-center justify-center bg-brandLightGray rounded-lg">
+      <div className="w-full h-full min-h-[600px] md:min-h-[800px] flex items-center justify-center bg-brandLightGray rounded-lg">
         <div className="text-center max-w-md p-8">
           <h3 className="text-xl font-semibold text-brandDark mb-4">
             Unable to Load Booking Calendar
@@ -99,7 +99,7 @@ export default function CalEmbed({ calLink, eventSlug, config }: CalEmbedProps) 
   }
 
   return (
-    <div className="w-full h-full min-h-[600px] relative">
+    <div className="w-full h-full min-h-[600px] md:min-h-[800px] relative">
       {isLoading && (
         <div className="absolute inset-0 flex items-center justify-center bg-brandLightGray rounded-lg">
           <div className="text-center">

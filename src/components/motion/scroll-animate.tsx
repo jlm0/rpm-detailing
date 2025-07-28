@@ -28,6 +28,7 @@ const ScrollAnimate: React.FC<ScrollAnimateProps> = ({
   const { ref, inView } = useInView({
     triggerOnce: once,
     threshold: amount,
+    rootMargin: '-100px',
   })
 
   const selectedVariant = animationVariants[variantName] || animationVariants.fadeInUp

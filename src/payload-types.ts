@@ -378,10 +378,10 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface SiteSetting {
   id: number;
-  companyName?: string | null;
-  phone?: string | null;
-  email?: string | null;
-  address?: string | null;
+  companyName: string;
+  phone: string;
+  email: string;
+  address: string;
   yearsOfExperience?: number | null;
   hours?: {
     weekdays?: string | null;
