@@ -1,53 +1,69 @@
-import type { Metadata } from 'next'
-
-import { cn } from '@/utilities/ui'
-import { GeistMono } from 'geist/font/mono'
-import { GeistSans } from 'geist/font/sans'
-import React from 'react'
-
-import { AdminBar } from '@/components/AdminBar'
-import { Footer } from '@/Footer/Component'
-import { Header } from '@/Header/Component'
-import { Providers } from '@/providers'
-import { InitTheme } from '@/providers/Theme/InitTheme'
-import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
-import { draftMode } from 'next/headers'
-
-import './globals.css'
-import { getServerSideURL } from '@/utilities/getURL'
-
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const { isEnabled } = await draftMode()
-
-  return (
-    <html className={cn(GeistSans.variable, GeistMono.variable)} lang="en" suppressHydrationWarning>
-      <head>
-        <InitTheme />
-        <link href="/favicon.ico" rel="icon" sizes="32x32" />
-        <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
-      </head>
-      <body>
-        <Providers>
-          <AdminBar
-            adminBarProps={{
-              preview: isEnabled,
-            }}
-          />
-
-          <Header />
-          {children}
-          <Footer />
-        </Providers>
-      </body>
-    </html>
-  )
-}
+import type { Metadata } from "next";
+import "@/app/globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(getServerSideURL()),
-  openGraph: mergeOpenGraph(),
+  title: "RPM Detailing | Premium Auto Detailing in Boise, ID",
+  description: "Transform your vehicle with RPM Detailing's premium auto detailing services in Boise. Ceramic coating, paint correction, and full interior/exterior detailing.",
+  keywords: "auto detailing, car detailing, ceramic coating, paint correction, Boise, Idaho, RPM Detailing",
+  authors: [{ name: "RPM Detailing" }],
+  creator: "RPM Detailing",
+  publisher: "RPM Detailing",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: new URL('https://rpmdetailing.com'),
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    title: "RPM Detailing | Premium Auto Detailing in Boise, ID",
+    description: "Transform your vehicle with RPM Detailing's premium auto detailing services in Boise. Ceramic coating, paint correction, and full interior/exterior detailing.",
+    url: 'https://rpmdetailing.com',
+    siteName: 'RPM Detailing',
+    locale: 'en_US',
+    type: 'website',
+    images: [
+      {
+        url: '/placeholder.svg',
+        width: 1200,
+        height: 630,
+        alt: 'RPM Detailing Logo',
+      }
+    ],
+  },
   twitter: {
     card: 'summary_large_image',
-    creator: '@payloadcms',
+    title: "RPM Detailing | Premium Auto Detailing in Boise, ID",
+    description: "Transform your vehicle with RPM Detailing's premium auto detailing services in Boise. Ceramic coating, paint correction, and full interior/exterior detailing.",
+    images: ['/placeholder.svg'],
   },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en">
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#D9232D" />
+      </head>
+      <body>{children}</body>
+    </html>
+  );
 }

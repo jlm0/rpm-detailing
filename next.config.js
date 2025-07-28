@@ -8,7 +8,16 @@ const NEXT_PUBLIC_SERVER_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Ensure builds fail on ESLint errors
+  eslint: {
+    ignoreDuringBuilds: false,
+  },
+  // Ensure builds fail on TypeScript errors
+  typescript: {
+    ignoreBuildErrors: false,
+  },
   images: {
+    unoptimized: true,
     remotePatterns: [
       ...[NEXT_PUBLIC_SERVER_URL /* 'https://example.com' */].map((item) => {
         const url = new URL(item)
@@ -31,6 +40,57 @@ const nextConfig = {
   },
   reactStrictMode: true,
   redirects,
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY',
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'strict-origin-when-cross-origin',
+          },
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), geolocation=()',
+          },
+          {
+            key: 'Content-Security-Policy',
+            value: `
+              default-src 'self';
+              script-src 'self' 'unsafe-eval' 'unsafe-inline' https://app.cal.com https://*.cal.com;
+              style-src 'self' 'unsafe-inline';
+              img-src 'self' data: https: blob:;
+              font-src 'self' data:;
+              connect-src 'self' https://app.cal.com https://*.cal.com;
+              frame-src 'self' https://app.cal.com https://*.cal.com;
+              object-src 'none';
+              base-uri 'self';
+              form-action 'self';
+              upgrade-insecure-requests;
+            `.replace(/\s{2,}/g, ' ').trim(),
+          },
+        ],
+      },
+      {
+        // Allow Cal.com embed to load in iframe
+        source: '/booking',
+        headers: [
+          {
+            key: 'X-Frame-Options',
+            value: 'SAMEORIGIN',
+          },
+        ],
+      },
+    ]
+  },
 }
 
 export default withPayload(nextConfig, { devBundleServerPackages: false })

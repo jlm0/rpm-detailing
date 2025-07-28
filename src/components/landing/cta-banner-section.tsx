@@ -1,0 +1,103 @@
+"use client";
+
+import { Wrench, CalendarDays, Car, Sparkles, SprayCan } from "lucide-react";
+import Link from "next/link";
+
+import ScrollAnimate from "@/components/motion/scroll-animate";
+import { Button } from "@/components/ui/button";
+
+const iconMap = {
+  Wrench,
+  CalendarDays,
+  Car,
+  Sparkles,
+  SprayCan,
+};
+
+interface CtaItem {
+  title: string;
+  description: string;
+  iconName: string;
+}
+
+interface CtaBannerSectionProps {
+  preHeading?: string;
+  heading?: string;
+  ctaButtonText?: string;
+  ctaButtonLink?: string;
+  ctaItems?: CtaItem[];
+}
+
+const defaultCtaItems: CtaItem[] = [
+  {
+    title: "Choose Your Package",
+    description: "Select from our range of detailing packages or tell us your specific needs for a custom quote.",
+    iconName: "Wrench",
+  },
+  {
+    title: "Schedule Your Detail",
+    description: "Pick a convenient date and time. We offer flexible scheduling, including mobile services at your location.",
+    iconName: "CalendarDays",
+  },
+  {
+    title: "Enjoy a Pristine Car",
+    description: "Our experts will meticulously detail your vehicle, leaving it looking and feeling brand new. Satisfaction guaranteed!",
+    iconName: "Car",
+  },
+];
+
+const CtaBannerSection = ({ 
+  preHeading = "// EXPERIENCE THE DIFFERENCE",
+  heading = "Rediscover Your Car's Beauty, Hassle-Free",
+  ctaButtonText = "Book Now",
+  ctaButtonLink = "/booking",
+  ctaItems = defaultCtaItems 
+}: CtaBannerSectionProps) => {
+  return (
+    <section className="py-16 lg:py-24 bg-brandRed text-white">
+      <div className="container mx-auto px-4">
+        <ScrollAnimate
+          variantName="fadeInDown"
+          className="text-center mb-12">
+          <p className="text-white/80 uppercase text-sm font-semibold tracking-wider mb-2">
+            {preHeading}
+          </p>
+          <h2 className="text-3xl lg:text-4xl font-bold mb-4">{heading}</h2>
+        </ScrollAnimate>
+        <ScrollAnimate
+          variantName="fadeIn"
+          staggerChildren={0.15}
+          className="grid md:grid-cols-3 gap-8 text-center mb-12">
+          {ctaItems.map((item) => {
+            const IconComponent = iconMap[item.iconName as keyof typeof iconMap] || Car;
+            return (
+              <ScrollAnimate
+                variantName="fadeInUp"
+                key={item.title}>
+                <div className="flex flex-col items-center">
+                  <IconComponent className="h-12 w-12 mb-4 text-white" />
+                  <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
+                  <p className="text-white/90 text-sm leading-relaxed">{item.description}</p>
+                </div>
+              </ScrollAnimate>
+            );
+          })}
+        </ScrollAnimate>
+        <ScrollAnimate
+          variantName="fadeInUp"
+          delay={0.3}
+          className="text-center">
+          <Link href={ctaButtonLink}>
+            <Button
+              variant="outline"
+              className="border-white text-white bg-transparent hover:bg-white hover:text-brandRed px-8 py-3 text-lg">
+              {ctaButtonText}
+            </Button>
+          </Link>
+        </ScrollAnimate>
+      </div>
+    </section>
+  );
+};
+
+export default CtaBannerSection;

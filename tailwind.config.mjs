@@ -92,6 +92,10 @@ const config = {
         success: 'hsl(var(--success))',
         error: 'hsl(var(--error))',
         warning: 'hsl(var(--warning))',
+        brandRed: "#D9232D",
+        brandDark: "#1A1A1A",
+        brandMediumGray: "#333333",
+        brandLightGray: "#F5F5F5",
       },
       fontFamily: {
         mono: ['var(--font-geist-mono)'],
