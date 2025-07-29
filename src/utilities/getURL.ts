@@ -16,6 +16,8 @@ export const getServerSideURL = () => {
 
 export const getClientSideURL = () => {
   if (canUseDOM) {
+    // In the browser, always use the current window location
+    // This ensures we're always hitting the right domain
     const protocol = window.location.protocol
     const domain = window.location.hostname
     const port = window.location.port
@@ -23,9 +25,18 @@ export const getClientSideURL = () => {
     return `${protocol}//${domain}${port ? `:${port}` : ''}`
   }
 
+  // Server-side fallbacks
+  if (process.env.NEXT_PUBLIC_SERVER_URL) {
+    return process.env.NEXT_PUBLIC_SERVER_URL
+  }
+
   if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
     return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
   }
 
-  return process.env.NEXT_PUBLIC_SERVER_URL || ''
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`
+  }
+
+  return 'http://localhost:3000'
 }

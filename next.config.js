@@ -69,7 +69,7 @@ const nextConfig = {
               style-src 'self' 'unsafe-inline';
               img-src 'self' data: https: blob:;
               font-src 'self' data:;
-              connect-src 'self' https://app.cal.com https://*.cal.com;
+              connect-src 'self' https://app.cal.com https://*.cal.com https://*.vercel.app http://localhost:3000;
               frame-src 'self' https://app.cal.com https://*.cal.com;
               object-src 'none';
               base-uri 'self';
