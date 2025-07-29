@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
-import { getGlobalSettings, getPayloadData } from "@/lib/payload";
+import { getGlobalSettings } from "@/lib/payload";
 import type { ServicesPageData } from "@/types/payload-collections";
 
 import ServicesPage from "./services-page";
@@ -18,11 +18,8 @@ async function ServicesPageContent() {
   ];
 
   try {
-    const [servicesData, siteSettings] = await Promise.all([
-      getGlobalSettings("services-page"),
-      getGlobalSettings("site-settings")
-    ]);
-    const pageData = servicesData;
+    const siteSettings = await getGlobalSettings("site-settings");
+    const pageData: ServicesPageData | null = null; // services-page global doesn't exist yet
 
     // Sort navigation by order field if it exists
     const navigation = siteSettings?.navigation || defaultNavigation;
@@ -30,28 +27,18 @@ async function ServicesPageContent() {
       ? [...navigation].sort((a, b) => (a.order || 0) - (b.order || 0))
       : defaultNavigation;
 
-    const services = pageData?.services?.map(s => ({
-      title: s.title || '',
-      description: s.description || '',
-      features: s.features?.map(f => ({ feature: f })) || [],
-      image: s.image?.url ? {
-        url: s.image.url,
-        alt: s.image.alt
-      } : undefined,
-      price: s.price,
-      duration: undefined,
-    })) || [];
+    const services: any[] = [];
 
     return (
       <ServicesPage
-        heroTitle={pageData?.heroTitle || "Our Premium Detailing Services"}
-        heroSubtitle={pageData?.heroSubtitle || "Professional auto detailing services tailored to your needs"}
-        heroImage={pageData?.heroImage?.url || "/placeholder.svg"}
+        heroTitle={"Our Premium Detailing Services"}
+        heroSubtitle={"Professional auto detailing services tailored to your needs"}
+        heroImage={"/placeholder.svg"}
         services={services}
-        ctaTitle={pageData?.ctaTitle || "Ready to Transform Your Vehicle?"}
-        ctaText={pageData?.ctaText || "Schedule your detailing service today and experience the RPM difference."}
-        ctaButtonText={pageData?.ctaButtonText || "Book Now"}
-        ctaButtonLink={pageData?.ctaButtonLink || "/booking"}
+        ctaTitle={"Ready to Transform Your Vehicle?"}
+        ctaText={"Schedule your detailing service today and experience the RPM difference."}
+        ctaButtonText={"Book Now"}
+        ctaButtonLink={"/booking"}
         headerProps={{
           logo: siteSettings?.darkLogo?.url || '/placeholder.svg',
           companyName: siteSettings?.companyName || 'RPM Detailing',

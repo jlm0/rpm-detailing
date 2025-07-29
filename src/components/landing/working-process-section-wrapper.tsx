@@ -37,7 +37,7 @@ export default async function WorkingProcessSectionWrapper() {
   const stats = landingPageData?.aboutSection?.stats || [];
 
   const processData = {
-    preHeading: landingPageData?.processSection?.preHeading || "// OUR DETAILING METHOD",
+    preHeading: landingPageData?.processSection?.subtitle || "// OUR DETAILING METHOD",
     heading: landingPageData?.processSection?.title || "Our Meticulous Detailing Process",
     processTabs: sortedSteps.length > 0 
       ? sortedSteps.map((step) => step.title || '')
