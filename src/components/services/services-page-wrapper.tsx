@@ -3,7 +3,8 @@ import { ErrorBoundary } from "react-error-boundary";
 
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { getGlobalSettings } from "@/lib/payload";
-import type { ServicesPageData } from "@/types/payload-collections";
+import { defaultServices } from "@/lib/default-content";
+import type { ServicesPage as ServicesPageData } from "@/payload-types";
 
 import ServicesPage from "./services-page";
 
@@ -19,7 +20,7 @@ async function ServicesPageContent() {
 
   try {
     const siteSettings = await getGlobalSettings("site-settings");
-    const pageData: ServicesPageData | null = null; // services-page global doesn't exist yet
+    const pageData = await getGlobalSettings("services-page") as ServicesPageData | null;
 
     // Sort navigation by order field if it exists
     const navigation = siteSettings?.navigation || defaultNavigation;
@@ -27,18 +28,25 @@ async function ServicesPageContent() {
       ? [...navigation].sort((a, b) => (a.order || 0) - (b.order || 0))
       : defaultNavigation;
 
-    const services: any[] = [];
+    const services = pageData?.services && pageData.services.length > 0 ? pageData.services.map(s => ({
+      title: s.title || "",
+      description: typeof s.description === 'object' ? "Service description" : (s.description || ""),
+      features: s.features?.map(f => ({ feature: f.feature || "" })),
+      image: s.image && typeof s.image === 'object' && 'url' in s.image ? { url: s.image.url || "", alt: s.image.alt || undefined } : undefined,
+      price: s.price || undefined,
+      duration: s.duration || undefined
+    })) : defaultServices;
 
     return (
       <ServicesPage
-        heroTitle={"Our Premium Detailing Services"}
-        heroSubtitle={"Professional auto detailing services tailored to your needs"}
-        heroImage={"/placeholder.svg"}
+        heroTitle={pageData?.heroTitle || "Our Premium Detailing Services"}
+        heroSubtitle={pageData?.heroSubtitle || "Professional auto detailing services tailored to your needs"}
+        heroImage={pageData?.heroImage && typeof pageData.heroImage === 'object' && 'url' in pageData.heroImage ? pageData.heroImage.url || "/placeholder.svg" : "/placeholder.svg"}
         services={services}
-        ctaTitle={"Ready to Transform Your Vehicle?"}
-        ctaText={"Schedule your detailing service today and experience the RPM difference."}
-        ctaButtonText={"Book Now"}
-        ctaButtonLink={"/booking"}
+        ctaTitle={pageData?.ctaTitle || "Ready to Transform Your Vehicle?"}
+        ctaText={pageData?.ctaText || "Schedule your detailing service today and experience the RPM difference."}
+        ctaButtonText={pageData?.ctaButtonText || "Book Now"}
+        ctaButtonLink={pageData?.ctaButtonLink || "/booking"}
         headerProps={{
           logo: siteSettings?.darkLogo?.url || '/placeholder.svg',
           companyName: siteSettings?.companyName || 'RPM Detailing',

@@ -14,9 +14,11 @@ export default async function BookingPageWrapper() {
   if (!calcomConfig.enabled || !calcomConfig.link) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-brandLightGray p-4 text-center">
-        <h1 className="text-4xl font-bold text-brandDark mb-4">Book Your Detailing Service</h1>
+        <h1 className="text-4xl font-bold text-brandDark mb-4">
+          {calcomConfig.fallbackTitle || "Book Your Detailing Service"}
+        </h1>
         <p className="text-brandMediumGray mb-8">
-          Online booking is currently unavailable. Please contact us directly at {siteSettings.phone || "(425) 345-3564"} to schedule your appointment.
+          {calcomConfig.fallbackMessage || `Online booking is currently unavailable. Please contact us directly at ${siteSettings.phone || "(425) 345-3564"} to schedule your appointment.`}
         </p>
         <Link href="/">
           <Button>Go Back Home</Button>

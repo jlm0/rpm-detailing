@@ -2,9 +2,19 @@ import { withPayload } from '@payloadcms/next/withPayload'
 
 import redirects from './redirects.js'
 
-const NEXT_PUBLIC_SERVER_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL
-  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-  : undefined || process.env.__NEXT_PRIVATE_ORIGIN || 'http://localhost:3000'
+// Get the server URL for image configuration
+const getServerURL = () => {
+  if (process.env.NEXT_PUBLIC_SERVER_URL) {
+    return process.env.NEXT_PUBLIC_SERVER_URL
+  }
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+  }
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`
+  }
+  return 'http://localhost:3000'
+}
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -19,7 +29,7 @@ const nextConfig = {
   images: {
     unoptimized: true,
     remotePatterns: [
-      ...[NEXT_PUBLIC_SERVER_URL /* 'https://example.com' */].map((item) => {
+      ...[getServerURL() /* 'https://example.com' */].map((item) => {
         const url = new URL(item)
 
         return {
@@ -69,7 +79,7 @@ const nextConfig = {
               style-src 'self' 'unsafe-inline';
               img-src 'self' data: https: blob:;
               font-src 'self' data:;
-              connect-src 'self' https://app.cal.com https://*.cal.com https://*.vercel.app http://localhost:3000;
+              connect-src 'self' https://app.cal.com https://*.cal.com https://*.vercel.app https://www.rpmdetail.co https://rpmdetail.co http://localhost:3000;
               frame-src 'self' https://app.cal.com https://*.cal.com;
               object-src 'none';
               base-uri 'self';

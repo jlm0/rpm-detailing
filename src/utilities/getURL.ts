@@ -1,17 +1,25 @@
 import canUseDOM from './canUseDOM'
 
 export const getServerSideURL = () => {
-  let url = process.env.NEXT_PUBLIC_SERVER_URL
+  // Priority order for server-side URL resolution:
+  // 1. NEXT_PUBLIC_SERVER_URL (manual override)
+  // 2. VERCEL_PROJECT_PRODUCTION_URL (Vercel's production domain)
+  // 3. VERCEL_URL (preview deployments)
+  // 4. Fallback to localhost
+  
+  if (process.env.NEXT_PUBLIC_SERVER_URL) {
+    return process.env.NEXT_PUBLIC_SERVER_URL
+  }
 
-  if (!url && process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
     return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
   }
 
-  if (!url) {
-    url = 'http://localhost:3000'
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`
   }
 
-  return url
+  return 'http://localhost:3000'
 }
 
 export const getClientSideURL = () => {

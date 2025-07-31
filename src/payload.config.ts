@@ -15,6 +15,10 @@ const isAdmin: Access<User> = ({ req: { user } }) => {
   return Boolean(user && user.role === "admin");
 };
 
+const isAdminOrEditor: Access<User> = ({ req: { user } }) => {
+  return Boolean(user && (user.role === "admin" || user.role === "editor"));
+};
+
 const isAdminOrSelf: Access<User> = ({ req: { user } }) => {
   if (user?.role === "admin") {
     return true;
@@ -55,6 +59,17 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
+  csrf: [
+    // Add all trusted origins for cookie authentication
+    'https://www.rpmdetail.co',
+    'https://rpmdetail.co',
+    'https://rpm-detailing.vercel.app',
+    getServerURL(),
+    process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : '',
+    'http://localhost:3000',
+    // Add wildcard pattern for Vercel preview deployments
+    ...(process.env.VERCEL_ENV === 'preview' ? [`https://*-rpm-detailing.vercel.app`] : []),
+  ].filter(Boolean),
   globals: [
     {
       slug: "site-settings",
@@ -64,7 +79,7 @@ export default buildConfig({
       },
       access: {
         read: () => true,
-        update: isAdmin,
+        update: isAdminOrEditor,
       },
       fields: [
         {
@@ -76,25 +91,21 @@ export default buildConfig({
                 {
                   name: "companyName",
                   type: "text",
-                  required: true,
                   defaultValue: "RPM Detailing",
                 },
                 {
                   name: "phone",
                   type: "text",
-                  required: true,
                   defaultValue: "(425) 345-3564",
                 },
                 {
                   name: "email",
                   type: "email",
-                  required: true,
                   defaultValue: "support@rpm-detailing.com",
                 },
                 {
                   name: "address",
                   type: "text",
-                  required: true,
                   defaultValue: "Boise, ID, USA",
                 },
                 {
@@ -137,7 +148,6 @@ export default buildConfig({
                         {
                           name: "number",
                           type: "text",
-                          required: true,
                         },
                         {
                           name: "label",
@@ -156,7 +166,6 @@ export default buildConfig({
                   name: "logo",
                   type: "upload",
                   relationTo: "media",
-                  required: true,
                   admin: {
                     description: "Light version of the logo for dark backgrounds",
                   },
@@ -165,7 +174,6 @@ export default buildConfig({
                   name: "darkLogo",
                   type: "upload",
                   relationTo: "media",
-                  required: true,
                   admin: {
                     description: "Dark version of the logo for light backgrounds",
                   },
@@ -233,12 +241,10 @@ export default buildConfig({
                     {
                       name: "label",
                       type: "text",
-                      required: true,
                     },
                     {
                       name: "link",
                       type: "text",
-                      required: true,
                       admin: {
                         description: "Use / for home, /services for services page, #section-name for sections",
                       },
@@ -293,7 +299,6 @@ export default buildConfig({
                       name: "link",
                       type: "text",
                       label: "Cal.com Booking Link",
-                      required: true,
                       admin: {
                         description: 'Your Cal.com username or team slug (e.g., "yourname" for cal.com/yourname)',
                       },
@@ -304,6 +309,24 @@ export default buildConfig({
                       label: "Event Type Slug",
                       admin: {
                         description: 'Optional: specific event type slug (e.g., "30min" for cal.com/yourname/30min)',
+                      },
+                    },
+                    {
+                      name: "fallbackTitle",
+                      type: "text",
+                      label: "Fallback Title",
+                      defaultValue: "Book Your Detailing Service",
+                      admin: {
+                        description: "Title to show when Cal.com is disabled",
+                      },
+                    },
+                    {
+                      name: "fallbackMessage",
+                      type: "textarea",
+                      label: "Fallback Message",
+                      defaultValue: "Online booking is currently unavailable. Please contact us directly to schedule your appointment.",
+                      admin: {
+                        description: "Message to show when Cal.com is disabled",
                       },
                     },
                   ],
@@ -322,7 +345,7 @@ export default buildConfig({
       },
       access: {
         read: () => true,
-        update: isAdmin,
+        update: isAdminOrEditor,
       },
       fields: [
         {
@@ -342,7 +365,6 @@ export default buildConfig({
                     {
                       name: "title",
                       type: "text",
-                      required: true,
                     },
                     {
                       name: "subtitle",
@@ -352,7 +374,6 @@ export default buildConfig({
                       name: "backgroundImage",
                       type: "upload",
                       relationTo: "media",
-                      required: true,
                     },
                     {
                       name: "ctaText",
@@ -394,7 +415,6 @@ export default buildConfig({
                     {
                       name: "order",
                       type: "number",
-                      required: true,
                     },
                     {
                       name: "icon",
@@ -411,12 +431,10 @@ export default buildConfig({
                     {
                       name: "title",
                       type: "text",
-                      required: true,
                     },
                     {
                       name: "description",
                       type: "text",
-                      required: true,
                     },
                   ],
                 },
@@ -436,7 +454,6 @@ export default buildConfig({
                     {
                       name: "title",
                       type: "text",
-                      required: true,
                     },
                     {
                       name: "subtitle",
@@ -470,12 +487,10 @@ export default buildConfig({
                         {
                           name: "value",
                           type: "text",
-                          required: true,
                         },
                         {
                           name: "label",
                           type: "text",
-                          required: true,
                         },
                         {
                           name: "icon",
@@ -509,27 +524,33 @@ export default buildConfig({
                     {
                       name: "order",
                       type: "number",
-                      required: true,
-                    },
+                                          },
                     {
                       name: "packageId",
                       type: "text",
-                      required: true,
-                    },
+                                          },
                     {
                       name: "title",
                       type: "text",
-                      required: true,
-                    },
+                                          },
                     {
                       name: "description",
                       type: "textarea",
-                      required: true,
-                    },
+                                          },
                     {
                       name: "image",
                       type: "upload",
                       relationTo: "media",
+                    },
+                    {
+                      name: "price",
+                      type: "text",
+                      label: "Starting Price",
+                    },
+                    {
+                      name: "duration",
+                      type: "text",
+                      label: "Service Duration",
                     },
                   ],
                 },
@@ -549,13 +570,11 @@ export default buildConfig({
                     {
                       name: "heading",
                       type: "text",
-                      required: true,
-                    },
+                                          },
                     {
                       name: "description",
                       type: "textarea",
-                      required: true,
-                    },
+                                          },
                     {
                       name: "buttonText",
                       type: "text",
@@ -587,13 +606,11 @@ export default buildConfig({
                         {
                           name: "title",
                           type: "text",
-                          required: true,
-                        },
+                                                  },
                         {
                           name: "description",
                           type: "text",
-                          required: true,
-                        },
+                                                  },
                         {
                           name: "iconName",
                           type: "select",
@@ -604,8 +621,7 @@ export default buildConfig({
                             { label: "Sparkles", value: "Sparkles" },
                             { label: "Spray Can", value: "SprayCan" },
                           ],
-                          required: true,
-                        },
+                                                  },
                       ],
                     },
                   ],
@@ -646,13 +662,11 @@ export default buildConfig({
                         {
                           name: "order",
                           type: "number",
-                          required: true,
-                        },
+                                                  },
                         {
                           name: "title",
                           type: "text",
-                          required: true,
-                        },
+                                                  },
                         {
                           name: "active",
                           type: "checkbox",
@@ -731,14 +745,13 @@ export default buildConfig({
       },
       access: {
         read: () => true,
-        update: isAdmin,
+        update: isAdminOrEditor,
       },
       fields: [
         {
           name: "heroTitle",
           type: "text",
-          required: true,
-          defaultValue: "Our Premium Detailing Services",
+                    defaultValue: "Our Premium Detailing Services",
         },
         {
           name: "heroSubtitle",
@@ -758,8 +771,7 @@ export default buildConfig({
             {
               name: "title",
               type: "text",
-              required: true,
-            },
+                          },
             {
               name: "description",
               type: "richText",
@@ -823,14 +835,13 @@ export default buildConfig({
       },
       access: {
         read: () => true,
-        update: isAdmin,
+        update: isAdminOrEditor,
       },
       fields: [
         {
           name: "heroTitle",
           type: "text",
-          required: true,
-          defaultValue: "About RPM Detailing",
+                    defaultValue: "About RPM Detailing",
         },
         {
           name: "heroSubtitle",
@@ -865,8 +876,7 @@ export default buildConfig({
             {
               name: "title",
               type: "text",
-              required: true,
-            },
+                          },
             {
               name: "description",
               type: "text",
@@ -899,8 +909,7 @@ export default buildConfig({
             {
               name: "name",
               type: "text",
-              required: true,
-            },
+                          },
             {
               name: "position",
               type: "text",
@@ -937,7 +946,29 @@ export default buildConfig({
   collections: [
     {
       slug: "users",
-      auth: true,
+      auth: {
+        cookies: {
+          secure: process.env.NODE_ENV === 'production', // Must be true for production HTTPS
+          sameSite: 'None', // Required for cross-site requests (admin panel)
+          domain: (() => {
+            // Only set domain in production for custom domains
+            if (process.env.NODE_ENV !== 'production') return undefined
+            
+            // Use custom domain if NEXT_PUBLIC_SERVER_URL is set
+            if (process.env.NEXT_PUBLIC_SERVER_URL?.includes('rpmdetail.co')) {
+              return '.rpmdetail.co' // Leading dot for subdomain sharing
+            }
+            
+            // Use Vercel production domain if available
+            if (process.env.VERCEL_PROJECT_PRODUCTION_URL?.includes('rpmdetail.co')) {
+              return '.rpmdetail.co'
+            }
+            
+            // Don't set domain for Vercel preview URLs
+            return undefined
+          })(),
+        },
+      },
       access: {
         create: isAdmin,
         read: isAdminOrSelf,
@@ -948,17 +979,16 @@ export default buildConfig({
         {
           name: "name",
           type: "text",
-          required: true,
-        },
+                  },
         {
           name: "role",
           type: "select",
           options: [
             { label: "Admin", value: "admin" },
+            { label: "Editor", value: "editor" },
             { label: "User", value: "user" },
           ],
-          required: true,
-          defaultValue: "user",
+                    defaultValue: "user",
           admin: {
             position: "sidebar",
           },
@@ -973,16 +1003,15 @@ export default buildConfig({
       },
       access: {
         read: () => true,
-        create: isAdmin,
-        update: isAdmin,
+        create: isAdminOrEditor,
+        update: isAdminOrEditor,
         delete: isAdmin,
       },
       fields: [
         {
           name: "alt",
           type: "text",
-          required: true,
-        },
+                  },
       ],
     },
     {
@@ -998,29 +1027,26 @@ export default buildConfig({
       },
       access: {
         read: () => true,
-        create: isAdmin,
-        update: isAdmin,
+        create: isAdminOrEditor,
+        update: isAdminOrEditor,
         delete: isAdmin,
       },
       fields: [
         {
           name: "name",
           type: "text",
-          required: true,
-        },
+                  },
         {
           name: "title",
           type: "text",
-          required: true,
-          admin: {
+                    admin: {
             description: "Customer's title or vehicle type (e.g., 'Tesla Model 3 Owner')",
           },
         },
         {
           name: "review",
           type: "textarea",
-          required: true,
-        },
+                  },
         {
           name: "avatar",
           type: "upload",
@@ -1054,22 +1080,20 @@ export default buildConfig({
       },
       access: {
         read: () => true,
-        create: isAdmin,
-        update: isAdmin,
+        create: isAdminOrEditor,
+        update: isAdminOrEditor,
         delete: isAdmin,
       },
       fields: [
         {
           name: "name",
           type: "text",
-          required: true,
-        },
+                  },
         {
           name: "logo",
           type: "upload",
           relationTo: "media",
-          required: true,
-        },
+                  },
         {
           name: "order",
           type: "number",

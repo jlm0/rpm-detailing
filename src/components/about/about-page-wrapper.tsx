@@ -3,7 +3,8 @@ import { ErrorBoundary } from "react-error-boundary";
 
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { getGlobalSettings } from "@/lib/payload";
-import type { AboutPageData } from "@/types/payload-collections";
+import { defaultValues, defaultTeamMembers } from "@/lib/default-content";
+import type { AboutPage as AboutPageData } from "@/payload-types";
 
 import AboutPage from "./about-page";
 
@@ -19,7 +20,7 @@ async function AboutPageContent() {
 
   try {
     const siteSettings = await getGlobalSettings("site-settings");
-    const pageData: AboutPageData | null = null; // about-page global doesn't exist yet
+    const pageData = await getGlobalSettings("about-page") as AboutPageData | null;
 
     // Sort navigation by order field if it exists
     const navigation = siteSettings?.navigation || defaultNavigation;
@@ -29,21 +30,30 @@ async function AboutPageContent() {
 
     return (
       <AboutPage
-        heroTitle={"About RPM Detailing"}
-        heroSubtitle={"Your trusted partner in premium auto detailing"}
-        heroImage={"/placeholder.svg"}
-        heroImageAlt={"About hero background"}
-        storyTitle={"Our Story"}
-        storyContent={"RPM Detailing was founded with a passion for excellence and a commitment to providing the highest quality auto detailing services."}
-        storyImage={"/placeholder.svg"}
-        storyImageAlt={"Our story"}
-        values={[]}
-        teamTitle={"Meet Our Team"}
-        teamSubtitle={"Dedicated professionals passionate about auto detailing"}
-        teamMembers={[]}
-        ctaTitle={"Let's Work Together"}
-        ctaButtonText={"Get in Touch"}
-        ctaButtonLink={"/booking"}
+        heroTitle={pageData?.heroTitle || "About RPM Detailing"}
+        heroSubtitle={pageData?.heroSubtitle || "Your trusted partner in premium auto detailing"}
+        heroImage={pageData?.heroImage && typeof pageData.heroImage === 'object' && 'url' in pageData.heroImage ? pageData.heroImage.url || "/placeholder.svg" : "/placeholder.svg"}
+        heroImageAlt={pageData?.heroImage && typeof pageData.heroImage === 'object' && 'alt' in pageData.heroImage ? pageData.heroImage.alt || "About hero background" : "About hero background"}
+        storyTitle={pageData?.storyTitle || "Our Story"}
+        storyContent={typeof pageData?.storyContent === 'object' ? "RPM Detailing was founded with a passion for excellence and a commitment to providing the highest quality auto detailing services." : (pageData?.storyContent || "RPM Detailing was founded with a passion for excellence and a commitment to providing the highest quality auto detailing services.")}
+        storyImage={pageData?.storyImage && typeof pageData.storyImage === 'object' && 'url' in pageData.storyImage ? pageData.storyImage.url || "/placeholder.svg" : "/placeholder.svg"}
+        storyImageAlt={pageData?.storyImage && typeof pageData.storyImage === 'object' && 'alt' in pageData.storyImage ? pageData.storyImage.alt || "Our story" : "Our story"}
+        values={pageData?.values && pageData.values.length > 0 ? pageData.values.map(v => ({
+          title: v.title || "",
+          description: v.description || "",
+          icon: v.icon || undefined
+        })) : defaultValues}
+        teamTitle={pageData?.teamTitle || "Meet Our Team"}
+        teamSubtitle={pageData?.teamSubtitle || "Dedicated professionals passionate about auto detailing"}
+        teamMembers={pageData?.teamMembers && pageData.teamMembers.length > 0 ? pageData.teamMembers.map(m => ({
+          name: m.name || "",
+          position: m.position || undefined,
+          bio: m.bio || undefined,
+          image: m.image && typeof m.image === 'object' && 'url' in m.image ? { url: m.image.url || "", alt: m.image.alt || undefined } : undefined
+        })) : defaultTeamMembers}
+        ctaTitle={pageData?.ctaTitle || "Let's Work Together"}
+        ctaButtonText={pageData?.ctaButtonText || "Get in Touch"}
+        ctaButtonLink={pageData?.ctaButtonLink || "/booking"}
         headerProps={{
           logo: siteSettings?.darkLogo?.url || '/placeholder.svg',
           companyName: siteSettings?.companyName || 'RPM Detailing',

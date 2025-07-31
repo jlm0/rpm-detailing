@@ -133,8 +133,8 @@ export interface UserAuthOperations {
  */
 export interface User {
   id: number;
-  name: string;
-  role: 'admin' | 'user';
+  name?: string | null;
+  role?: ('admin' | 'editor' | 'user') | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -159,7 +159,7 @@ export interface User {
  */
 export interface Media {
   id: number;
-  alt: string;
+  alt?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -180,12 +180,12 @@ export interface Media {
  */
 export interface Testimonial {
   id: number;
-  name: string;
+  name?: string | null;
   /**
    * Customer's title or vehicle type (e.g., 'Tesla Model 3 Owner')
    */
-  title: string;
-  review: string;
+  title?: string | null;
+  review?: string | null;
   avatar?: (number | null) | Media;
   rating?: number | null;
   featured?: boolean | null;
@@ -200,8 +200,8 @@ export interface Testimonial {
  */
 export interface Brand {
   id: number;
-  name: string;
-  logo: number | Media;
+  name?: string | null;
+  logo?: (number | null) | Media;
   order?: number | null;
   updatedAt: string;
   createdAt: string;
@@ -378,10 +378,10 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface SiteSetting {
   id: number;
-  companyName: string;
-  phone: string;
-  email: string;
-  address: string;
+  companyName?: string | null;
+  phone?: string | null;
+  email?: string | null;
+  address?: string | null;
   yearsOfExperience?: number | null;
   hours?: {
     weekdays?: string | null;
@@ -391,7 +391,7 @@ export interface SiteSetting {
   contactInfo?: {
     additionalPhones?:
       | {
-          number: string;
+          number?: string | null;
           label?: string | null;
           id?: string | null;
         }[]
@@ -400,11 +400,11 @@ export interface SiteSetting {
   /**
    * Light version of the logo for dark backgrounds
    */
-  logo: number | Media;
+  logo?: (number | null) | Media;
   /**
    * Dark version of the logo for light backgrounds
    */
-  darkLogo: number | Media;
+  darkLogo?: (number | null) | Media;
   description?: string | null;
   /**
    * Use {year} to automatically insert the current year
@@ -421,11 +421,11 @@ export interface SiteSetting {
    */
   navigation?:
     | {
-        label: string;
+        label?: string | null;
         /**
          * Use / for home, /services for services page, #section-name for sections
          */
-        link: string;
+        link?: string | null;
         order?: number | null;
         id?: string | null;
       }[]
@@ -435,16 +435,24 @@ export interface SiteSetting {
     text?: string | null;
     link?: string | null;
   };
-  calcom: {
+  calcom?: {
     enabled?: boolean | null;
     /**
      * Your Cal.com username or team slug (e.g., "yourname" for cal.com/yourname)
      */
-    link: string;
+    link?: string | null;
     /**
      * Optional: specific event type slug (e.g., "30min" for cal.com/yourname/30min)
      */
     eventSlug?: string | null;
+    /**
+     * Title to show when Cal.com is disabled
+     */
+    fallbackTitle?: string | null;
+    /**
+     * Message to show when Cal.com is disabled
+     */
+    fallbackMessage?: string | null;
   };
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -460,10 +468,10 @@ export interface LandingPage {
   /**
    * The main banner section at the top of the landing page
    */
-  hero: {
-    title: string;
+  hero?: {
+    title?: string | null;
     subtitle?: string | null;
-    backgroundImage: number | Media;
+    backgroundImage?: (number | null) | Media;
     ctaText?: string | null;
     ctaLink?: string | null;
     showPhoneNumbers?: boolean | null;
@@ -474,18 +482,18 @@ export interface LandingPage {
    */
   servicesBar?:
     | {
-        order: number;
+        order?: number | null;
         icon?: ('SprayCan' | 'Car' | 'Sparkles' | 'Wind' | 'ShieldCheck' | 'Palette') | null;
-        title: string;
-        description: string;
+        title?: string | null;
+        description?: string | null;
         id?: string | null;
       }[]
     | null;
   /**
    * Brief about section on the landing page
    */
-  aboutSection: {
-    title: string;
+  aboutSection?: {
+    title?: string | null;
     subtitle?: string | null;
     content?: {
       root: {
@@ -511,8 +519,8 @@ export interface LandingPage {
       | null;
     stats?:
       | {
-          value: string;
-          label: string;
+          value?: string | null;
+          label?: string | null;
           icon?: ('Users' | 'Car' | 'Award' | 'Settings2' | 'Trophy' | 'Clock') | null;
           id?: string | null;
         }[]
@@ -523,29 +531,31 @@ export interface LandingPage {
    */
   detailedServices?:
     | {
-        order: number;
-        packageId: string;
-        title: string;
-        description: string;
+        order?: number | null;
+        packageId?: string | null;
+        title?: string | null;
+        description?: string | null;
         image?: (number | null) | Media;
+        price?: string | null;
+        duration?: string | null;
         id?: string | null;
       }[]
     | null;
   /**
    * Mid-page call-to-action section with process steps
    */
-  ctaBanner: {
-    heading: string;
-    description: string;
+  ctaBanner?: {
+    heading?: string | null;
+    description?: string | null;
     buttonText?: string | null;
     buttonLink?: string | null;
     backgroundImage?: (number | null) | Media;
     preHeading?: string | null;
     ctaItems?:
       | {
-          title: string;
-          description: string;
-          iconName: 'Wrench' | 'CalendarDays' | 'Car' | 'Sparkles' | 'SprayCan';
+          title?: string | null;
+          description?: string | null;
+          iconName?: ('Wrench' | 'CalendarDays' | 'Car' | 'Sparkles' | 'SprayCan') | null;
           id?: string | null;
         }[]
       | null;
@@ -559,8 +569,8 @@ export interface LandingPage {
     subtitle?: string | null;
     steps?:
       | {
-          order: number;
-          title: string;
+          order?: number | null;
+          title?: string | null;
           active?: boolean | null;
           description?: string | null;
           image?: (number | null) | Media;
@@ -587,12 +597,12 @@ export interface LandingPage {
  */
 export interface ServicesPage {
   id: number;
-  heroTitle: string;
+  heroTitle?: string | null;
   heroSubtitle?: string | null;
   heroImage?: (number | null) | Media;
   services?:
     | {
-        title: string;
+        title?: string | null;
         description?: {
           root: {
             type: string;
@@ -635,7 +645,7 @@ export interface ServicesPage {
  */
 export interface AboutPage {
   id: number;
-  heroTitle: string;
+  heroTitle?: string | null;
   heroSubtitle?: string | null;
   heroImage?: (number | null) | Media;
   storyTitle?: string | null;
@@ -657,7 +667,7 @@ export interface AboutPage {
   storyImage?: (number | null) | Media;
   values?:
     | {
-        title: string;
+        title?: string | null;
         description?: string | null;
         /**
          * Lucide icon name (e.g., Shield, Star, Heart)
@@ -670,7 +680,7 @@ export interface AboutPage {
   teamSubtitle?: string | null;
   teamMembers?:
     | {
-        name: string;
+        name?: string | null;
         position?: string | null;
         bio?: string | null;
         image?: (number | null) | Media;
@@ -744,6 +754,8 @@ export interface SiteSettingsSelect<T extends boolean = true> {
         enabled?: T;
         link?: T;
         eventSlug?: T;
+        fallbackTitle?: T;
+        fallbackMessage?: T;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -804,6 +816,8 @@ export interface LandingPageSelect<T extends boolean = true> {
         title?: T;
         description?: T;
         image?: T;
+        price?: T;
+        duration?: T;
         id?: T;
       };
   ctaBanner?:

@@ -37,6 +37,8 @@ export interface SiteSettings {
     enabled?: boolean
     link?: string
     eventSlug?: string
+    fallbackTitle?: string
+    fallbackMessage?: string
   }
   navigation?: Array<{
     label: string
