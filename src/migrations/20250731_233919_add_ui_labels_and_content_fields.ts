@@ -1,6 +1,6 @@
 import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-postgres'
 
-export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
+export async function up({ db }: MigrateUpArgs): Promise<void> {
   await db.execute(sql`
    CREATE TABLE "ui_labels" (
   	"id" serial PRIMARY KEY NOT NULL,
@@ -63,7 +63,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   ALTER TABLE "landing_page" ADD COLUMN "brands_section_book_your_make_text" varchar DEFAULT 'Book Your Make';`)
 }
 
-export async function down({ db, payload, req }: MigrateDownArgs): Promise<void> {
+export async function down({ db }: MigrateDownArgs): Promise<void> {
   await db.execute(sql`
    DROP TABLE "ui_labels" CASCADE;
   ALTER TABLE "site_settings" DROP COLUMN "footer_section_titles_contact_info_title";

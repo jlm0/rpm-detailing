@@ -7,10 +7,13 @@ import Link from 'next/link'
 import ScrollAnimate from '@/components/motion/scroll-animate'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import type { ServicesPage } from '@/payload-types'
+
+type ServiceDescription = string | NonNullable<ServicesPage['services']>[0]['description']
 
 interface Service {
   title: string
-  description: any
+  description: ServiceDescription
   features?: { feature: string }[]
   image?: { url: string; alt?: string }
   price?: string
@@ -24,18 +27,23 @@ interface ServicesDetailProps {
   bookServiceButtonText?: string
 }
 
-function RenderServiceDescription({ description }: { description: any }) {
+function RenderServiceDescription({ description }: { description: Service['description'] }) {
   if (typeof description === 'string') {
     return description
   }
   if (description && description.root && description.root.children) {
     return (
       <div>
-        {description.root.children.map((paragraph: any, i: number) => (
+        {description.root.children.map((paragraph: any, i) => (
           <p key={i} className="mt-4">
-            {paragraph.children.map((text: any, j: number) => (
-              <span key={j}>{text.text}</span>
-            ))}
+            {paragraph.children && Array.isArray(paragraph.children) &&
+              paragraph.children.map((text: any, j: number) => {
+                if (text && typeof text === 'object' && 'text' in text) {
+                  return <span key={j}>{text.text || ''}</span>
+                }
+                return null
+              })
+            }
           </p>
         ))}
       </div>

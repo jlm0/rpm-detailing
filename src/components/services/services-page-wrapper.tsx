@@ -25,12 +25,19 @@ async function ServicesPageContent() {
     // Sort navigation by order field if it exists
     const navigation = siteSettings?.navigation || defaultNavigation;
     const sortedNavigation = Array.isArray(navigation) && navigation.length > 0
-      ? [...navigation].sort((a, b) => (a.order || 0) - (b.order || 0))
+      ? [...navigation]
+          .filter(item => item.label && item.link)
+          .map(item => ({
+            label: item.label!,
+            link: item.link!,
+            order: item.order || 0
+          }))
+          .sort((a, b) => (a.order || 0) - (b.order || 0))
       : defaultNavigation;
 
     const services = pageData?.services && pageData.services.length > 0 ? pageData.services.map(s => ({
       title: s.title || "",
-      description: typeof s.description === 'object' ? "Service description" : (s.description || ""),
+      description: s.description || "Service description",
       features: s.features?.map(f => ({ feature: f.feature || "" })),
       image: s.image && typeof s.image === 'object' && 'url' in s.image ? { url: s.image.url || "", alt: s.image.alt || undefined } : undefined,
       price: s.price || undefined,
@@ -64,16 +71,20 @@ async function ServicesPageContent() {
         footerProps={{
           logo: getMediaUrl(siteSettings?.darkLogo) || '/placeholder.svg',
           companyName: siteSettings?.companyName || 'RPM Detailing',
-          description: siteSettings?.description,
-          phone: siteSettings?.phone,
-          email: siteSettings?.email,
-          address: siteSettings?.address,
-          hours: siteSettings?.hours,
-          ctaHeading: siteSettings?.footerCTA?.heading,
-          ctaText: siteSettings?.footerCTA?.text,
-          ctaButtonText: siteSettings?.footerCTA?.buttonText,
-          ctaButtonLink: siteSettings?.footerCTA?.buttonLink,
-          copyright: siteSettings?.copyright,
+          description: siteSettings?.description || undefined,
+          phone: siteSettings?.phone || undefined,
+          email: siteSettings?.email || undefined,
+          address: siteSettings?.address || undefined,
+          hours: siteSettings?.hours ? {
+            weekdays: siteSettings.hours.weekdays || 'Mon - Fri: 8.00 am - 6.00 pm',
+            saturday: siteSettings.hours.saturday || 'Saturday: 9.00 am - 4.00 pm',
+            sunday: siteSettings.hours.sunday || 'Sunday: Closed',
+          } : undefined,
+          ctaHeading: siteSettings?.footerCTA?.heading || undefined,
+          ctaText: siteSettings?.footerCTA?.text || undefined,
+          ctaButtonText: siteSettings?.footerCTA?.buttonText || undefined,
+          ctaButtonLink: siteSettings?.footerCTA?.buttonLink || undefined,
+          copyright: siteSettings?.copyright || undefined,
         }}
       />
     );

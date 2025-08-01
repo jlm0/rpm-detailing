@@ -25,7 +25,7 @@ interface LandingPageData {
 
 async function BrandsSectionData() {
   try {
-    const [brandsResult, landingPageData] = await Promise.all([
+    const [brandsResult, _landingPageData] = await Promise.all([
       getPayloadData<Brand>('brands', {
         limit: 20,
         sort: 'order',

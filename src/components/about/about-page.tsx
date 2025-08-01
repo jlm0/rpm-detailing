@@ -2,6 +2,7 @@
 
 import LandingFooter from "@/components/landing/landing-footer";
 import LandingHeader from "@/components/landing/landing-header";
+import type { ComponentProps } from "react";
 
 import AboutCta from "./about-cta";
 import AboutHero from "./about-hero";
@@ -40,8 +41,8 @@ interface AboutPageProps {
   ctaTitle: string;
   ctaButtonText: string;
   ctaButtonLink: string;
-  headerProps?: any;
-  footerProps?: any;
+  headerProps?: ComponentProps<typeof LandingHeader>;
+  footerProps?: ComponentProps<typeof LandingFooter>;
 }
 
 export default function AboutPage({

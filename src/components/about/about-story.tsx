@@ -3,26 +3,32 @@
 import Image from 'next/image'
 
 import ScrollAnimate from '@/components/motion/scroll-animate'
+import type { AboutPage } from '@/payload-types'
 
 interface AboutStoryProps {
   title: string
-  content: any
+  content: string | AboutPage['storyContent']
   image: string
   imageAlt?: string
 }
 
-function RenderStoryContent({ content }: { content: any }) {
+function RenderStoryContent({ content }: { content: string | AboutPage['storyContent'] }) {
   if (typeof content === 'string') {
     return <p>{content}</p>
   }
   if (content && content.root && content.root.children) {
     return (
       <div>
-        {content.root.children.map((paragraph: any, i: number) => (
+        {content.root.children.map((paragraph: any, i) => (
           <p key={i} className="mt-4">
-            {paragraph.children.map((text: any, j: number) => (
-              <span key={j}>{text.text}</span>
-            ))}
+            {paragraph.children && Array.isArray(paragraph.children) && 
+              paragraph.children.map((text: any, j: number) => {
+                if (text && typeof text === 'object' && 'text' in text) {
+                  return <span key={j}>{text.text || ''}</span>
+                }
+                return null
+              })
+            }
           </p>
         ))}
       </div>

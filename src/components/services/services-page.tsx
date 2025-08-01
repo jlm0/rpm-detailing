@@ -1,5 +1,7 @@
 import LandingFooter from "@/components/landing/landing-footer";
 import LandingHeader from "@/components/landing/landing-header";
+import type { ComponentProps } from "react";
+import type { ServicesPage } from "@/payload-types";
 
 import ServicesCta from "./services-cta";
 import ServicesDetail from "./services-detail";
@@ -7,7 +9,7 @@ import ServicesHero from "./services-hero";
 
 interface Service {
   title: string;
-  description: string;
+  description: string | NonNullable<ServicesPage['services']>[0]['description'];
   features?: { feature: string }[];
   image?: { url: string; alt?: string };
   price?: string;
@@ -27,8 +29,8 @@ interface ServicesPageProps {
   ctaText: string;
   ctaButtonText: string;
   ctaButtonLink: string;
-  headerProps?: any;
-  footerProps?: any;
+  headerProps?: ComponentProps<typeof LandingHeader>;
+  footerProps?: ComponentProps<typeof LandingFooter>;
 }
 
 export default function ServicesPage({

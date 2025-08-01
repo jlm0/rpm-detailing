@@ -3,7 +3,7 @@ import "server-only";
 import { getPayload as getPayloadInstance } from 'payload'
 import { unstable_noStore as noStore } from 'next/cache'
 
-import type { PayloadCollectionResult, SiteSettings } from '@/types/payload-helpers'
+import type { PayloadCollectionResult } from '@/types/payload-helpers'
 import config from '@payload-config'
 
 import type { Config, SiteSetting, LandingPage, ServicesPage, UiLabel, AboutPage, Media } from '../payload-types'

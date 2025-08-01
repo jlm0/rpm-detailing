@@ -6,12 +6,15 @@ import Link from 'next/link'
 
 import ScrollAnimate from '@/components/motion/scroll-animate'
 import { Button } from '@/components/ui/button'
+import type { LandingPage } from '@/payload-types'
+
+type AboutContent = string | NonNullable<LandingPage['aboutSection']>['content']
 
 interface AboutUsSectionProps {
   whyChooseSection?: {
     subtitle: string
     title: string
-    content: any
+    content: AboutContent
     image?: string
   }
   transformationSection?: {
@@ -23,18 +26,23 @@ interface AboutUsSectionProps {
   yearsOfExperience?: number
 }
 
-function RenderAboutContent({ content }: { content: any }) {
+function RenderAboutContent({ content }: { content: AboutContent }) {
   if (typeof content === 'string') {
     return <p className="text-base md:text-lg text-brandMediumGray mb-6 leading-relaxed">{content}</p>
   }
   if (content && content.root && content.root.children) {
     return (
       <div className="text-base md:text-lg text-brandMediumGray mb-6 leading-relaxed">
-        {content.root.children.map((paragraph: any, i: number) => (
+        {content.root.children.map((paragraph: any, i) => (
           <p key={i} className="mt-4">
-            {paragraph.children.map((text: any, j: number) => (
-              <span key={j}>{text.text}</span>
-            ))}
+            {paragraph.children && Array.isArray(paragraph.children) &&
+              paragraph.children.map((text: any, j: number) => {
+                if (text && typeof text === 'object' && 'text' in text) {
+                  return <span key={j}>{text.text || ''}</span>
+                }
+                return null
+              })
+            }
           </p>
         ))}
       </div>
