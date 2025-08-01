@@ -21,6 +21,12 @@ interface ContactModalProps {
   ctaText?: string;
   ctaButtonText?: string;
   ctaButtonLink?: string;
+  uiLabels?: {
+    getInTouch?: string;
+    contactInfo?: string;
+    openingHours?: string;
+    closeModal?: string;
+  };
 }
 
 const ContactModal = ({
@@ -38,6 +44,12 @@ const ContactModal = ({
   ctaText = "Ready for a showroom shine? Book your car detailing appointment today!",
   ctaButtonText = "Book Now",
   ctaButtonLink = "/booking",
+  uiLabels = {
+    getInTouch: "Get In Touch",
+    contactInfo: "Contact Info",
+    openingHours: "Opening Hours",
+    closeModal: "Close modal",
+  },
 }: ContactModalProps) => {
   // Close modal on escape key
   useEffect(() => {
@@ -73,11 +85,11 @@ const ContactModal = ({
         <div className="bg-brandDark text-neutral-300 rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto transform transition-all duration-200">
           {/* Header */}
           <div className="sticky top-0 bg-brandDark border-b border-neutral-700 p-6 flex items-center justify-between">
-            <h2 className="text-2xl font-bold text-white">Get In Touch</h2>
+            <h2 className="text-2xl font-bold text-white">{uiLabels.getInTouch}</h2>
             <button
               onClick={onClose}
               className="text-neutral-400 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-lg"
-              aria-label="Close modal"
+              aria-label={uiLabels.closeModal}
             >
               <X className="h-6 w-6" />
             </button>
@@ -87,7 +99,7 @@ const ContactModal = ({
           <div className="p-6 grid md:grid-cols-3 gap-8">
             {/* Contact Info */}
             <div>
-              <h3 className="text-xl font-semibold text-white mb-4">Contact Info</h3>
+              <h3 className="text-xl font-semibold text-white mb-4">{uiLabels.contactInfo}</h3>
               <ul className="space-y-3 text-sm">
                 <li className="flex items-center space-x-2 hover:text-white transition-colors">
                   <Phone className="h-4 w-4 text-brandRed flex-shrink-0" />
@@ -110,7 +122,7 @@ const ContactModal = ({
 
             {/* Opening Hours */}
             <div>
-              <h3 className="text-xl font-semibold text-white mb-4">Opening Hours</h3>
+              <h3 className="text-xl font-semibold text-white mb-4">{uiLabels.openingHours}</h3>
               <ul className="space-y-2 text-sm">
                 <li dangerouslySetInnerHTML={{ __html: hours.weekdays.replace(/: (.+)/, ': <span class="text-white">$1</span>') }} />
                 <li dangerouslySetInnerHTML={{ __html: hours.saturday.replace(/: (.+)/, ': <span class="text-white">$1</span>') }} />

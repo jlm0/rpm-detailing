@@ -193,6 +193,23 @@ export default buildConfig({
                     description: "Use {year} to automatically insert the current year",
                   },
                 },
+                {
+                  name: "footerSectionTitles",
+                  type: "group",
+                  label: "Footer Section Titles",
+                  fields: [
+                    {
+                      name: "contactInfoTitle",
+                      type: "text",
+                      defaultValue: "Contact Info",
+                    },
+                    {
+                      name: "openingHoursTitle",
+                      type: "text",
+                      defaultValue: "Opening Hours",
+                    },
+                  ],
+                },
               ],
             },
             {
@@ -355,25 +372,41 @@ export default buildConfig({
               label: "Hero Section",
               fields: [
                 {
-                  name: "hero",
-                  type: "group",
-                  label: "Hero Content",
+                  name: "heroSlides",
+                  type: "array",
+                  label: "Hero Slides",
                   admin: {
-                    description: "The main banner section at the top of the landing page",
+                    description: "Rotating slides for the hero banner (recommended: 3 slides)",
+                    initCollapsed: false,
                   },
+                  minRows: 1,
+                  maxRows: 5,
                   fields: [
                     {
                       name: "title",
                       type: "text",
+                      label: "Slide Title",
                     },
                     {
                       name: "subtitle",
                       type: "text",
+                      label: "Slide Subtitle",
                     },
+                  ],
+                },
+                {
+                  name: "hero",
+                  type: "group",
+                  label: "Hero Settings",
+                  admin: {
+                    description: "Common settings for all hero slides",
+                  },
+                  fields: [
                     {
                       name: "backgroundImage",
                       type: "upload",
                       relationTo: "media",
+                      label: "Background Image (applies to all slides)",
                     },
                     {
                       name: "ctaText",
@@ -470,6 +503,21 @@ export default buildConfig({
                       relationTo: "media",
                     },
                     {
+                      name: "imageAltText",
+                      type: "text",
+                      defaultValue: "Professional car polishing service",
+                    },
+                    {
+                      name: "experienceBadgeText",
+                      type: "text",
+                      defaultValue: "Years of Experience",
+                    },
+                    {
+                      name: "bookNowText",
+                      type: "text",
+                      defaultValue: "Book Now",
+                    },
+                    {
                       name: "features",
                       type: "array",
                       fields: [
@@ -513,6 +561,33 @@ export default buildConfig({
             {
               label: "Services Details",
               fields: [
+                {
+                  name: "servicesSection",
+                  type: "group",
+                  label: "Services Section Settings",
+                  fields: [
+                    {
+                      name: "sectionSubtitle",
+                      type: "text",
+                      defaultValue: "OUR DETAILING PACKAGES",
+                    },
+                    {
+                      name: "sectionTitle",
+                      type: "text",
+                      defaultValue: "Transform Your Vehicle with Our Expert Detailing",
+                    },
+                    {
+                      name: "bookNowText",
+                      type: "text",
+                      defaultValue: "Book Now",
+                    },
+                    {
+                      name: "viewAllText",
+                      type: "text",
+                      defaultValue: "View All Services",
+                    },
+                  ],
+                },
                 {
                   name: "detailedServices",
                   type: "array",
@@ -655,6 +730,11 @@ export default buildConfig({
                       defaultValue: "How we deliver exceptional results",
                     },
                     {
+                      name: "imageAltText",
+                      type: "text",
+                      defaultValue: "Car detailing process in action",
+                    },
+                    {
                       name: "steps",
                       type: "array",
                       label: "Process Steps",
@@ -729,6 +809,11 @@ export default buildConfig({
                       type: "text",
                       defaultValue: "We work with all major car manufacturers",
                     },
+                    {
+                      name: "bookYourMakeText",
+                      type: "text",
+                      defaultValue: "Book Your Make",
+                    },
                   ],
                 },
               ],
@@ -762,6 +847,30 @@ export default buildConfig({
           name: "heroImage",
           type: "upload",
           relationTo: "media",
+        },
+        {
+          name: "heroImageAlt",
+          type: "text",
+          label: "Hero Image Alt Text",
+          defaultValue: "Services hero background",
+        },
+        {
+          name: "serviceIncludesLabel",
+          type: "text",
+          label: "Service Includes Label",
+          defaultValue: "Service Includes:",
+        },
+        {
+          name: "startingAtLabel",
+          type: "text",
+          label: "Starting At Label",
+          defaultValue: "Starting at",
+        },
+        {
+          name: "bookServiceButtonText",
+          type: "text",
+          label: "Book Service Button Text",
+          defaultValue: "Book This Service",
         },
         {
           name: "services",
@@ -828,6 +937,333 @@ export default buildConfig({
       ],
     },
     {
+      slug: "ui-labels",
+      label: "UI Labels",
+      admin: {
+        description: "User interface text and labels used throughout the website",
+        group: "Settings",
+      },
+      access: {
+        read: () => true,
+        update: isAdminOrEditor,
+      },
+      fields: [
+        {
+          type: "tabs",
+          tabs: [
+            {
+              label: "Modal & Navigation",
+              fields: [
+                {
+                  name: "modalLabels",
+                  type: "group",
+                  label: "Modal Labels",
+                  fields: [
+                    {
+                      name: "getInTouch",
+                      type: "text",
+                      defaultValue: "Get In Touch",
+                    },
+                    {
+                      name: "contactInfo",
+                      type: "text",
+                      defaultValue: "Contact Info",
+                    },
+                    {
+                      name: "openingHours",
+                      type: "text",
+                      defaultValue: "Opening Hours",
+                    },
+                    {
+                      name: "needHelp",
+                      type: "text",
+                      defaultValue: "Need Help?",
+                    },
+                  ],
+                },
+                {
+                  name: "navigationLabels",
+                  type: "group",
+                  label: "Navigation Labels",
+                  fields: [
+                    {
+                      name: "menu",
+                      type: "text",
+                      defaultValue: "Menu",
+                    },
+                    {
+                      name: "close",
+                      type: "text",
+                      defaultValue: "Close",
+                    },
+                    {
+                      name: "closeMobileMenu",
+                      type: "text",
+                      defaultValue: "Close mobile menu",
+                    },
+                    {
+                      name: "toggleMobileMenu",
+                      type: "text",
+                      defaultValue: "Toggle mobile menu",
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              label: "Buttons",
+              fields: [
+                {
+                  name: "buttons",
+                  type: "group",
+                  label: "Button Text",
+                  fields: [
+                    {
+                      name: "bookNow",
+                      type: "text",
+                      defaultValue: "Book Now",
+                    },
+                    {
+                      name: "viewAllServices",
+                      type: "text",
+                      defaultValue: "View All Services",
+                    },
+                    {
+                      name: "bookYourMake",
+                      type: "text",
+                      defaultValue: "Book Your Make",
+                    },
+                    {
+                      name: "getInTouch",
+                      type: "text",
+                      defaultValue: "Get in Touch",
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              label: "Accessibility",
+              fields: [
+                {
+                  name: "accessibility",
+                  type: "group",
+                  label: "Accessibility Labels",
+                  fields: [
+                    {
+                      name: "closeModal",
+                      type: "text",
+                      defaultValue: "Close modal",
+                    },
+                    {
+                      name: "professionalCarPolishing",
+                      type: "text",
+                      defaultValue: "Professional car polishing service",
+                    },
+                    {
+                      name: "carDetailingProcess",
+                      type: "text",
+                      defaultValue: "Car detailing process",
+                    },
+                    {
+                      name: "carDetailingInAction",
+                      type: "text",
+                      defaultValue: "Car detailing process in action",
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              label: "Section Headers",
+              fields: [
+                {
+                  name: "sectionHeaders",
+                  type: "group",
+                  label: "Section Headers",
+                  fields: [
+                    {
+                      name: "ourDetailingPackages",
+                      type: "text",
+                      defaultValue: "OUR DETAILING PACKAGES",
+                    },
+                    {
+                      name: "transformYourVehicle",
+                      type: "text",
+                      defaultValue: "Transform Your Vehicle with Our Expert Detailing",
+                    },
+                    {
+                      name: "clientLove",
+                      type: "text",
+                      defaultValue: "CLIENT LOVE",
+                    },
+                    {
+                      name: "whatOurClientsSay",
+                      type: "text",
+                      defaultValue: "What Our Clients Say About Our Detailing",
+                    },
+                    {
+                      name: "weDetailAllMakes",
+                      type: "text",
+                      defaultValue: "We Detail All Makes and Models",
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              label: "Stats & Process",
+              fields: [
+                {
+                  name: "statsLabels",
+                  type: "group",
+                  label: "Statistics Labels",
+                  fields: [
+                    {
+                      name: "happyClients",
+                      type: "text",
+                      defaultValue: "Happy Clients",
+                    },
+                    {
+                      name: "vehiclesDetailed",
+                      type: "text",
+                      defaultValue: "Vehicles Detailed",
+                    },
+                    {
+                      name: "yearsOfDetailing",
+                      type: "text",
+                      defaultValue: "Years of Detailing",
+                    },
+                    {
+                      name: "detailingAwards",
+                      type: "text",
+                      defaultValue: "Detailing Awards",
+                    },
+                    {
+                      name: "yearsOfExperience",
+                      type: "text",
+                      defaultValue: "Years of Experience",
+                    },
+                  ],
+                },
+                {
+                  name: "processLabels",
+                  type: "group",
+                  label: "Process Labels",
+                  fields: [
+                    {
+                      name: "washDecon",
+                      type: "text",
+                      defaultValue: "Wash & Decon",
+                    },
+                    {
+                      name: "paintCorrection",
+                      type: "text",
+                      defaultValue: "Paint Correction",
+                    },
+                    {
+                      name: "protection",
+                      type: "text",
+                      defaultValue: "Protection",
+                    },
+                    {
+                      name: "interiorFinishing",
+                      type: "text",
+                      defaultValue: "Interior Finishing",
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              label: "CTA Items",
+              fields: [
+                {
+                  name: "ctaDefaults",
+                  type: "group",
+                  label: "CTA Default Content",
+                  fields: [
+                    {
+                      name: "chooseYourPackageTitle",
+                      type: "text",
+                      defaultValue: "Choose Your Package",
+                    },
+                    {
+                      name: "chooseYourPackageDesc",
+                      type: "text",
+                      defaultValue: "Select from our range of professional detailing services tailored to your needs.",
+                    },
+                    {
+                      name: "scheduleYourDetailTitle",
+                      type: "text",
+                      defaultValue: "Schedule Your Detail",
+                    },
+                    {
+                      name: "scheduleYourDetailDesc",
+                      type: "text",
+                      defaultValue: "Pick a convenient time and our experts will come to you or visit our facility.",
+                    },
+                    {
+                      name: "enjoyPristineCarTitle",
+                      type: "text",
+                      defaultValue: "Enjoy a Pristine Car",
+                    },
+                    {
+                      name: "enjoyPristineCarDesc",
+                      type: "text",
+                      defaultValue: "Drive away with confidence in your professionally detailed vehicle.",
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              label: "Service Defaults",
+              fields: [
+                {
+                  name: "serviceDefaults",
+                  type: "group",
+                  label: "Default Service Names",
+                  fields: [
+                    {
+                      name: "exteriorWash",
+                      type: "text",
+                      defaultValue: "Exterior Wash",
+                    },
+                    {
+                      name: "interiorDetail",
+                      type: "text",
+                      defaultValue: "Interior Detail",
+                    },
+                    {
+                      name: "paintCorrection",
+                      type: "text",
+                      defaultValue: "Paint Correction",
+                    },
+                    {
+                      name: "ceramicCoating",
+                      type: "text",
+                      defaultValue: "Ceramic Coating",
+                    },
+                    {
+                      name: "wheelTireCare",
+                      type: "text",
+                      defaultValue: "Wheel & Tire Care",
+                    },
+                    {
+                      name: "odorRemoval",
+                      type: "text",
+                      defaultValue: "Odor Removal",
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    {
       slug: "about-page",
       label: "About Page",
       admin: {
@@ -867,6 +1303,18 @@ export default buildConfig({
           name: "storyImage",
           type: "upload",
           relationTo: "media",
+        },
+        {
+          name: "valuesSectionTitle",
+          type: "text",
+          label: "Values Section Title",
+          defaultValue: "Our Core Values",
+        },
+        {
+          name: "valuesSectionSubtitle",
+          type: "text",
+          label: "Values Section Subtitle",
+          defaultValue: "These principles guide everything we do and define who we are as a company",
         },
         {
           name: "values",

@@ -21,11 +21,44 @@ interface HeaderCTA {
   show: boolean;
 }
 
+interface ContactInfo {
+  phone?: string;
+  email?: string;
+  address?: string;
+  hours?: {
+    weekdays: string;
+    saturday: string;
+    sunday: string;
+  };
+  ctaHeading?: string;
+  ctaText?: string;
+  ctaButtonText?: string;
+  ctaButtonLink?: string;
+}
+
+interface UILabels {
+  modalLabels?: {
+    getInTouch?: string;
+    contactInfo?: string;
+    openingHours?: string;
+  };
+  navigationLabels?: {
+    menu?: string;
+    closeMobileMenu?: string;
+    toggleMobileMenu?: string;
+  };
+  accessibility?: {
+    closeModal?: string;
+  };
+}
+
 interface LandingHeaderProps {
   logo?: string;
   companyName?: string;
   navigation?: NavigationItem[];
   headerCTA?: HeaderCTA;
+  contactInfo?: ContactInfo;
+  uiLabels?: UILabels;
 }
 
 const LandingHeader = ({
@@ -39,6 +72,8 @@ const LandingHeader = ({
     { label: "Contact", link: "#contact" },
   ],
   headerCTA = { text: "Book Now", link: "/booking", show: true },
+  contactInfo,
+  uiLabels,
 }: LandingHeaderProps) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
@@ -149,7 +184,7 @@ const LandingHeader = ({
           <button
             onClick={toggleMobileMenu}
             className="md:hidden p-2 hover:bg-white/10 rounded-lg transition-colors"
-            aria-label="Toggle mobile menu"
+            aria-label={uiLabels?.navigationLabels?.toggleMobileMenu || "Toggle mobile menu"}
           >
             {isMobileMenuOpen ? (
               <X className="h-6 w-6" />
@@ -172,11 +207,11 @@ const LandingHeader = ({
           {/* Menu Panel */}
           <div className="absolute right-0 top-0 h-full w-64 bg-brandDark shadow-xl transform transition-transform duration-300 ease-in-out">
             <div className="flex items-center justify-between p-4 border-b border-white/10">
-              <span className="text-xl font-semibold text-white">Menu</span>
+              <span className="text-xl font-semibold text-white">{uiLabels?.navigationLabels?.menu || "Menu"}</span>
               <button
                 onClick={closeMobileMenu}
                 className="p-2 hover:bg-white/10 rounded-lg transition-colors"
-                aria-label="Close mobile menu"
+                aria-label={uiLabels?.navigationLabels?.closeMobileMenu || "Close mobile menu"}
               >
                 <X className="h-6 w-6 text-white" />
               </button>
@@ -238,6 +273,20 @@ const LandingHeader = ({
       <ContactModal 
         isOpen={isContactModalOpen}
         onClose={() => setIsContactModalOpen(false)}
+        phone={contactInfo?.phone}
+        email={contactInfo?.email}
+        address={contactInfo?.address}
+        hours={contactInfo?.hours}
+        ctaHeading={contactInfo?.ctaHeading}
+        ctaText={contactInfo?.ctaText}
+        ctaButtonText={contactInfo?.ctaButtonText}
+        ctaButtonLink={contactInfo?.ctaButtonLink}
+        uiLabels={{
+          getInTouch: uiLabels?.modalLabels?.getInTouch,
+          contactInfo: uiLabels?.modalLabels?.contactInfo,
+          openingHours: uiLabels?.modalLabels?.openingHours,
+          closeModal: uiLabels?.accessibility?.closeModal,
+        }}
       />
     </header>
   );

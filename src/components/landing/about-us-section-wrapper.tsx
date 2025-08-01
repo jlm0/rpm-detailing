@@ -30,7 +30,7 @@ async function AboutUsSectionData() {
     const landingPageData = await getGlobalSettings('landing-page') as LandingPageData | null
     
     // Fetch site settings for years of experience
-    const siteSettings = await getGlobalSettings('site-settings') || {}
+    const siteSettings = await getGlobalSettings('site-settings')
     
     const aboutSection = landingPageData?.aboutSection
     
@@ -57,7 +57,7 @@ async function AboutUsSectionData() {
       <AboutUsSection
         whyChooseSection={whyChooseData}
         transformationSection={transformationData}
-        yearsOfExperience={siteSettings.yearsOfExperience || 20}
+        yearsOfExperience={siteSettings?.yearsOfExperience || 20}
       />
     )
   } catch (error) {

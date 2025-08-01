@@ -22,18 +22,24 @@ interface Value {
 
 interface AboutValuesProps {
   values: Value[];
+  sectionTitle?: string;
+  sectionSubtitle?: string;
 }
 
-export default function AboutValues({ values }: AboutValuesProps) {
+export default function AboutValues({ 
+  values,
+  sectionTitle = "Our Core Values",
+  sectionSubtitle = "These principles guide everything we do and define who we are as a company"
+}: AboutValuesProps) {
   return (
     <section className="py-16 md:py-20 lg:py-24 bg-brandLightGray">
       <div className="container mx-auto px-4">
         <ScrollAnimate variantName="fadeInUp" className="text-center mb-12">
           <h2 className="text-3xl lg:text-4xl font-bold text-brandDark mb-4">
-            Our Core Values
+            {sectionTitle}
           </h2>
           <p className="text-lg text-brandMediumGray max-w-2xl mx-auto">
-            These principles guide everything we do and define who we are as a company
+            {sectionSubtitle}
           </p>
         </ScrollAnimate>
 

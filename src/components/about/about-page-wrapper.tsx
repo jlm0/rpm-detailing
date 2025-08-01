@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
-import { getGlobalSettings } from "@/lib/payload";
+import { getGlobalSettings, getMediaUrl } from "@/lib/payload";
 import { defaultValues, defaultTeamMembers } from "@/lib/default-content";
 import type { AboutPage as AboutPageData } from "@/payload-types";
 
@@ -43,6 +43,8 @@ async function AboutPageContent() {
           description: v.description || "",
           icon: v.icon || undefined
         })) : defaultValues}
+        valuesSectionTitle={pageData?.valuesSectionTitle || "Our Core Values"}
+        valuesSectionSubtitle={pageData?.valuesSectionSubtitle || "These principles guide everything we do and define who we are as a company"}
         teamTitle={pageData?.teamTitle || "Meet Our Team"}
         teamSubtitle={pageData?.teamSubtitle || "Dedicated professionals passionate about auto detailing"}
         teamMembers={pageData?.teamMembers && pageData.teamMembers.length > 0 ? pageData.teamMembers.map(m => ({
@@ -55,7 +57,7 @@ async function AboutPageContent() {
         ctaButtonText={pageData?.ctaButtonText || "Get in Touch"}
         ctaButtonLink={pageData?.ctaButtonLink || "/booking"}
         headerProps={{
-          logo: siteSettings?.darkLogo?.url || '/placeholder.svg',
+          logo: getMediaUrl(siteSettings?.darkLogo) || '/placeholder.svg',
           companyName: siteSettings?.companyName || 'RPM Detailing',
           navigation: sortedNavigation,
           headerCTA: {
@@ -65,7 +67,7 @@ async function AboutPageContent() {
           }
         }}
         footerProps={{
-          logo: siteSettings?.darkLogo?.url || '/placeholder.svg',
+          logo: getMediaUrl(siteSettings?.darkLogo) || '/placeholder.svg',
           companyName: siteSettings?.companyName || 'RPM Detailing',
           description: siteSettings?.description,
           phone: siteSettings?.phone,

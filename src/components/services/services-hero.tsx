@@ -8,12 +8,14 @@ interface ServicesHeroProps {
   title: string;
   subtitle: string;
   backgroundImage: string;
+  backgroundImageAlt?: string;
 }
 
 export default function ServicesHero({
   title,
   subtitle,
   backgroundImage,
+  backgroundImageAlt = "Services hero background",
 }: ServicesHeroProps) {
   return (
     <section className="relative bg-brandDark text-white py-24 lg:py-32 overflow-hidden">
@@ -21,7 +23,7 @@ export default function ServicesHero({
       <div className="absolute inset-0 z-0">
         <Image
           src={backgroundImage}
-          alt="Services hero background"
+          alt={backgroundImageAlt}
           fill
           className="object-cover opacity-30"
           priority

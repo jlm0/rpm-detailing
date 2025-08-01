@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
-import { getGlobalSettings } from "@/lib/payload";
+import { getGlobalSettings, getMediaUrl } from "@/lib/payload";
 import { defaultServices } from "@/lib/default-content";
 import type { ServicesPage as ServicesPageData } from "@/payload-types";
 
@@ -42,13 +42,17 @@ async function ServicesPageContent() {
         heroTitle={pageData?.heroTitle || "Our Premium Detailing Services"}
         heroSubtitle={pageData?.heroSubtitle || "Professional auto detailing services tailored to your needs"}
         heroImage={pageData?.heroImage && typeof pageData.heroImage === 'object' && 'url' in pageData.heroImage ? pageData.heroImage.url || "/placeholder.svg" : "/placeholder.svg"}
+        heroImageAlt={pageData?.heroImageAlt || "Services hero background"}
         services={services}
+        serviceIncludesLabel={pageData?.serviceIncludesLabel || "Service Includes:"}
+        startingAtLabel={pageData?.startingAtLabel || "Starting at"}
+        bookServiceButtonText={pageData?.bookServiceButtonText || "Book This Service"}
         ctaTitle={pageData?.ctaTitle || "Ready to Transform Your Vehicle?"}
         ctaText={pageData?.ctaText || "Schedule your detailing service today and experience the RPM difference."}
         ctaButtonText={pageData?.ctaButtonText || "Book Now"}
         ctaButtonLink={pageData?.ctaButtonLink || "/booking"}
         headerProps={{
-          logo: siteSettings?.darkLogo?.url || '/placeholder.svg',
+          logo: getMediaUrl(siteSettings?.darkLogo) || '/placeholder.svg',
           companyName: siteSettings?.companyName || 'RPM Detailing',
           navigation: sortedNavigation,
           headerCTA: {
@@ -58,7 +62,7 @@ async function ServicesPageContent() {
           }
         }}
         footerProps={{
-          logo: siteSettings?.darkLogo?.url || '/placeholder.svg',
+          logo: getMediaUrl(siteSettings?.darkLogo) || '/placeholder.svg',
           companyName: siteSettings?.companyName || 'RPM Detailing',
           description: siteSettings?.description,
           phone: siteSettings?.phone,

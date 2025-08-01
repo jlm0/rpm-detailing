@@ -1,11 +1,12 @@
 import "server-only";
 
 import { getPayload as getPayloadInstance } from 'payload'
+import { unstable_noStore as noStore } from 'next/cache'
 
 import type { PayloadCollectionResult, SiteSettings } from '@/types/payload-helpers'
 import config from '@payload-config'
 
-import type { Config } from '../payload-types'
+import type { Config, SiteSetting, LandingPage, ServicesPage, UiLabel, AboutPage, Media } from '../payload-types'
 
 /**
  * Get Payload instance for server-side data fetching
@@ -28,6 +29,9 @@ export async function getPayloadData<T = unknown>(
     depth?: number
   }
 ): Promise<PayloadCollectionResult<T> | null> {
+  // Disable caching to ensure fresh data
+  noStore()
+  
   const payload = await getPayload()
   
   try {
@@ -84,9 +88,25 @@ export async function getPayloadDoc<T>(
 }
 
 /**
- * Get global settings
+ * Type mapping for global slugs to their types
  */
-export async function getGlobalSettings(slug: keyof Config['globals']): Promise<SiteSettings | null> {
+type GlobalTypeMap = {
+  'site-settings': SiteSetting
+  'landing-page': LandingPage
+  'services-page': ServicesPage
+  'ui-labels': UiLabel
+  'about-page': AboutPage
+}
+
+/**
+ * Get global settings with proper type inference
+ */
+export async function getGlobalSettings<T extends keyof GlobalTypeMap>(
+  slug: T
+): Promise<GlobalTypeMap[T] | null> {
+  // Disable caching for global settings to ensure fresh data
+  noStore()
+  
   const payload = await getPayload()
   
   try {
@@ -94,9 +114,28 @@ export async function getGlobalSettings(slug: keyof Config['globals']): Promise<
       slug,
     })
     
-    return data as SiteSettings
+    return data as GlobalTypeMap[T]
   } catch (error) {
     console.error(`Error fetching global ${slug}:`, error)
     return null
   }
+}
+
+/**
+ * Helper to safely extract media URL from a Media field
+ * Handles both populated Media objects and ID references
+ */
+export function getMediaUrl(media: number | Media | null | undefined): string | null {
+  if (!media) return null
+  if (typeof media === 'number') return null
+  return media.url || null
+}
+
+/**
+ * Helper to safely extract media alt text
+ */
+export function getMediaAlt(media: number | Media | null | undefined): string | null {
+  if (!media) return null
+  if (typeof media === 'number') return null
+  return media.alt || null
 }

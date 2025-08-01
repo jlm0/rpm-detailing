@@ -26,6 +26,10 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: false,
   },
+  // Disable static generation for all pages to ensure fresh CMS data
+  experimental: {
+    ppr: false, // Disable Partial Prerendering
+  },
   images: {
     unoptimized: true,
     remotePatterns: [

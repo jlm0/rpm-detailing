@@ -8,9 +8,13 @@ import ScrollAnimate from "@/components/motion/scroll-animate";
 import { Button } from "@/components/ui/button";
 
 
-interface HeroSectionProps {
+interface HeroSlide {
   title?: string
   subtitle?: string
+}
+
+interface HeroSectionProps {
+  slides?: HeroSlide[]
   backgroundImage?: string
   ctaText?: string
   ctaLink?: string
@@ -21,8 +25,12 @@ interface HeroSectionProps {
 }
 
 const HeroSection = ({
-  title = 'Advanced Detailing Solutions for Your Prized Automobile',
-  subtitle = '// PREMIUM CAR DETAILING',
+  slides = [
+    {
+      title: 'Advanced Detailing Solutions for Your Prized Automobile',
+      subtitle: '// PREMIUM CAR DETAILING',
+    },
+  ],
   backgroundImage = '/placeholder.svg',
   ctaText = 'Book Now',
   ctaLink = '/booking',
@@ -33,20 +41,8 @@ const HeroSection = ({
 }: HeroSectionProps) => {
   const [activeSlide, setActiveSlide] = useState(0);
   
-  const heroContent = [
-    {
-      title: title || 'Advanced Detailing Solutions for Your Prized Automobile',
-      subtitle: subtitle || '// PREMIUM CAR DETAILING',
-    },
-    {
-      title: 'Protect Your Investment with Expert Care',
-      subtitle: '// CERAMIC COATING & PPF',
-    },
-    {
-      title: 'Restore Your Vehicle to Showroom Condition',
-      subtitle: '// PAINT CORRECTION',
-    },
-  ];
+  // Use the slides from props
+  const heroContent = slides;
 
   useEffect(() => {
     const interval = setInterval(() => {

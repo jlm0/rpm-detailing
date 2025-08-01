@@ -32,6 +32,8 @@ interface AboutPageProps {
   storyImage: string;
   storyImageAlt?: string;
   values: Value[];
+  valuesSectionTitle?: string;
+  valuesSectionSubtitle?: string;
   teamTitle: string;
   teamSubtitle: string;
   teamMembers: TeamMember[];
@@ -52,6 +54,8 @@ export default function AboutPage({
   storyImage,
   storyImageAlt,
   values,
+  valuesSectionTitle,
+  valuesSectionSubtitle,
   teamTitle,
   teamSubtitle,
   teamMembers,
@@ -77,7 +81,7 @@ export default function AboutPage({
           image={storyImage}
           imageAlt={storyImageAlt}
         />
-        {values && values.length > 0 && <AboutValues values={values} />}
+        {values && values.length > 0 && <AboutValues values={values} sectionTitle={valuesSectionTitle} sectionSubtitle={valuesSectionSubtitle} />}
         {teamMembers && teamMembers.length > 0 && (
           <AboutTeam
             title={teamTitle}

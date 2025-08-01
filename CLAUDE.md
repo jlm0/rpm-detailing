@@ -1,5 +1,29 @@
 # RPM Detailing Project Guidelines
 
+## Dynamic Content Principle
+
+**IMPORTANT**: All components should follow the "CMS-first with defaults" pattern:
+
+1. **Always fetch from CMS first** - Every component should attempt to get content from Payload CMS
+2. **Provide comprehensive defaults** - When CMS data is unavailable, use branded fallback content
+3. **Never hardcode content in components** - All text, images, and data should be configurable
+
+### Implementation Pattern
+```typescript
+// Good - CMS with defaults
+const content = cmsData?.title || "Default Brand Title"
+
+// Bad - Hardcoded only
+const content = "Fixed Title"
+```
+
+### Component Requirements
+- Fetch data using `getGlobalSettings()` or `getPayloadData()`
+- Wrap in try/catch with console.error logging
+- Return default content on error
+- Use proper TypeScript types from generated payload-types
+- Include loading states with Suspense boundaries
+
 ## Database Migrations - Critical for Production
 
 **⚠️ IMPORTANT**: Payload CMS uses different modes for development and production. Understanding this is crucial to avoid deployment failures.
@@ -24,9 +48,16 @@ Create a migration file **BEFORE deploying to production** whenever you:
 | `pnpm migrate:create` | Creates a new migration file | After making schema changes, before deploying |
 | `pnpm migrate:create [name]` | Creates named migration | For specific features: `pnpm migrate:create add_pricing_fields` |
 | `pnpm migrate` | Runs pending migrations | In production/staging deployments |
+| `echo "y" \| pnpm migrate` | Auto-confirm migration prompts | When prompted about dev mode changes |
 | `pnpm migrate:status` | Shows migration status | To check which migrations have run |
 | `pnpm migrate:down` | Rolls back last batch | If a migration fails (use cautiously) |
-| `pnpm migrate:fresh` | Drops all data and reruns | NEVER in production - dev only |
+| `echo "y" \| pnpm migrate:fresh` | Drops all data and reruns | NEVER in production - dev only |
+
+**Important Notes:**
+- When running `pnpm migrate`, you'll often see: "It looks like you've run Payload in dev mode..."
+- This warning appears because dev mode auto-syncs schema changes
+- Answer "y" to proceed - the migration will still track properly
+- Use `echo "y" | pnpm migrate` to auto-confirm in scripts
 
 ### Step-by-Step Workflow
 
@@ -76,6 +107,11 @@ Our `package.json` includes these scripts:
 "build:safe": "pnpm migrate:status && pnpm migrate && next build"
 ```
 
+**Note**: If migrations fail in CI/CD due to prompts, update the build script:
+```json
+"build": "echo 'y' | pnpm migrate && next build"
+```
+
 ### Vercel Deployment Process
 
 1. Vercel runs `pnpm build`
@@ -92,6 +128,8 @@ Our `package.json` includes these scripts:
 | "no migrations to run" | Already up to date | Normal - build continues |
 | Migration create shows no changes | Dev mode already synced | Normal - create empty migration with `--force-accept-warning` |
 | "Cannot run migrations in push mode" | Trying to migrate in dev | Stop dev server before creating migrations |
+| Build hangs on migration prompt | Waiting for y/n input | Use `echo "y" \| pnpm migrate` in build scripts |
+| "data loss will occur" warning | Dev mode pushed changes | Normal - answer "y" to proceed |
 
 ### Best Practices to Avoid Migration Issues
 

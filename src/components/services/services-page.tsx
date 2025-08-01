@@ -18,7 +18,11 @@ interface ServicesPageProps {
   heroTitle: string;
   heroSubtitle: string;
   heroImage: string;
+  heroImageAlt?: string;
   services: Service[];
+  serviceIncludesLabel?: string;
+  startingAtLabel?: string;
+  bookServiceButtonText?: string;
   ctaTitle: string;
   ctaText: string;
   ctaButtonText: string;
@@ -31,7 +35,11 @@ export default function ServicesPage({
   heroTitle,
   heroSubtitle,
   heroImage,
+  heroImageAlt,
   services,
+  serviceIncludesLabel,
+  startingAtLabel,
+  bookServiceButtonText,
   ctaTitle,
   ctaText,
   ctaButtonText,
@@ -47,8 +55,14 @@ export default function ServicesPage({
           title={heroTitle}
           subtitle={heroSubtitle}
           backgroundImage={heroImage}
+          backgroundImageAlt={heroImageAlt}
         />
-        <ServicesDetail services={services} />
+        <ServicesDetail 
+          services={services}
+          serviceIncludesLabel={serviceIncludesLabel}
+          startingAtLabel={startingAtLabel}
+          bookServiceButtonText={bookServiceButtonText}
+        />
         <ServicesCta
           title={ctaTitle}
           text={ctaText}

@@ -19,6 +19,9 @@ interface Service {
 
 interface ServicesDetailProps {
   services: Service[]
+  serviceIncludesLabel?: string
+  startingAtLabel?: string
+  bookServiceButtonText?: string
 }
 
 function RenderServiceDescription({ description }: { description: any }) {
@@ -89,7 +92,12 @@ const defaultServices: Service[] = [
   }
 ]
 
-export default function ServicesDetail({ services }: ServicesDetailProps) {
+export default function ServicesDetail({ 
+  services,
+  serviceIncludesLabel = "Service Includes:",
+  startingAtLabel = "Starting at",
+  bookServiceButtonText = "Book This Service"
+}: ServicesDetailProps) {
   const displayServices = services && services.length > 0 ? services : defaultServices
 
   return (
@@ -130,7 +138,7 @@ export default function ServicesDetail({ services }: ServicesDetailProps) {
 
                 {service.features && service.features.length > 0 && (
                   <div className="space-y-3">
-                    <h3 className="text-xl font-semibold text-brandDark">Service Includes:</h3>
+                    <h3 className="text-xl font-semibold text-brandDark">{serviceIncludesLabel}</h3>
                     <ul className="space-y-2">
                       {service.features.map((feature, idx) => (
                         <li key={idx} className="flex items-start gap-3">
@@ -146,7 +154,7 @@ export default function ServicesDetail({ services }: ServicesDetailProps) {
                   <div className="pl-6 border-l-4 border-brandRed">
                     {service.price && (
                       <>
-                        <p className="text-sm uppercase tracking-wider text-brandRed font-semibold mb-1">Starting at</p>
+                        <p className="text-sm uppercase tracking-wider text-brandRed font-semibold mb-1">{startingAtLabel}</p>
                         <p className="text-4xl font-bold text-brandDark">{service.price}</p>
                       </>
                     )}
@@ -161,7 +169,7 @@ export default function ServicesDetail({ services }: ServicesDetailProps) {
                     <Button 
                       size="lg"
                       className="bg-brandRed hover:bg-red-700 text-white">
-                      Book This Service
+                      {bookServiceButtonText}
                       <ArrowRight className="ml-2 h-5 w-5" />
                     </Button>
                   </Link>

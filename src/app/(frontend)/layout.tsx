@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import "@/app/globals.css";
-import { getGlobalSettings } from '@/lib/payload';
+import { getGlobalSettings, getMediaUrl } from '@/lib/payload';
+
+// Force dynamic rendering for all pages to ensure fresh CMS data
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export async function generateMetadata(): Promise<Metadata> {
   const siteSettings = await getGlobalSettings('site-settings');
@@ -9,7 +13,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const description = siteSettings?.description || "Transform your vehicle with RPM Detailing's premium auto detailing services in Boise. Ceramic coating, paint correction, and full interior/exterior detailing.";
   const siteUrl = 'https://rpmdetailing.com';
   const title = `${companyName} | Premium Auto Detailing in Boise, ID`;
-  const ogImage = siteSettings?.logo?.url || '/placeholder.svg';
+  const ogImage = getMediaUrl(siteSettings?.logo) || '/placeholder.svg';
   
   return {
     title,

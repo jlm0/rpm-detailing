@@ -92,12 +92,14 @@ export interface Config {
     'site-settings': SiteSetting;
     'landing-page': LandingPage;
     'services-page': ServicesPage;
+    'ui-labels': UiLabel;
     'about-page': AboutPage;
   };
   globalsSelect: {
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
     'landing-page': LandingPageSelect<false> | LandingPageSelect<true>;
     'services-page': ServicesPageSelect<false> | ServicesPageSelect<true>;
+    'ui-labels': UiLabelsSelect<false> | UiLabelsSelect<true>;
     'about-page': AboutPageSelect<false> | AboutPageSelect<true>;
   };
   locale: null;
@@ -410,6 +412,10 @@ export interface SiteSetting {
    * Use {year} to automatically insert the current year
    */
   copyright?: string | null;
+  footerSectionTitles?: {
+    contactInfoTitle?: string | null;
+    openingHoursTitle?: string | null;
+  };
   footerCTA?: {
     heading?: string | null;
     text?: string | null;
@@ -466,11 +472,19 @@ export interface SiteSetting {
 export interface LandingPage {
   id: number;
   /**
-   * The main banner section at the top of the landing page
+   * Rotating slides for the hero banner (recommended: 3 slides)
+   */
+  heroSlides?:
+    | {
+        title?: string | null;
+        subtitle?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Common settings for all hero slides
    */
   hero?: {
-    title?: string | null;
-    subtitle?: string | null;
     backgroundImage?: (number | null) | Media;
     ctaText?: string | null;
     ctaLink?: string | null;
@@ -511,6 +525,9 @@ export interface LandingPage {
       [k: string]: unknown;
     } | null;
     image?: (number | null) | Media;
+    imageAltText?: string | null;
+    experienceBadgeText?: string | null;
+    bookNowText?: string | null;
     features?:
       | {
           feature?: string | null;
@@ -525,6 +542,12 @@ export interface LandingPage {
           id?: string | null;
         }[]
       | null;
+  };
+  servicesSection?: {
+    sectionSubtitle?: string | null;
+    sectionTitle?: string | null;
+    bookNowText?: string | null;
+    viewAllText?: string | null;
   };
   /**
    * Detailed service packages shown on the landing page
@@ -567,6 +590,7 @@ export interface LandingPage {
     preHeading?: string | null;
     title?: string | null;
     subtitle?: string | null;
+    imageAltText?: string | null;
     steps?:
       | {
           order?: number | null;
@@ -585,6 +609,7 @@ export interface LandingPage {
   brandsSection?: {
     title?: string | null;
     subtitle?: string | null;
+    bookYourMakeText?: string | null;
   };
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -600,6 +625,10 @@ export interface ServicesPage {
   heroTitle?: string | null;
   heroSubtitle?: string | null;
   heroImage?: (number | null) | Media;
+  heroImageAlt?: string | null;
+  serviceIncludesLabel?: string | null;
+  startingAtLabel?: string | null;
+  bookServiceButtonText?: string | null;
   services?:
     | {
         title?: string | null;
@@ -638,6 +667,77 @@ export interface ServicesPage {
   createdAt?: string | null;
 }
 /**
+ * User interface text and labels used throughout the website
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ui-labels".
+ */
+export interface UiLabel {
+  id: number;
+  modalLabels?: {
+    getInTouch?: string | null;
+    contactInfo?: string | null;
+    openingHours?: string | null;
+    needHelp?: string | null;
+  };
+  navigationLabels?: {
+    menu?: string | null;
+    close?: string | null;
+    closeMobileMenu?: string | null;
+    toggleMobileMenu?: string | null;
+  };
+  buttons?: {
+    bookNow?: string | null;
+    viewAllServices?: string | null;
+    bookYourMake?: string | null;
+    getInTouch?: string | null;
+  };
+  accessibility?: {
+    closeModal?: string | null;
+    professionalCarPolishing?: string | null;
+    carDetailingProcess?: string | null;
+    carDetailingInAction?: string | null;
+  };
+  sectionHeaders?: {
+    ourDetailingPackages?: string | null;
+    transformYourVehicle?: string | null;
+    clientLove?: string | null;
+    whatOurClientsSay?: string | null;
+    weDetailAllMakes?: string | null;
+  };
+  statsLabels?: {
+    happyClients?: string | null;
+    vehiclesDetailed?: string | null;
+    yearsOfDetailing?: string | null;
+    detailingAwards?: string | null;
+    yearsOfExperience?: string | null;
+  };
+  processLabels?: {
+    washDecon?: string | null;
+    paintCorrection?: string | null;
+    protection?: string | null;
+    interiorFinishing?: string | null;
+  };
+  ctaDefaults?: {
+    chooseYourPackageTitle?: string | null;
+    chooseYourPackageDesc?: string | null;
+    scheduleYourDetailTitle?: string | null;
+    scheduleYourDetailDesc?: string | null;
+    enjoyPristineCarTitle?: string | null;
+    enjoyPristineCarDesc?: string | null;
+  };
+  serviceDefaults?: {
+    exteriorWash?: string | null;
+    interiorDetail?: string | null;
+    paintCorrection?: string | null;
+    ceramicCoating?: string | null;
+    wheelTireCare?: string | null;
+    odorRemoval?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * Manage content for the about us page
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -665,6 +765,8 @@ export interface AboutPage {
     [k: string]: unknown;
   } | null;
   storyImage?: (number | null) | Media;
+  valuesSectionTitle?: string | null;
+  valuesSectionSubtitle?: string | null;
   values?:
     | {
         title?: string | null;
@@ -725,6 +827,12 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   darkLogo?: T;
   description?: T;
   copyright?: T;
+  footerSectionTitles?:
+    | T
+    | {
+        contactInfoTitle?: T;
+        openingHoursTitle?: T;
+      };
   footerCTA?:
     | T
     | {
@@ -766,11 +874,16 @@ export interface SiteSettingsSelect<T extends boolean = true> {
  * via the `definition` "landing-page_select".
  */
 export interface LandingPageSelect<T extends boolean = true> {
-  hero?:
+  heroSlides?:
     | T
     | {
         title?: T;
         subtitle?: T;
+        id?: T;
+      };
+  hero?:
+    | T
+    | {
         backgroundImage?: T;
         ctaText?: T;
         ctaLink?: T;
@@ -793,6 +906,9 @@ export interface LandingPageSelect<T extends boolean = true> {
         subtitle?: T;
         content?: T;
         image?: T;
+        imageAltText?: T;
+        experienceBadgeText?: T;
+        bookNowText?: T;
         features?:
           | T
           | {
@@ -807,6 +923,14 @@ export interface LandingPageSelect<T extends boolean = true> {
               icon?: T;
               id?: T;
             };
+      };
+  servicesSection?:
+    | T
+    | {
+        sectionSubtitle?: T;
+        sectionTitle?: T;
+        bookNowText?: T;
+        viewAllText?: T;
       };
   detailedServices?:
     | T
@@ -844,6 +968,7 @@ export interface LandingPageSelect<T extends boolean = true> {
         preHeading?: T;
         title?: T;
         subtitle?: T;
+        imageAltText?: T;
         steps?:
           | T
           | {
@@ -866,6 +991,7 @@ export interface LandingPageSelect<T extends boolean = true> {
     | {
         title?: T;
         subtitle?: T;
+        bookYourMakeText?: T;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -879,6 +1005,10 @@ export interface ServicesPageSelect<T extends boolean = true> {
   heroTitle?: T;
   heroSubtitle?: T;
   heroImage?: T;
+  heroImageAlt?: T;
+  serviceIncludesLabel?: T;
+  startingAtLabel?: T;
+  bookServiceButtonText?: T;
   services?:
     | T
     | {
@@ -905,6 +1035,93 @@ export interface ServicesPageSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ui-labels_select".
+ */
+export interface UiLabelsSelect<T extends boolean = true> {
+  modalLabels?:
+    | T
+    | {
+        getInTouch?: T;
+        contactInfo?: T;
+        openingHours?: T;
+        needHelp?: T;
+      };
+  navigationLabels?:
+    | T
+    | {
+        menu?: T;
+        close?: T;
+        closeMobileMenu?: T;
+        toggleMobileMenu?: T;
+      };
+  buttons?:
+    | T
+    | {
+        bookNow?: T;
+        viewAllServices?: T;
+        bookYourMake?: T;
+        getInTouch?: T;
+      };
+  accessibility?:
+    | T
+    | {
+        closeModal?: T;
+        professionalCarPolishing?: T;
+        carDetailingProcess?: T;
+        carDetailingInAction?: T;
+      };
+  sectionHeaders?:
+    | T
+    | {
+        ourDetailingPackages?: T;
+        transformYourVehicle?: T;
+        clientLove?: T;
+        whatOurClientsSay?: T;
+        weDetailAllMakes?: T;
+      };
+  statsLabels?:
+    | T
+    | {
+        happyClients?: T;
+        vehiclesDetailed?: T;
+        yearsOfDetailing?: T;
+        detailingAwards?: T;
+        yearsOfExperience?: T;
+      };
+  processLabels?:
+    | T
+    | {
+        washDecon?: T;
+        paintCorrection?: T;
+        protection?: T;
+        interiorFinishing?: T;
+      };
+  ctaDefaults?:
+    | T
+    | {
+        chooseYourPackageTitle?: T;
+        chooseYourPackageDesc?: T;
+        scheduleYourDetailTitle?: T;
+        scheduleYourDetailDesc?: T;
+        enjoyPristineCarTitle?: T;
+        enjoyPristineCarDesc?: T;
+      };
+  serviceDefaults?:
+    | T
+    | {
+        exteriorWash?: T;
+        interiorDetail?: T;
+        paintCorrection?: T;
+        ceramicCoating?: T;
+        wheelTireCare?: T;
+        odorRemoval?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "about-page_select".
  */
 export interface AboutPageSelect<T extends boolean = true> {
@@ -914,6 +1131,8 @@ export interface AboutPageSelect<T extends boolean = true> {
   storyTitle?: T;
   storyContent?: T;
   storyImage?: T;
+  valuesSectionTitle?: T;
+  valuesSectionSubtitle?: T;
   values?:
     | T
     | {
