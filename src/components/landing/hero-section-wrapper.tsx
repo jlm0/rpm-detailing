@@ -2,32 +2,14 @@ import { Suspense } from 'react'
 
 import { ErrorBoundary } from '@/components/error-boundary'
 import { LoadingSpinner } from '@/components/ui/loading-spinner'
-import { getGlobalSettings } from '@/lib/payload'
+import { getGlobalSettings, getMediaUrl } from '@/lib/payload'
 
 import HeroSection from './hero-section'
-
-
-interface LandingPageData {
-  heroSlides?: Array<{
-    title?: string
-    subtitle?: string
-  }>
-  hero?: {
-    backgroundImage?: {
-      url?: string
-      alt?: string
-    }
-    ctaText?: string
-    ctaLink?: string
-    showPhoneNumbers?: boolean
-    showAddress?: boolean
-  }
-}
 
 async function HeroSectionData() {
   try {
     // Fetch landing page content from global
-    const landingPageData = await getGlobalSettings('landing-page') as LandingPageData | null
+    const landingPageData = await getGlobalSettings('landing-page')
     
     // Fetch site settings for contact info
     const siteSettings = await getGlobalSettings('site-settings')
@@ -65,7 +47,7 @@ async function HeroSectionData() {
     
     const content = {
       slides,
-      backgroundImage: heroSettings.backgroundImage?.url || '/placeholder.svg?width=1920&height=1080',
+      backgroundImage: getMediaUrl(heroSettings.backgroundImage) || '/placeholder.svg?width=1920&height=1080',
       ctaText: heroSettings.ctaText || 'Book Now',
       ctaLink: heroSettings.ctaLink || '/booking',
       showPhoneNumbers: heroSettings.showPhoneNumbers ?? true,

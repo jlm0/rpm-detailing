@@ -177,13 +177,28 @@ pnpm lint          # Check code quality
 pnpm migrate:status # Check migration status
 ```
 
+## Development Workflow for Schema Changes
+
+When adding new fields to Payload collections or globals:
+
+1. **Update Payload Config** - Add fields to collections/globals
+2. **Generate Types** - Run `pnpm generate:types` 
+3. **Create Migration** - Run `pnpm migrate:create [description]`
+4. **Update Components** - Use the newly generated types
+5. **Test & Verify** - Run typecheck and lint
+6. **Commit Everything** - Config, types, migrations, and component changes
+
+**Important**: Always update Payload config FIRST before updating components to ensure type safety with auto-generated types.
+
 ## Pre-Deployment Checklist
 
 - [ ] Payload config changes made?
 - [ ] Dev server stopped?
+- [ ] Types generated with `pnpm generate:types`?
 - [ ] Migration created with `pnpm migrate:create`?
 - [ ] Migration file reviewed in `src/migrations/`?
 - [ ] Migration file committed to git?
+- [ ] Components updated with new types?
 - [ ] TypeScript/lint checks pass?
 - [ ] Tested in local environment?
 

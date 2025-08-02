@@ -460,6 +460,49 @@ export interface SiteSetting {
      */
     fallbackMessage?: string | null;
   };
+  /**
+   * The full URL of your website (without trailing slash)
+   */
+  siteUrl?: string | null;
+  /**
+   * Default meta description for the site
+   */
+  siteDescription?: string | null;
+  /**
+   * Comma-separated keywords for SEO
+   */
+  keywords?: string | null;
+  location?: {
+    city?: string | null;
+    state?: string | null;
+    country?: string | null;
+  };
+  /**
+   * Browser theme color (hex format)
+   */
+  themeColor?: string | null;
+  locale?: ('en_US' | 'es_US') | null;
+  openGraph?: {
+    /**
+     * Default image for social media sharing (recommended: 1200x630)
+     */
+    defaultImage?: (number | null) | Media;
+    /**
+     * Open Graph image width in pixels
+     */
+    imageWidth?: number | null;
+    /**
+     * Open Graph image height in pixels
+     */
+    imageHeight?: number | null;
+  };
+  twitter?: {
+    /**
+     * Twitter username without @ symbol
+     */
+    handle?: string | null;
+    cardType?: ('summary' | 'summary_large_image') | null;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -864,6 +907,31 @@ export interface SiteSettingsSelect<T extends boolean = true> {
         eventSlug?: T;
         fallbackTitle?: T;
         fallbackMessage?: T;
+      };
+  siteUrl?: T;
+  siteDescription?: T;
+  keywords?: T;
+  location?:
+    | T
+    | {
+        city?: T;
+        state?: T;
+        country?: T;
+      };
+  themeColor?: T;
+  locale?: T;
+  openGraph?:
+    | T
+    | {
+        defaultImage?: T;
+        imageWidth?: T;
+        imageHeight?: T;
+      };
+  twitter?:
+    | T
+    | {
+        handle?: T;
+        cardType?: T;
       };
   updatedAt?: T;
   createdAt?: T;

@@ -6,17 +6,9 @@ import { getGlobalSettings } from '@/lib/payload'
 
 import ServicesOverviewBar from './services-overview-bar'
 
-interface LandingPageData {
-  servicesBar?: Array<{
-    title?: string
-    icon?: string
-    order?: number
-  }>
-}
-
 async function ServicesOverviewBarData() {
   try {
-    const landingPageData = await getGlobalSettings('landing-page') as LandingPageData | null;
+    const landingPageData = await getGlobalSettings('landing-page');
 
     const services = landingPageData?.servicesBar || [];
 

@@ -350,6 +350,136 @@ export default buildConfig({
                 },
               ],
             },
+            {
+              label: "SEO & Metadata",
+              fields: [
+                {
+                  name: "siteUrl",
+                  type: "text",
+                  label: "Site URL",
+                  defaultValue: "https://rpmdetail.co",
+                  admin: {
+                    description: "The full URL of your website (without trailing slash)",
+                  },
+                },
+                {
+                  name: "siteDescription",
+                  type: "textarea",
+                  label: "Site Description",
+                  defaultValue: "Transform your vehicle with RPM Detailing's premium auto detailing services in Boise. Ceramic coating, paint correction, and full interior/exterior detailing.",
+                  admin: {
+                    description: "Default meta description for the site",
+                  },
+                },
+                {
+                  name: "keywords",
+                  type: "text",
+                  label: "Keywords",
+                  defaultValue: "auto detailing, car detailing, ceramic coating, paint correction, Boise, Idaho, RPM Detailing",
+                  admin: {
+                    description: "Comma-separated keywords for SEO",
+                  },
+                },
+                {
+                  name: "location",
+                  type: "group",
+                  label: "Business Location",
+                  fields: [
+                    {
+                      name: "city",
+                      type: "text",
+                      defaultValue: "Boise",
+                    },
+                    {
+                      name: "state",
+                      type: "text",
+                      defaultValue: "ID",
+                    },
+                    {
+                      name: "country",
+                      type: "text",
+                      defaultValue: "USA",
+                    },
+                  ],
+                },
+                {
+                  name: "themeColor",
+                  type: "text",
+                  label: "Theme Color",
+                  defaultValue: "#D9232D",
+                  admin: {
+                    description: "Browser theme color (hex format)",
+                  },
+                },
+                {
+                  name: "locale",
+                  type: "select",
+                  label: "Locale",
+                  defaultValue: "en_US",
+                  options: [
+                    { label: "English (US)", value: "en_US" },
+                    { label: "Spanish (US)", value: "es_US" },
+                  ],
+                },
+                {
+                  name: "openGraph",
+                  type: "group",
+                  label: "Open Graph Settings",
+                  fields: [
+                    {
+                      name: "defaultImage",
+                      type: "upload",
+                      relationTo: "media",
+                      label: "Default OG Image",
+                      admin: {
+                        description: "Default image for social media sharing (recommended: 1200x630)",
+                      },
+                    },
+                    {
+                      name: "imageWidth",
+                      type: "number",
+                      defaultValue: 1200,
+                      admin: {
+                        description: "Open Graph image width in pixels",
+                      },
+                    },
+                    {
+                      name: "imageHeight",
+                      type: "number",
+                      defaultValue: 630,
+                      admin: {
+                        description: "Open Graph image height in pixels",
+                      },
+                    },
+                  ],
+                },
+                {
+                  name: "twitter",
+                  type: "group",
+                  label: "Twitter/X Settings",
+                  fields: [
+                    {
+                      name: "handle",
+                      type: "text",
+                      label: "Twitter Handle",
+                      admin: {
+                        description: "Twitter username without @ symbol",
+                      },
+                    },
+                    {
+                      name: "cardType",
+                      type: "select",
+                      label: "Card Type",
+                      defaultValue: "summary_large_image",
+                      options: [
+                        { label: "Summary", value: "summary" },
+                        { label: "Summary Large Image", value: "summary_large_image" },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
           ],
         },
       ],

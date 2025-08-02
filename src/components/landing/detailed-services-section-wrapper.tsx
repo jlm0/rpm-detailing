@@ -1,23 +1,10 @@
-import { getGlobalSettings } from '@/lib/payload'
+import { getGlobalSettings, getMediaUrl } from '@/lib/payload'
 
 import DetailedServicesSection from './detailed-services-section'
 
-interface LandingPageData {
-  detailedServices?: Array<{
-    order?: number
-    packageId?: string
-    title?: string
-    description?: string
-    image?: {
-      url: string
-      alt: string
-    }
-  }>
-}
-
 export default async function DetailedServicesSectionWrapper() {
   // Fetch landing page content from global
-  const landingPageData = await getGlobalSettings('landing-page') as LandingPageData | null
+  const landingPageData = await getGlobalSettings('landing-page')
   
   const services = landingPageData?.detailedServices || []
   const sortedServices = [...services].sort((a, b) => (a.order || 0) - (b.order || 0))
@@ -52,8 +39,8 @@ export default async function DetailedServicesSectionWrapper() {
         id: p.packageId || String(index + 1).padStart(2, '0'),
         title: p.title || '',
         description: p.description || '',
-        imgSrc: p.image?.url || "/placeholder.svg?width=400&height=300",
-        imgAlt: p.image?.alt || p.title || '',
+        imgSrc: getMediaUrl(p.image) || "/placeholder.svg?width=400&height=300",
+        imgAlt: typeof p.image === 'object' && p.image !== null ? (p.image.alt || p.title || '') : (p.title || ''),
       }))
     : defaultPackages
   

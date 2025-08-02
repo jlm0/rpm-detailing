@@ -1,35 +1,11 @@
-import { getGlobalSettings } from '@/lib/payload';
+import { getGlobalSettings, getMediaUrl } from '@/lib/payload';
 
 import WorkingProcessSection from './working-process-section';
-
-interface LandingPageData {
-  processSection?: {
-    title?: string
-    subtitle?: string
-    steps?: Array<{
-      order?: number
-      title?: string
-      active?: boolean
-      description?: string
-      image?: {
-        url?: string
-        alt?: string
-      }
-    }>
-  }
-  aboutSection?: {
-    stats?: Array<{
-      value?: string
-      label?: string
-      icon?: string
-    }>
-  }
-}
 
 export default async function WorkingProcessSectionWrapper() {
   
   // Fetch landing page data
-  const landingPageData = await getGlobalSettings('landing-page') as LandingPageData | null;
+  const landingPageData = await getGlobalSettings('landing-page');
 
   const processSteps = landingPageData?.processSection?.steps || [];
   const sortedSteps = [...processSteps].sort((a, b) => (a.order || 0) - (b.order || 0));
@@ -43,7 +19,7 @@ export default async function WorkingProcessSectionWrapper() {
       ? sortedSteps.map((step) => step.title || '')
       : ["Wash & Decon", "Paint Correction", "Protection", "Interior Finishing"],
     activeTab: 0,
-    processImage: sortedSteps[0]?.image?.url || "/placeholder.svg?width=1200&height=525",
+    processImage: getMediaUrl(sortedSteps[0]?.image) || "/placeholder.svg?width=1200&height=525",
     stats: stats.length > 0
       ? stats.map((stat) => ({
           value: stat.value || '',

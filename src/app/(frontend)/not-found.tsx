@@ -1,13 +1,17 @@
 import Link from 'next/link'
 
 import { Button } from '@/components/ui/button'
+import { getGlobalSettings } from '@/lib/payload'
 
-export default function NotFound() {
+export default async function NotFound() {
+  const siteSettings = await getGlobalSettings('site-settings')
+  const companyName = siteSettings?.companyName || 'RPM DETAILING'
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-brandLightGray py-8">
       <div className="text-center">
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-brandRed">RPM DETAILING</h1>
+          <h1 className="text-4xl font-bold text-brandRed">{companyName.toUpperCase()}</h1>
         </div>
 
         <div className="max-w-xs sm:max-w-md px-4 space-y-4">

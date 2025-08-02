@@ -2,28 +2,9 @@ import { getGlobalSettings } from '@/lib/payload';
 
 import CtaBannerSection from './cta-banner-section';
 
-interface LandingPageData {
-  ctaBanner?: {
-    heading?: string
-    description?: string
-    buttonText?: string
-    buttonLink?: string
-    backgroundImage?: {
-      url?: string
-      alt?: string
-    }
-    preHeading?: string
-    ctaItems?: Array<{
-      title?: string
-      description?: string
-      iconName?: string
-    }>
-  }
-}
-
 export default async function CtaBannerSectionWrapper() {
   
-  const landingPageData = await getGlobalSettings('landing-page') as LandingPageData | null;
+  const landingPageData = await getGlobalSettings('landing-page');
 
   const ctaData = landingPageData?.ctaBanner;
   
