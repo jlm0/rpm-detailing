@@ -5,7 +5,7 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "build": "pnpm migrate && cross-env NODE_OPTIONS=--no-deprecation next build",
+    "build": "echo 'y' | pnpm migrate && cross-env NODE_OPTIONS=--no-deprecation next build",
     "build:safe": "pnpm migrate:status && pnpm migrate && cross-env NODE_OPTIONS=--no-deprecation next build",
     "postbuild": "next-sitemap --config next-sitemap.config.cjs",
     "dev": "cross-env NODE_OPTIONS=--no-deprecation next dev",

@@ -3,6 +3,7 @@
 import LandingFooter from "@/components/landing/landing-footer";
 import LandingHeader from "@/components/landing/landing-header";
 import type { ComponentProps } from "react";
+import type { AboutPage as AboutPageType } from "@/payload-types";
 
 import AboutCta from "./about-cta";
 import AboutHero from "./about-hero";
@@ -29,7 +30,7 @@ interface AboutPageProps {
   heroImage: string;
   heroImageAlt?: string;
   storyTitle: string;
-  storyContent: string;
+  storyContent: string | AboutPageType['storyContent'];
   storyImage: string;
   storyImageAlt?: string;
   values: Value[];

@@ -42,7 +42,7 @@ async function AboutPageContent() {
         heroImage={pageData?.heroImage && typeof pageData.heroImage === 'object' && 'url' in pageData.heroImage ? pageData.heroImage.url || "/placeholder.svg" : "/placeholder.svg"}
         heroImageAlt={pageData?.heroImage && typeof pageData.heroImage === 'object' && 'alt' in pageData.heroImage ? pageData.heroImage.alt || "About hero background" : "About hero background"}
         storyTitle={pageData?.storyTitle || "Our Story"}
-        storyContent={pageData?.storyContent || "RPM Detailing was founded with a passion for excellence and a commitment to providing the highest quality auto detailing services."}
+        storyContent={(pageData?.storyContent as AboutPageData['storyContent']) || "RPM Detailing was founded with a passion for excellence and a commitment to providing the highest quality auto detailing services."}
         storyImage={pageData?.storyImage && typeof pageData.storyImage === 'object' && 'url' in pageData.storyImage ? pageData.storyImage.url || "/placeholder.svg" : "/placeholder.svg"}
         storyImageAlt={pageData?.storyImage && typeof pageData.storyImage === 'object' && 'alt' in pageData.storyImage ? pageData.storyImage.alt || "Our story" : "Our story"}
         values={pageData?.values && pageData.values.length > 0 ? pageData.values.map(v => ({
