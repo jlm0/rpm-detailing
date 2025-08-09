@@ -4,6 +4,7 @@ import * as migration_20250731_233919_add_ui_labels_and_content_fields from './2
 import * as migration_20250801_000842_add_about_page_section_headers from './20250801_000842_add_about_page_section_headers';
 import * as migration_20250801_002405_add_services_page_labels from './20250801_002405_add_services_page_labels';
 import * as migration_20250802_014246_add_seo_metadata_fields from './20250802_014246_add_seo_metadata_fields';
+import * as migration_20250809_141833_add_vercel_blob_storage from './20250809_141833_add_vercel_blob_storage';
 
 export const migrations = [
   {
@@ -34,6 +35,11 @@ export const migrations = [
   {
     up: migration_20250802_014246_add_seo_metadata_fields.up,
     down: migration_20250802_014246_add_seo_metadata_fields.down,
-    name: '20250802_014246_add_seo_metadata_fields'
+    name: '20250802_014246_add_seo_metadata_fields',
+  },
+  {
+    up: migration_20250809_141833_add_vercel_blob_storage.up,
+    down: migration_20250809_141833_add_vercel_blob_storage.down,
+    name: '20250809_141833_add_vercel_blob_storage'
   },
 ];

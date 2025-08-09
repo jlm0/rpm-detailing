@@ -1,5 +1,6 @@
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import { postgresAdapter } from "@payloadcms/db-postgres";
+import { vercelBlobStorage } from "@payloadcms/storage-vercel-blob";
 import { buildConfig } from "payload";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -59,6 +60,20 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
+  plugins: [
+    // Only enable Vercel Blob storage if token is available
+    ...(process.env.BLOB_READ_WRITE_TOKEN
+      ? [
+          vercelBlobStorage({
+            enabled: true,
+            collections: {
+              media: true,
+            },
+            token: process.env.BLOB_READ_WRITE_TOKEN,
+          }),
+        ]
+      : []),
+  ],
   csrf: [
     // Add all trusted origins for cookie authentication
     'https://www.rpmdetail.co',
@@ -1576,7 +1591,6 @@ export default buildConfig({
     {
       slug: "media",
       upload: {
-        staticDir: path.resolve(dirname, "../public/uploads"),
         mimeTypes: ["image/*"],
       },
       access: {
