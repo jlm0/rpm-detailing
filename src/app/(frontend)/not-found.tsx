@@ -14,8 +14,8 @@ export default async function NotFound() {
           <h1 className="text-4xl font-bold text-brandRed">{companyName.toUpperCase()}</h1>
         </div>
 
-        <div className="max-w-xs sm:max-w-md px-4 space-y-4">
-          <h2 className="text-4xl sm:text-6xl font-bold text-brandDark">404</h2>
+        <div className="max-w-xs space-y-4 px-4 sm:max-w-md">
+          <h2 className="text-4xl font-bold text-brandDark sm:text-6xl">404</h2>
           <h3 className="mb-4 text-2xl font-semibold text-brandDark">Page Not Found</h3>
           <p className="mb-8 text-brandMediumGray">
             Sorry, we couldn&apos;t find the page you&apos;re looking for. It might have been moved
@@ -23,7 +23,9 @@ export default async function NotFound() {
           </p>
 
           <Link href="/">
-            <Button className="w-full sm:w-auto bg-brandRed hover:bg-brandRed/90">Back to Homepage</Button>
+            <Button className="w-full bg-brandRed hover:bg-brandRed/90 sm:w-auto">
+              Back to Homepage
+            </Button>
           </Link>
         </div>
       </div>

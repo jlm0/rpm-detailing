@@ -5,6 +5,8 @@ import Image from 'next/image'
 import ScrollAnimate from '@/components/motion/scroll-animate'
 import type { AboutPage } from '@/payload-types'
 
+type RichTextLeaf = { text?: string }
+
 interface AboutStoryProps {
   title: string
   content: string | AboutPage['storyContent']
@@ -19,16 +21,15 @@ function RenderStoryContent({ content }: { content: string | AboutPage['storyCon
   if (content && content.root && content.root.children) {
     return (
       <div>
-        {content.root.children.map((paragraph: any, i) => (
+        {content.root.children.map((paragraph, i) => (
           <p key={i} className="mt-4">
-            {paragraph.children && Array.isArray(paragraph.children) && 
-              paragraph.children.map((text: any, j: number) => {
+            {Array.isArray(paragraph.children) &&
+              paragraph.children.map((text: RichTextLeaf | null, j: number) => {
                 if (text && typeof text === 'object' && 'text' in text) {
                   return <span key={j}>{text.text || ''}</span>
                 }
                 return null
-              })
-            }
+              })}
           </p>
         ))}
       </div>
@@ -53,20 +54,25 @@ function RenderStoryContent({ content }: { content: string | AboutPage['storyCon
   )
 }
 
-export default function AboutStory({ title, content, image, imageAlt = "Our story" }: AboutStoryProps) {
+export default function AboutStory({
+  title,
+  content,
+  image,
+  imageAlt = 'Our story',
+}: AboutStoryProps) {
   return (
-    <section className="py-16 lg:py-24 bg-white">
+    <section className="bg-white py-16 lg:py-24">
       <div className="container mx-auto px-4">
-        <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div className="grid items-center gap-12 md:grid-cols-2 lg:gap-16">
           <ScrollAnimate variantName="fadeInUp">
-            <h2 className="text-3xl lg:text-4xl font-bold text-brandDark mb-6">{title}</h2>
-            <div className="text-brandMediumGray prose prose-sm md:prose-lg max-w-none">
+            <h2 className="mb-6 text-3xl font-bold text-brandDark lg:text-4xl">{title}</h2>
+            <div className="prose prose-sm max-w-none text-brandMediumGray md:prose-lg">
               <RenderStoryContent content={content} />
             </div>
           </ScrollAnimate>
 
           <ScrollAnimate variantName="fadeInUp" delay={0.2}>
-            <div className="relative aspect-[4/3] rounded-lg overflow-hidden shadow-xl">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-lg shadow-xl">
               <Image src={image} alt={imageAlt} fill className="object-cover" />
             </div>
           </ScrollAnimate>

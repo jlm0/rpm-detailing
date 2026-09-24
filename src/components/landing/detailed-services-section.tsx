@@ -48,43 +48,46 @@ const DetailedServicesSection = ({
   ],
 }: DetailedServicesSectionProps) => {
   return (
-    <section id="services" className="py-16 lg:py-24 bg-brandDark text-white bg-tire-track-pattern bg-cover">
+    <section
+      id="services"
+      className="bg-tire-track-pattern bg-brandDark bg-cover py-16 text-white lg:py-24"
+    >
       <div className="container mx-auto px-4">
-        <ScrollAnimate variantName="fadeInDown" className="text-center mb-12">
-          <p className="text-brandRed uppercase text-sm font-semibold tracking-wider mb-2">
+        <ScrollAnimate variantName="fadeInDown" className="mb-12 text-center">
+          <p className="mb-2 text-sm font-semibold tracking-wider text-brandRed uppercase">
             OUR DETAILING PACKAGES
           </p>
-          <h2 className="text-3xl lg:text-4xl font-bold mb-4">
+          <h2 className="mb-4 text-3xl font-bold lg:text-4xl">
             Transform Your Vehicle with Our Expert Detailing
           </h2>
         </ScrollAnimate>
         <ScrollAnimate
           variantName="fadeIn"
           staggerChildren={0.15}
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
         >
           {packages.map((service) => (
             <ScrollAnimate variantName="zoomIn" key={service.id}>
-              <Card className="bg-brandMediumGray border-neutral-700 text-white overflow-hidden group h-full flex flex-col">
+              <Card className="group flex h-full flex-col overflow-hidden border-neutral-700 bg-brandMediumGray text-white">
                 <div className="relative aspect-[4/3]">
                   <Image
                     src={service.imgSrc || '/placeholder.svg'}
                     alt={service.imgAlt}
                     fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                 </div>
-                <CardContent className="p-6 flex flex-col flex-grow">
-                  <p className="text-5xl font-bold text-brandRed mb-3">{service.id}</p>
-                  <h3 className="text-2xl font-semibold mb-3">{service.title}</h3>
-                  <p className="text-neutral-300 text-sm mb-4 leading-relaxed overflow-hidden line-clamp-4 flex-grow">
+                <CardContent className="flex flex-grow flex-col p-6">
+                  <p className="mb-3 text-5xl font-bold text-brandRed">{service.id}</p>
+                  <h3 className="mb-3 text-2xl font-semibold">{service.title}</h3>
+                  <p className="mb-4 line-clamp-4 flex-grow overflow-hidden text-sm leading-relaxed text-neutral-300">
                     {service.description}
                   </p>
                   <Link href="/booking">
                     <Button
                       variant="outline"
-                      className="border-brandRed text-brandRed hover:bg-brandRed hover:text-white px-4 py-2"
+                      className="border-brandRed px-4 py-2 text-brandRed hover:bg-brandRed hover:text-white"
                     >
                       Book Now <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
@@ -94,9 +97,9 @@ const DetailedServicesSection = ({
             </ScrollAnimate>
           ))}
         </ScrollAnimate>
-        <ScrollAnimate variantName="fadeInUp" delay={0.3} className="text-center mt-12">
+        <ScrollAnimate variantName="fadeInUp" delay={0.3} className="mt-12 text-center">
           <Link href="/services">
-            <Button className="bg-brandRed hover:bg-red-700 text-white px-8 py-3 text-lg">
+            <Button className="bg-brandRed px-8 py-3 text-lg text-white hover:bg-red-700">
               View All Services
             </Button>
           </Link>

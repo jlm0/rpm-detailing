@@ -10,6 +10,8 @@ import type { LandingPage } from '@/payload-types'
 
 type AboutContent = string | NonNullable<LandingPage['aboutSection']>['content']
 
+type RichTextLeaf = { text?: string }
+
 interface AboutUsSectionProps {
   whyChooseSection?: {
     subtitle: string
@@ -28,28 +30,29 @@ interface AboutUsSectionProps {
 
 function RenderAboutContent({ content }: { content: AboutContent }) {
   if (typeof content === 'string') {
-    return <p className="text-base md:text-lg text-brandMediumGray mb-6 leading-relaxed">{content}</p>
+    return (
+      <p className="mb-6 text-base leading-relaxed text-brandMediumGray md:text-lg">{content}</p>
+    )
   }
   if (content && content.root && content.root.children) {
     return (
-      <div className="text-base md:text-lg text-brandMediumGray mb-6 leading-relaxed">
-        {content.root.children.map((paragraph: any, i) => (
+      <div className="mb-6 text-base leading-relaxed text-brandMediumGray md:text-lg">
+        {content.root.children.map((paragraph, i) => (
           <p key={i} className="mt-4">
-            {paragraph.children && Array.isArray(paragraph.children) &&
-              paragraph.children.map((text: any, j: number) => {
+            {Array.isArray(paragraph.children) &&
+              paragraph.children.map((text: RichTextLeaf | null, j: number) => {
                 if (text && typeof text === 'object' && 'text' in text) {
                   return <span key={j}>{text.text || ''}</span>
                 }
                 return null
-              })
-            }
+              })}
           </p>
         ))}
       </div>
     )
   }
   return (
-    <p className="text-base md:text-lg text-brandMediumGray mb-6 leading-relaxed">
+    <p className="mb-6 text-base leading-relaxed text-brandMediumGray md:text-lg">
       Modern vehicle finishes and interiors require specialized care. Our detailing service excels
       by combining advanced techniques, premium products, and highly skilled technicians to restore
       and protect your vehicle&apos;s beauty. Trust RPM Detailing for meticulous attention to
@@ -80,28 +83,28 @@ const AboutUsSection = ({
   yearsOfExperience = 20,
 }: AboutUsSectionProps) => {
   return (
-    <section id="about" className="py-16 lg:py-24 bg-white">
+    <section id="about" className="bg-white py-16 lg:py-24">
       <div className="container mx-auto px-4">
-        <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div className="grid items-center gap-12 md:grid-cols-2 lg:gap-16">
           <ScrollAnimate variantName="slideInLeft" className="relative">
             <Image
               src={whyChooseSection.image || '/placeholder.svg'}
               alt="Professional car polishing service"
               width={600}
               height={400}
-              className="rounded-lg shadow-xl object-cover"
+              className="rounded-lg object-cover shadow-xl"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
             />
-            <div className="absolute -bottom-8 -left-8 bg-brandRed text-white p-6 rounded-lg shadow-lg w-52 text-center">
+            <div className="absolute -bottom-8 -left-8 w-52 rounded-lg bg-brandRed p-6 text-center text-white shadow-lg">
               <p className="text-4xl font-bold">{yearsOfExperience}+</p>
               <p className="text-sm">Years of Experience</p>
             </div>
           </ScrollAnimate>
           <ScrollAnimate variantName="slideInRight" delay={0.2} className="">
-            <p className="text-brandRed uppercase text-sm font-semibold tracking-wider mb-2">
+            <p className="mb-2 text-sm font-semibold tracking-wider text-brandRed uppercase">
               {whyChooseSection.subtitle}
             </p>
-            <h2 className="text-3xl lg:text-4xl font-bold text-brandDark mb-4">
+            <h2 className="mb-4 text-3xl font-bold text-brandDark lg:text-4xl">
               {whyChooseSection.title}
             </h2>
             <RenderAboutContent content={whyChooseSection.content} />
@@ -116,22 +119,22 @@ const AboutUsSection = ({
           </ScrollAnimate>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-center mt-16 lg:mt-24">
+        <div className="mt-16 grid items-center gap-12 md:grid-cols-2 lg:mt-24 lg:gap-16">
           <ScrollAnimate variantName="slideInRight" delay={0.1} className="order-2 md:order-1">
-            <p className="text-brandRed uppercase text-sm font-semibold tracking-wider mb-2">
+            <p className="mb-2 text-sm font-semibold tracking-wider text-brandRed uppercase">
               {transformationSection.subtitle}
             </p>
-            <h2 className="text-3xl lg:text-4xl font-bold text-brandDark mb-4">
+            <h2 className="mb-4 text-3xl font-bold text-brandDark lg:text-4xl">
               {transformationSection.title}
             </h2>
-            <p className="text-base md:text-lg text-brandMediumGray mb-6 leading-relaxed">
+            <p className="mb-6 text-base leading-relaxed text-brandMediumGray md:text-lg">
               {transformationSection.content}
             </p>
             <ul className="space-y-3">
               {transformationSection.features.map((item) => (
                 <li key={item} className="flex items-center space-x-3">
-                  <CheckCircle2 className="h-5 w-5 text-brandRed flex-shrink-0" />
-                  <span className="text-base md:text-lg text-brandMediumGray">{item}</span>
+                  <CheckCircle2 className="h-5 w-5 shrink-0 text-brandRed" />
+                  <span className="text-base text-brandMediumGray md:text-lg">{item}</span>
                 </li>
               ))}
             </ul>
@@ -140,7 +143,7 @@ const AboutUsSection = ({
             variantName="slideInLeft"
             delay={0.2}
             staggerChildren={0.1}
-            className="grid grid-cols-1 sm:grid-cols-3 gap-4 order-1 md:order-2"
+            className="order-1 grid grid-cols-1 gap-4 sm:grid-cols-3 md:order-2"
           >
             {['/placeholder.svg', '/placeholder.svg', '/placeholder.svg'].map((src, index) => (
               <ScrollAnimate variantName="zoomIn" key={index}>
@@ -149,7 +152,7 @@ const AboutUsSection = ({
                   alt={`Car detailing process ${index + 1}`}
                   width={200}
                   height={150}
-                  className="rounded-lg shadow-md object-cover w-full aspect-[4/3]"
+                  className="aspect-[4/3] w-full rounded-lg object-cover shadow-md"
                   sizes="(max-width: 640px) 100vw, (max-width: 768px) 33vw, 200px"
                 />
               </ScrollAnimate>

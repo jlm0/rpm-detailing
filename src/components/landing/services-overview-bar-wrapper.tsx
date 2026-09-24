@@ -1,4 +1,4 @@
-import { Suspense } from 'react'
+import { Suspense, type ComponentProps } from 'react'
 
 import { ErrorBoundary } from '@/components/error-boundary'
 import { LoadingSpinner } from '@/components/ui/loading-spinner'
@@ -6,20 +6,20 @@ import { getGlobalSettings } from '@/lib/payload'
 
 import ServicesOverviewBar from './services-overview-bar'
 
-async function ServicesOverviewBarData() {
+async function getServicesOverviewBarProps(): Promise<ComponentProps<typeof ServicesOverviewBar>> {
   try {
-    const landingPageData = await getGlobalSettings('landing-page');
+    const landingPageData = await getGlobalSettings('landing-page')
 
-    const services = landingPageData?.servicesBar || [];
+    const services = landingPageData?.servicesBar || []
 
-    const sortedServices = [...services].sort((a, b) => (a.order || 0) - (b.order || 0));
+    const sortedServices = [...services].sort((a, b) => (a.order || 0) - (b.order || 0))
 
     const servicesData = sortedServices.map((service) => ({
       name: service.title || '',
       icon: service.icon || 'Car', // Default icon if not specified
-    }));
+    }))
 
-    return <ServicesOverviewBar services={servicesData} />;
+    return { services: servicesData }
   } catch (error) {
     console.error('Error loading services overview:', error)
     // Return with default services on error
@@ -31,13 +31,18 @@ async function ServicesOverviewBarData() {
       { name: 'Paint Protection Film', icon: 'Car' },
       { name: 'Window Tinting', icon: 'Car' },
     ]
-    return <ServicesOverviewBar services={defaultServices} />
+    return { services: defaultServices }
   }
+}
+
+async function ServicesOverviewBarData() {
+  const props = await getServicesOverviewBarProps()
+  return <ServicesOverviewBar {...props} />
 }
 
 function ServicesOverviewBarLoading() {
   return (
-    <div className="py-8 flex items-center justify-center bg-brandDark">
+    <div className="flex items-center justify-center bg-brandDark py-8">
       <LoadingSpinner size="md" />
     </div>
   )

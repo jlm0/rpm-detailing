@@ -19,10 +19,10 @@ export default function Error({
     <div className="flex min-h-screen flex-col items-center justify-center bg-brandLightGray">
       <div className="text-center">
         <div className="mb-8">
-          <h1 className="text-4xl sm:text-5xl font-bold text-brandRed">RPM DETAILING</h1>
+          <h1 className="text-4xl font-bold text-brandRed sm:text-5xl">RPM DETAILING</h1>
         </div>
 
-        <div className="max-w-xs sm:max-w-md px-4">
+        <div className="max-w-xs px-4 sm:max-w-md">
           <h2 className="mb-4 text-3xl font-bold text-brandDark">Something went wrong</h2>
           <p className="mb-6 text-brandMediumGray">
             We apologize for the inconvenience. An unexpected error has occurred. Please try again

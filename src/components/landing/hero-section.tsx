@@ -1,12 +1,11 @@
-"use client";
-import { Phone, MapPin } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { useState, useEffect } from "react";
+'use client'
+import { Phone, MapPin } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useState, useEffect } from 'react'
 
-import ScrollAnimate from "@/components/motion/scroll-animate";
-import { Button } from "@/components/ui/button";
-
+import ScrollAnimate from '@/components/motion/scroll-animate'
+import { Button } from '@/components/ui/button'
 
 interface HeroSlide {
   title?: string
@@ -39,20 +38,20 @@ const HeroSection = ({
   phone = '(425) 345-3564',
   address = 'Boise, ID, USA',
 }: HeroSectionProps) => {
-  const [activeSlide, setActiveSlide] = useState(0);
-  
+  const [activeSlide, setActiveSlide] = useState(0)
+
   // Use the slides from props
-  const heroContent = slides;
+  const heroContent = slides
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setActiveSlide((prev) => (prev + 1) % heroContent.length);
-    }, 3000); // Change slide every 3 seconds
+      setActiveSlide((prev) => (prev + 1) % heroContent.length)
+    }, 3000) // Change slide every 3 seconds
 
-    return () => clearInterval(interval);
-  }, [heroContent.length]);
+    return () => clearInterval(interval)
+  }, [heroContent.length])
   return (
-    <section className="relative bg-brandDark text-white h-[calc(100vh-80px)] min-h-[600px] md:min-h-[700px] flex items-center">
+    <section className="relative flex h-[calc(100vh-80px)] min-h-[600px] items-center bg-brandDark text-white md:min-h-[700px]">
       {/* Background image and overlay remain as is */}
       <div className="absolute inset-0">
         <Image
@@ -65,39 +64,41 @@ const HeroSection = ({
         />
       </div>
 
-      <div className="absolute left-0 top-0 bottom-0 w-1/2 md:w-2/5 bg-brandRed bg-grunge-texture bg-blend-multiply opacity-90">
+      <div className="bg-grunge-texture absolute top-0 bottom-0 left-0 w-1/2 bg-brandRed opacity-90 bg-blend-multiply md:w-2/5">
         {/* Grunge texture applied via tailwind.config.ts */}
       </div>
 
-      <div className="container mx-auto px-4 relative z-10 flex justify-between items-center h-full">
-        <div className="w-full md:w-1/2 lg:w-2/5 relative">
-          <ScrollAnimate
-            variantName="fadeInUp"
-            delay={0.2}>
-            <div className="min-h-[280px] lg:min-h-[320px] flex flex-col justify-center">
-              <p className="text-sm uppercase tracking-wider mb-4">{heroContent[activeSlide].subtitle}</p>
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-8">
+      <div className="relative z-10 container mx-auto flex h-full items-center justify-between px-4">
+        <div className="relative w-full md:w-1/2 lg:w-2/5">
+          <ScrollAnimate variantName="fadeInUp" delay={0.2}>
+            <div className="flex min-h-[280px] flex-col justify-center lg:min-h-[320px]">
+              <p className="mb-4 text-sm tracking-wider uppercase">
+                {heroContent[activeSlide].subtitle}
+              </p>
+              <h1 className="mb-8 text-4xl leading-tight font-bold sm:text-5xl lg:text-6xl">
                 {heroContent[activeSlide].title}
               </h1>
             </div>
             <Link href={ctaLink}>
               <Button
                 variant="outline"
-                className="w-full sm:w-auto border-white text-white bg-transparent hover:bg-white hover:text-brandRed px-8 py-3 text-lg">
+                className="w-full border-white bg-transparent px-8 py-3 text-lg text-white hover:bg-white hover:text-brandRed sm:w-auto"
+              >
                 {ctaText}
               </Button>
             </Link>
           </ScrollAnimate>
-          <div className="absolute left-[-50px] top-1/2 transform -translate-y-1/2 hidden lg:flex flex-col space-y-4">
-            {["01", "02", "03"].map((num, index) => (
+          <div className="absolute top-1/2 left-[-50px] hidden -translate-y-1/2 transform flex-col space-y-4 lg:flex">
+            {['01', '02', '03'].map((num, index) => (
               <button
                 key={num}
                 onClick={() => setActiveSlide(index)}
-                className={`text-sm transition-all duration-300 block ${
-                  activeSlide === index 
-                    ? 'text-white font-bold scale-110' 
+                className={`block text-sm transition-all duration-300 ${
+                  activeSlide === index
+                    ? 'scale-110 font-bold text-white'
                     : 'text-white/50 hover:text-white/70'
-                }`}>
+                }`}
+              >
                 {num}
               </button>
             ))}
@@ -108,7 +109,8 @@ const HeroSection = ({
           <ScrollAnimate
             variantName="fadeInRight"
             delay={0.4}
-            className="hidden md:flex flex-col space-y-4 absolute right-4 bottom-10 p-4 bg-black/30 rounded">
+            className="absolute right-4 bottom-10 hidden flex-col space-y-4 rounded-sm bg-black/30 p-4 md:flex"
+          >
             {showPhoneNumbers && phone && (
               <div className="flex items-center space-x-2">
                 <Phone className="h-5 w-5 text-brandRed" />
@@ -125,7 +127,7 @@ const HeroSection = ({
         )}
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default HeroSection;
+export default HeroSection

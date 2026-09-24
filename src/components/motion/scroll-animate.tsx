@@ -1,10 +1,10 @@
-"use client"
+'use client'
 
-import { motion, type Variants } from "framer-motion"
-import type React from "react"
-import { useInView } from "react-intersection-observer"
+import { motion, type Variants } from 'framer-motion'
+import type React from 'react'
+import { useInView } from 'react-intersection-observer'
 
-import { animationVariants, type AnimationVariantName } from "@/lib/animation-variants"
+import { animationVariants, type AnimationVariantName } from '@/lib/animation-variants'
 
 interface ScrollAnimateProps {
   children: React.ReactNode
@@ -18,9 +18,9 @@ interface ScrollAnimateProps {
 
 const ScrollAnimate: React.FC<ScrollAnimateProps> = ({
   children,
-  variantName = "fadeInUp",
+  variantName = 'fadeInUp',
   delay = 0,
-  className = "",
+  className = '',
   staggerChildren,
   amount = 0.3, // Trigger when 30% of the element is in view
   once = true,
@@ -40,7 +40,7 @@ const ScrollAnimate: React.FC<ScrollAnimateProps> = ({
       transition: {
         ...selectedVariant.visible.transition,
         delay: delay,
-        ...(staggerChildren && { when: "beforeChildren" as const }),
+        ...(staggerChildren && { when: 'beforeChildren' as const }),
         staggerChildren: staggerChildren,
       },
     },
@@ -52,7 +52,7 @@ const ScrollAnimate: React.FC<ScrollAnimateProps> = ({
       ref={ref}
       variants={variantsWithDelay}
       initial="hidden"
-      animate={inView ? "visible" : "hidden"}
+      animate={inView ? 'visible' : 'hidden'}
     >
       {children}
     </motion.div>

@@ -1,49 +1,49 @@
-"use client";
+'use client'
 
-import LandingFooter from "@/components/landing/landing-footer";
-import LandingHeader from "@/components/landing/landing-header";
-import type { ComponentProps } from "react";
-import type { AboutPage as AboutPageType } from "@/payload-types";
+import LandingFooter from '@/components/landing/landing-footer'
+import LandingHeader from '@/components/landing/landing-header'
+import type { ComponentProps } from 'react'
+import type { AboutPage as AboutPageType } from '@/payload-types'
 
-import AboutCta from "./about-cta";
-import AboutHero from "./about-hero";
-import AboutStory from "./about-story";
-import AboutTeam from "./about-team";
-import AboutValues from "./about-values";
+import AboutCta from './about-cta'
+import AboutHero from './about-hero'
+import AboutStory from './about-story'
+import AboutTeam from './about-team'
+import AboutValues from './about-values'
 
 interface Value {
-  title: string;
-  description: string;
-  icon?: string;
+  title: string
+  description: string
+  icon?: string
 }
 
 interface TeamMember {
-  name: string;
-  position?: string;
-  bio?: string;
-  image?: { url: string; alt?: string };
+  name: string
+  position?: string
+  bio?: string
+  image?: { url: string; alt?: string }
 }
 
 interface AboutPageProps {
-  heroTitle: string;
-  heroSubtitle: string;
-  heroImage: string;
-  heroImageAlt?: string;
-  storyTitle: string;
-  storyContent: string | AboutPageType['storyContent'];
-  storyImage: string;
-  storyImageAlt?: string;
-  values: Value[];
-  valuesSectionTitle?: string;
-  valuesSectionSubtitle?: string;
-  teamTitle: string;
-  teamSubtitle: string;
-  teamMembers: TeamMember[];
-  ctaTitle: string;
-  ctaButtonText: string;
-  ctaButtonLink: string;
-  headerProps?: ComponentProps<typeof LandingHeader>;
-  footerProps?: ComponentProps<typeof LandingFooter>;
+  heroTitle: string
+  heroSubtitle: string
+  heroImage: string
+  heroImageAlt?: string
+  storyTitle: string
+  storyContent: string | AboutPageType['storyContent']
+  storyImage: string
+  storyImageAlt?: string
+  values: Value[]
+  valuesSectionTitle?: string
+  valuesSectionSubtitle?: string
+  teamTitle: string
+  teamSubtitle: string
+  teamMembers: TeamMember[]
+  ctaTitle: string
+  ctaButtonText: string
+  ctaButtonLink: string
+  headerProps?: ComponentProps<typeof LandingHeader>
+  footerProps?: ComponentProps<typeof LandingFooter>
 }
 
 export default function AboutPage({
@@ -68,9 +68,9 @@ export default function AboutPage({
   footerProps,
 }: AboutPageProps) {
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex min-h-screen flex-col bg-white">
       <LandingHeader {...headerProps} />
-      <main className="flex-1 flex flex-col gap-0 md:gap-8">
+      <main className="flex flex-1 flex-col gap-0 md:gap-8">
         <AboutHero
           title={heroTitle}
           subtitle={heroSubtitle}
@@ -83,21 +83,19 @@ export default function AboutPage({
           image={storyImage}
           imageAlt={storyImageAlt}
         />
-        {values && values.length > 0 && <AboutValues values={values} sectionTitle={valuesSectionTitle} sectionSubtitle={valuesSectionSubtitle} />}
-        {teamMembers && teamMembers.length > 0 && (
-          <AboutTeam
-            title={teamTitle}
-            subtitle={teamSubtitle}
-            members={teamMembers}
+        {values && values.length > 0 && (
+          <AboutValues
+            values={values}
+            sectionTitle={valuesSectionTitle}
+            sectionSubtitle={valuesSectionSubtitle}
           />
         )}
-        <AboutCta
-          title={ctaTitle}
-          buttonText={ctaButtonText}
-          buttonLink={ctaButtonLink}
-        />
+        {teamMembers && teamMembers.length > 0 && (
+          <AboutTeam title={teamTitle} subtitle={teamSubtitle} members={teamMembers} />
+        )}
+        <AboutCta title={ctaTitle} buttonText={ctaButtonText} buttonLink={ctaButtonLink} />
       </main>
       <LandingFooter {...footerProps} />
     </div>
-  );
+  )
 }

@@ -1,0 +1,10 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "entry": ["src/migrations/index.ts", "scripts/*.ts"],
+  "project": ["src/**/*.{ts,tsx,js,css}", "scripts/**/*.ts", "tests/**/*.ts"],
+  "ignoreExportsUsedInFile": true,
+  "ignoreDependencies": ["tailwindcss", "@tailwindcss/typography", "vercel"],
+  "ignoreIssues": {
+    "src/components/ui/**": ["exports", "types"]
+  }
+}

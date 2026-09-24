@@ -1,8 +1,8 @@
-"use client";
+'use client'
 
-import { SprayCan, Car, Sparkles, Wind, ShieldCheck, Palette } from "lucide-react";
+import { SprayCan, Car, Sparkles, Wind, ShieldCheck, Palette } from 'lucide-react'
 
-import ScrollAnimate from "@/components/motion/scroll-animate";
+import ScrollAnimate from '@/components/motion/scroll-animate'
 
 const iconMap = {
   SprayCan,
@@ -11,24 +11,24 @@ const iconMap = {
   Wind,
   ShieldCheck,
   Palette,
-};
+}
 
 const defaultServices = [
-  { name: "Exterior Wash", icon: "SprayCan" },
-  { name: "Interior Detail", icon: "Car" },
-  { name: "Paint Correction", icon: "Sparkles" },
-  { name: "Ceramic Coating", icon: "ShieldCheck" },
-  { name: "Wheel & Tire Care", icon: "Palette" },
-  { name: "Odor Removal", icon: "Wind" },
-];
+  { name: 'Exterior Wash', icon: 'SprayCan' },
+  { name: 'Interior Detail', icon: 'Car' },
+  { name: 'Paint Correction', icon: 'Sparkles' },
+  { name: 'Ceramic Coating', icon: 'ShieldCheck' },
+  { name: 'Wheel & Tire Care', icon: 'Palette' },
+  { name: 'Odor Removal', icon: 'Wind' },
+]
 
 interface Service {
-  name: string;
-  icon: string;
+  name: string
+  icon: string
 }
 
 interface ServicesOverviewBarProps {
-  services?: Service[];
+  services?: Service[]
 }
 
 const ServicesOverviewBar = ({ services = defaultServices }: ServicesOverviewBarProps) => {
@@ -38,23 +38,25 @@ const ServicesOverviewBar = ({ services = defaultServices }: ServicesOverviewBar
         <ScrollAnimate
           variantName="fadeIn"
           staggerChildren={0.1}
-          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-8 text-center">
+          className="grid grid-cols-2 gap-8 text-center sm:grid-cols-3 md:grid-cols-6"
+        >
           {services.map((service) => {
-            const IconComponent = iconMap[service.icon as keyof typeof iconMap] || Car;
+            const IconComponent = iconMap[service.icon as keyof typeof iconMap] || Car
             return (
               <ScrollAnimate
                 variantName="fadeInUp"
                 key={service.name}
-                className="flex flex-col items-center space-y-2 text-white/80 hover:text-white group">
-                <IconComponent className="h-10 w-10 text-brandRed group-hover:scale-110 transition-transform" />
+                className="group flex flex-col items-center space-y-2 text-white/80 hover:text-white"
+              >
+                <IconComponent className="h-10 w-10 text-brandRed transition-transform group-hover:scale-110" />
                 <span className="text-sm font-medium">{service.name}</span>
               </ScrollAnimate>
-            );
+            )
           })}
         </ScrollAnimate>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default ServicesOverviewBar;
+export default ServicesOverviewBar

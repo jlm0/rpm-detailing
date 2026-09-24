@@ -1,16 +1,10 @@
-import { dirname } from 'path'
-import { fileURLToPath } from 'url'
-import { FlatCompat } from '@eslint/eslintrc'
+import nextVitals from 'eslint-config-next/core-web-vitals'
+import nextTypescript from 'eslint-config-next/typescript'
+import { defineConfig, globalIgnores } from 'eslint/config'
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = dirname(__filename)
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-})
-
-const eslintConfig = [
-  ...compat.extends('next/core-web-vitals', 'next/typescript'),
+export default defineConfig([
+  ...nextVitals,
+  ...nextTypescript,
   {
     rules: {
       '@typescript-eslint/ban-ts-comment': 'warn',
@@ -30,9 +24,14 @@ const eslintConfig = [
       ],
     },
   },
-  {
-    ignores: ['.next/'],
-  },
-]
-
-export default eslintConfig
+  globalIgnores([
+    '.next/**',
+    '.vercel/**',
+    'next-env.d.ts',
+    'playwright-report/**',
+    'test-results/**',
+    'src/payload-types.ts',
+    'src/migrations/**',
+    'src/app/(payload)/admin/importMap.js',
+  ]),
+])

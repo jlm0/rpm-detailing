@@ -20,21 +20,21 @@ interface AboutTeamProps {
 
 export default function AboutTeam({ title, subtitle, members }: AboutTeamProps) {
   return (
-    <section className="py-16 lg:py-24 bg-white">
+    <section className="bg-white py-16 lg:py-24">
       <div className="container mx-auto px-4">
-        <ScrollAnimate variantName="fadeInUp" className="text-center mb-12">
-          <h2 className="text-3xl lg:text-4xl font-bold text-brandDark mb-4">{title}</h2>
-          <p className="text-lg text-brandMediumGray max-w-2xl mx-auto">{subtitle}</p>
+        <ScrollAnimate variantName="fadeInUp" className="mb-12 text-center">
+          <h2 className="mb-4 text-3xl font-bold text-brandDark lg:text-4xl">{title}</h2>
+          <p className="mx-auto max-w-2xl text-lg text-brandMediumGray">{subtitle}</p>
         </ScrollAnimate>
 
         <ScrollAnimate
           variantName="fadeIn"
           staggerChildren={0.1}
-          className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
         >
           {members.map((member, index) => (
             <ScrollAnimate key={index} variantName="fadeInUp">
-              <Card className="h-full min-h-[400px] hover:shadow-lg transition-shadow">
+              <Card className="h-full min-h-[400px] transition-shadow hover:shadow-lg">
                 <div className="relative aspect-square overflow-hidden">
                   <Image
                     src={member.image?.url || '/placeholder.svg'}
@@ -44,11 +44,13 @@ export default function AboutTeam({ title, subtitle, members }: AboutTeamProps) 
                   />
                 </div>
                 <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold text-brandDark mb-1">{member.name}</h3>
+                  <h3 className="mb-1 text-xl font-semibold text-brandDark">{member.name}</h3>
                   {member.position && (
-                    <p className="text-brandRed font-medium mb-3">{member.position}</p>
+                    <p className="mb-3 font-medium text-brandRed">{member.position}</p>
                   )}
-                  {member.bio && <p className="text-brandMediumGray text-sm line-clamp-3">{member.bio}</p>}
+                  {member.bio && (
+                    <p className="line-clamp-3 text-sm text-brandMediumGray">{member.bio}</p>
+                  )}
                 </CardContent>
               </Card>
             </ScrollAnimate>
