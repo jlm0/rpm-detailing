@@ -18,18 +18,6 @@ const getServerURL = () => {
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Ensure builds fail on ESLint errors
-  eslint: {
-    ignoreDuringBuilds: false,
-  },
-  // Ensure builds fail on TypeScript errors
-  typescript: {
-    ignoreBuildErrors: false,
-  },
-  // Disable static generation for all pages to ensure fresh CMS data
-  experimental: {
-    ppr: false, // Disable Partial Prerendering
-  },
   images: {
     unoptimized: true,
     remotePatterns: [
@@ -42,15 +30,6 @@ const nextConfig = {
         }
       }),
     ],
-  },
-  webpack: (webpackConfig) => {
-    webpackConfig.resolve.extensionAlias = {
-      '.cjs': ['.cts', '.cjs'],
-      '.js': ['.ts', '.tsx', '.js', '.jsx'],
-      '.mjs': ['.mts', '.mjs'],
-    }
-
-    return webpackConfig
   },
   reactStrictMode: true,
   redirects,
@@ -89,7 +68,9 @@ const nextConfig = {
               base-uri 'self';
               form-action 'self';
               upgrade-insecure-requests;
-            `.replace(/\s{2,}/g, ' ').trim(),
+            `
+              .replace(/\s{2,}/g, ' ')
+              .trim(),
           },
         ],
       },
