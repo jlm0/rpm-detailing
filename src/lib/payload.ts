@@ -1,4 +1,4 @@
-import "server-only";
+import 'server-only'
 
 import { getPayload as getPayloadInstance } from 'payload'
 import { unstable_noStore as noStore } from 'next/cache'
@@ -6,7 +6,15 @@ import { unstable_noStore as noStore } from 'next/cache'
 import type { PayloadCollectionResult } from '@/types/payload-helpers'
 import config from '@payload-config'
 
-import type { Config, SiteSetting, LandingPage, ServicesPage, UiLabel, AboutPage, Media } from '../payload-types'
+import type {
+  Config,
+  SiteSetting,
+  LandingPage,
+  ServicesPage,
+  UiLabel,
+  AboutPage,
+  Media,
+} from '../payload-types'
 
 /**
  * Get Payload instance for server-side data fetching
@@ -27,13 +35,13 @@ export async function getPayloadData<T = unknown>(
     limit?: number
     sort?: string
     depth?: number
-  }
+  },
 ): Promise<PayloadCollectionResult<T> | null> {
   // Disable caching to ensure fresh data
   noStore()
-  
+
   const payload = await getPayload()
-  
+
   try {
     const data = await payload.find({
       collection,
@@ -42,47 +50,10 @@ export async function getPayloadData<T = unknown>(
       sort: options?.sort,
       depth: options?.depth || 1,
     })
-    
+
     return data as PayloadCollectionResult<T>
   } catch (error) {
     console.error(`Error fetching ${collection}:`, error)
-    return null
-  }
-}
-
-/**
- * Get a single document by slug or ID
- */
-export async function getPayloadDoc<T>(
-  collection: keyof Config['collections'],
-  idOrSlug: string,
-  bySlug = false
-) {
-  const payload = await getPayload()
-  
-  try {
-    if (bySlug) {
-      const data = await payload.find({
-        collection,
-        where: {
-          slug: {
-            equals: idOrSlug,
-          },
-        },
-        limit: 1,
-      })
-      
-      return data.docs[0] as T
-    } else {
-      const data = await payload.findByID({
-        collection,
-        id: idOrSlug,
-      })
-      
-      return data as T
-    }
-  } catch (error) {
-    console.error(`Error fetching ${collection} ${idOrSlug}:`, error)
     return null
   }
 }
@@ -102,18 +73,18 @@ type GlobalTypeMap = {
  * Get global settings with proper type inference
  */
 export async function getGlobalSettings<T extends keyof GlobalTypeMap>(
-  slug: T
+  slug: T,
 ): Promise<GlobalTypeMap[T] | null> {
   // Disable caching for global settings to ensure fresh data
   noStore()
-  
+
   const payload = await getPayload()
-  
+
   try {
     const data = await payload.findGlobal({
       slug,
     })
-    
+
     return data as GlobalTypeMap[T]
   } catch (error) {
     console.error(`Error fetching global ${slug}:`, error)
@@ -129,13 +100,4 @@ export function getMediaUrl(media: number | Media | null | undefined): string | 
   if (!media) return null
   if (typeof media === 'number') return null
   return media.url || null
-}
-
-/**
- * Helper to safely extract media alt text
- */
-export function getMediaAlt(media: number | Media | null | undefined): string | null {
-  if (!media) return null
-  if (typeof media === 'number') return null
-  return media.alt || null
 }
