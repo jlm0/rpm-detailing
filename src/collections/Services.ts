@@ -1,3 +1,8 @@
+import { image } from '@/fields/image'
+import { richText } from '@/fields/rich-text'
+import { text, textarea } from '@/fields/text'
+import { wholeNumber } from '@/fields/validate'
+
 import { contentCollection } from './content'
 
 export const Services = contentCollection({
@@ -10,47 +15,63 @@ export const Services = contentCollection({
       'Detailing packages and pricing. Drag to reorder. Shown on the Services page and wherever the Home page features them.',
   },
   fields: [
+    text({
+      name: 'title',
+      max: 30,
+      help: 'Package name, shown large on the Services page.',
+    }),
     {
       type: 'row',
       fields: [
-        { name: 'title', type: 'text', required: true, admin: { width: '50%' } },
         {
           name: 'price',
-          type: 'text',
+          type: 'number',
           required: true,
-          admin: { width: '25%', description: 'For example $299 or $99/month' },
+          min: 0,
+          max: 99999,
+          validate: wholeNumber,
+          admin: {
+            width: '33%',
+            step: 1,
+            description: 'Whole dollars, from 0 to 99,999. 299 is shown as $299.',
+          },
         },
-        {
+        text({
+          name: 'priceSuffix',
+          max: 10,
+          help: 'Optional, shown after the price, for example /month.',
+          required: false,
+          width: '33%',
+        }),
+        text({
           name: 'duration',
-          type: 'text',
-          admin: { width: '25%', description: 'For example 4-6 hours' },
-        },
+          max: 24,
+          help: 'Optional, for example 4-6 hours.',
+          required: false,
+          width: '34%',
+        }),
       ],
     },
-    {
+    textarea({
       name: 'summary',
-      type: 'textarea',
-      required: true,
-      admin: { description: 'Short description for the Home page package cards' },
-    },
-    {
+      min: 20,
+      max: 140,
+      help: 'Short description for the Home page package cards, which show three lines.',
+    }),
+    richText({
       name: 'description',
-      type: 'richText',
-      required: true,
-      admin: { description: 'Full description for the Services page' },
-    },
+      max: 1200,
+      help: 'Full description for the Services page.',
+    }),
     {
       name: 'features',
       label: 'What’s included',
       type: 'array',
+      maxRows: 12,
       labels: { singular: 'Item', plural: 'Items' },
-      fields: [{ name: 'feature', type: 'text', required: true }],
+      admin: { description: 'Up to 12 ticked points on the Services page. Optional.' },
+      fields: [text({ name: 'feature', max: 60, help: 'One short point.' })],
     },
-    {
-      name: 'image',
-      type: 'upload',
-      relationTo: 'media',
-      required: true,
-    },
+    image({ name: 'image', size: 'landscape 4:3, at least 1600 × 1200 px' }),
   ],
 })

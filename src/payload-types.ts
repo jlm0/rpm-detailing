@@ -148,21 +148,28 @@ export interface UserAuthOperations {
 export interface Service {
   id: number;
   _order?: string | null;
+  /**
+   * Package name, shown large on the Services page. Up to 30 characters.
+   */
   title: string;
   /**
-   * For example $299 or $99/month
+   * Whole dollars, from 0 to 99,999. 299 is shown as $299.
    */
-  price: string;
+  price: number;
   /**
-   * For example 4-6 hours
+   * Optional, shown after the price, for example /month. Up to 10 characters.
+   */
+  priceSuffix?: string | null;
+  /**
+   * Optional, for example 4-6 hours. Up to 24 characters.
    */
   duration?: string | null;
   /**
-   * Short description for the Home page package cards
+   * Short description for the Home page package cards, which show three lines. Up to 140 characters.
    */
   summary: string;
   /**
-   * Full description for the Services page
+   * Full description for the Services page. Paragraphs, bold, italic, links and lists. Up to 1200 characters.
    */
   description: {
     root: {
@@ -179,12 +186,21 @@ export interface Service {
     };
     [k: string]: unknown;
   };
+  /**
+   * Up to 12 ticked points on the Services page. Optional.
+   */
   features?:
     | {
+        /**
+         * One short point. Up to 60 characters.
+         */
         feature: string;
         id?: string | null;
       }[]
     | null;
+  /**
+   * Best size: landscape 4:3, at least 1600 × 1200 px.
+   */
   image: number | Media;
   updatedAt: string;
   createdAt: string;
@@ -192,7 +208,7 @@ export interface Service {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Photos and logos used across the site
+ * Photos and logos used across the site. JPEG, PNG, WebP or AVIF. Set a focal point to choose what stays in view when a photo is cropped.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
@@ -200,7 +216,7 @@ export interface Service {
 export interface Media {
   id: number;
   /**
-   * Describe the photo for screen readers and search engines
+   * Describe the photo for screen readers and search engines, for example Black sedan after a ceramic coating. Up to 150 characters.
    */
   alt: string;
   prefix?: string | null;
@@ -253,7 +269,7 @@ export interface Media {
   };
 }
 /**
- * Customer reviews shown on the Home page. Drag to reorder.
+ * Customer reviews shown on the Home page. Drag to reorder. The Home page sets how many are shown.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "testimonials".
@@ -261,12 +277,21 @@ export interface Media {
 export interface Testimonial {
   id: number;
   _order?: string | null;
+  /**
+   * The customer’s name. Up to 40 characters.
+   */
   name: string;
   /**
-   * For example Regular Client
+   * Optional, for example Regular Client. Up to 40 characters.
    */
   title?: string | null;
+  /**
+   * The review in the customer’s words. Up to 300 characters.
+   */
   review: string;
+  /**
+   * Optional. Without a photo the customer’s initials are shown. Best size: square, at least 200 × 200 px.
+   */
   avatar?: (number | null) | Media;
   updatedAt: string;
   createdAt: string;
@@ -282,7 +307,13 @@ export interface Testimonial {
 export interface Brand {
   id: number;
   _order?: string | null;
+  /**
+   * The car brand, for example Porsche. Up to 40 characters.
+   */
   name: string;
+  /**
+   * Shown small and greyed out on a dark background. Best size: a white or light logo on a transparent background, PNG or WebP, at least 400 px wide.
+   */
   logo: number | Media;
   updatedAt: string;
   createdAt: string;
@@ -416,6 +447,7 @@ export interface ServicesSelect<T extends boolean = true> {
   _order?: T;
   title?: T;
   price?: T;
+  priceSuffix?: T;
   duration?: T;
   summary?: T;
   description?: T;
@@ -597,18 +629,27 @@ export interface HomePage {
   id: number;
   hero: {
     /**
-     * Rotating headlines. Drag to reorder.
+     * Rotating headlines, 1 to 5. Drag to reorder. With one slide the headline stays still.
      */
     slides: {
       /**
-       * Small text above the heading
+       * Small capitals above the headline. Up to 40 characters.
        */
       eyebrow: string;
+      /**
+       * The big headline. Keep it under 60 characters so it fits on five lines on phones. Up to 60 characters.
+       */
       title: string;
       id?: string | null;
     }[];
+    /**
+     * Shown behind the headline. Phones show a wide crop across the middle, so set a focal point on the car. Best size: landscape 16:9, at least 1920 × 1080 px.
+     */
     backgroundImage: number | Media;
     cta: {
+      /**
+       * Button text. Up to 24 characters so it stays on one line.
+       */
       label: string;
       /**
        * A page like /booking, a home page section like #services, or a full URL
@@ -617,16 +658,19 @@ export interface HomePage {
     };
     showPhone?: boolean | null;
     /**
-     * For example Call Us:
+     * Shown before the phone number, for example Call Us: Up to 20 characters.
      */
     phoneLabel: string;
     showAddress?: boolean | null;
   };
   servicesBar: {
     /**
-     * The strip of services under the hero. Drag to reorder.
+     * The strip of 3 to 6 services under the hero. Drag to reorder.
      */
     items: {
+      /**
+       * Fits on two short lines on phones. Up to 22 characters.
+       */
       label: string;
       icon:
         | 'Award'
@@ -650,17 +694,33 @@ export interface HomePage {
   };
   about: {
     /**
-     * Small text above the heading
+     * Small red capitals above the heading. Up to 40 characters.
      */
     eyebrow: string;
+    /**
+     * Section heading. Keep it short so it fits on two or three lines on phones. Up to 60 characters.
+     */
     title: string;
+    /**
+     * Leave a blank line between paragraphs. Up to 600 characters.
+     */
     body: string;
+    /**
+     * Best size: landscape 4:3, at least 1600 × 1200 px.
+     */
     image: number | Media;
     /**
-     * Shown under the years of experience from Business & SEO
+     * Shown after the years of experience, for example + makes 5+. Up to 3 characters, or leave empty.
+     */
+    badgeSuffix?: string | null;
+    /**
+     * Shown under the years of experience set in Business & SEO. Up to 28 characters.
      */
     badgeLabel: string;
     cta: {
+      /**
+       * Button text. Up to 24 characters so it stays on one line.
+       */
       label: string;
       /**
        * A page like /booking, a home page section like #services, or a full URL
@@ -670,30 +730,51 @@ export interface HomePage {
   };
   transformation: {
     /**
-     * Small text above the heading
+     * Small red capitals above the heading. Up to 40 characters.
      */
     eyebrow: string;
+    /**
+     * Section heading. Keep it short so it fits on two or three lines on phones. Up to 60 characters.
+     */
     title: string;
+    /**
+     * Leave a blank line between paragraphs. Up to 600 characters.
+     */
     body: string;
+    /**
+     * Up to 6 ticked points under the text. Optional.
+     */
     features?:
       | {
+          /**
+           * One short point. Up to 60 characters.
+           */
           feature: string;
           id?: string | null;
         }[]
       | null;
+    /**
+     * Exactly 3 photos. The first is shown tall (portrait 1:2, at least 800 × 1600 px), the other two square (at least 800 × 800 px).
+     */
     gallery: (number | Media)[];
   };
   packages: {
     /**
-     * Small text above the heading
+     * Small red capitals above the heading. Up to 40 characters.
      */
     eyebrow: string;
+    /**
+     * Section heading. Keep it short so it fits on two or three lines on phones. Up to 60 characters.
+     */
     title: string;
     /**
-     * Packages shown on the Home page. Edit prices in Service Packages.
+     * Up to 6 packages shown on the Home page. Edit prices in Service Packages.
      */
     services: (number | Service)[];
     cardButton: {
+      /**
+       * Button text. Up to 14 characters so it stays on one line.
+       */
       label: string;
       /**
        * A page like /booking, a home page section like #services, or a full URL
@@ -701,6 +782,9 @@ export interface HomePage {
       url: string;
     };
     viewAll: {
+      /**
+       * Button text. Up to 24 characters so it stays on one line.
+       */
       label: string;
       /**
        * A page like /booking, a home page section like #services, or a full URL
@@ -710,12 +794,24 @@ export interface HomePage {
   };
   ctaBanner: {
     /**
-     * Small text above the heading
+     * Small red capitals above the heading. Up to 40 characters.
      */
     eyebrow: string;
+    /**
+     * Section heading. Keep it short so it fits on two or three lines on phones. Up to 60 characters.
+     */
     heading: string;
+    /**
+     * Always three steps, shown side by side on large screens.
+     */
     steps: {
+      /**
+       * Step name. Up to 30 characters.
+       */
       title: string;
+      /**
+       * One or two sentences. Up to 160 characters.
+       */
       description: string;
       icon:
         | 'Award'
@@ -737,6 +833,9 @@ export interface HomePage {
       id?: string | null;
     }[];
     button: {
+      /**
+       * Button text. Up to 24 characters so it stays on one line.
+       */
       label: string;
       /**
        * A page like /booking, a home page section like #services, or a full URL
@@ -746,21 +845,47 @@ export interface HomePage {
   };
   process: {
     /**
-     * Small text above the heading
+     * Small red capitals above the heading. Up to 40 characters.
      */
     eyebrow: string;
+    /**
+     * Section heading. Keep it short so it fits on two or three lines on phones. Up to 60 characters.
+     */
     title: string;
     /**
-     * Each step is a tab with its own photo
+     * 2 to 6 steps. Each step is a tab with its own photo.
      */
     steps: {
+      /**
+       * Tab name, also shown on the photo. Up to 24 characters.
+       */
       title: string;
+      /**
+       * Phones crop the sides to 4:3, so keep the subject near the centre. Best size: landscape 2:1, at least 2000 × 1000 px.
+       */
       image: number | Media;
       id?: string | null;
     }[];
+    /**
+     * Not shown on screen. Read aloud by screen readers, for example Previous step. Up to 40 characters.
+     */
+    previousLabel: string;
+    /**
+     * Not shown on screen. Read aloud by screen readers, for example Next step. Up to 40 characters.
+     */
+    nextLabel: string;
+    /**
+     * Up to 4 numbers under the photos. Optional.
+     */
     stats?:
       | {
+          /**
+           * Shown very large. Start with a number, for example 850, 1,000+, 24/7 or 100%. Up to 6 characters.
+           */
           value: string;
+          /**
+           * Shown under the number. Up to 24 characters.
+           */
           label: string;
           icon:
             | 'Award'
@@ -785,14 +910,35 @@ export interface HomePage {
   };
   testimonials: {
     /**
-     * Small text above the heading
+     * Small red capitals above the heading. Up to 40 characters.
      */
     eyebrow: string;
+    /**
+     * Section heading. Keep it short so it fits on two or three lines on phones. Up to 60 characters.
+     */
     title: string;
+    /**
+     * How many published reviews to show, 1 to 12, in the order of the Testimonials list.
+     */
+    limit: number;
+    /**
+     * Not shown on screen. Read aloud by screen readers, for example Previous review. Up to 40 characters.
+     */
+    previousLabel: string;
+    /**
+     * Not shown on screen. Read aloud by screen readers, for example Next review. Up to 40 characters.
+     */
+    nextLabel: string;
   };
   brands: {
+    /**
+     * Heading above the car brand logos. Up to 60 characters.
+     */
     title: string;
     button: {
+      /**
+       * Button text. Up to 24 characters so it stays on one line.
+       */
       label: string;
       /**
        * A page like /booking, a home page section like #services, or a full URL
@@ -804,7 +950,7 @@ export interface HomePage {
     title?: string | null;
     description?: string | null;
     /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     * Best size: 1200 × 630 px. Leave empty to use the share image from Business & SEO.
      */
     image?: (number | null) | Media;
   };
@@ -821,20 +967,32 @@ export interface HomePage {
 export interface ServicesPage {
   id: number;
   hero: {
+    /**
+     * The large page heading. Keep it under 50 characters so it fits on three lines on phones. Up to 50 characters.
+     */
     title: string;
+    /**
+     * One sentence under the heading. Up to 120 characters.
+     */
     subtitle: string;
+    /**
+     * Shown darkened behind the heading. Best size: landscape 16:9, at least 1920 × 1080 px.
+     */
     image: number | Media;
   };
   labels: {
     /**
-     * Heading above each package’s list
+     * Heading above each package’s list. Up to 30 characters.
      */
     includes: string;
     /**
-     * Shown above each price, for example Starting at
+     * Shown above each price, for example Starting at. Up to 20 characters.
      */
     price: string;
     bookButton: {
+      /**
+       * Button text. Up to 24 characters so it stays on one line.
+       */
       label: string;
       /**
        * A page like /booking, a home page section like #services, or a full URL
@@ -843,9 +1001,18 @@ export interface ServicesPage {
     };
   };
   cta: {
+    /**
+     * Large heading on the red banner. Up to 60 characters.
+     */
     title: string;
+    /**
+     * One or two sentences under the heading. Up to 200 characters.
+     */
     text: string;
     button: {
+      /**
+       * Button text. Up to 24 characters so it stays on one line.
+       */
       label: string;
       /**
        * A page like /booking, a home page section like #services, or a full URL
@@ -857,7 +1024,7 @@ export interface ServicesPage {
     title?: string | null;
     description?: string | null;
     /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     * Best size: 1200 × 630 px. Leave empty to use the share image from Business & SEO.
      */
     image?: (number | null) | Media;
   };
@@ -872,12 +1039,27 @@ export interface ServicesPage {
 export interface AboutPage {
   id: number;
   hero: {
+    /**
+     * The large page heading. Keep it under 50 characters so it fits on three lines on phones. Up to 50 characters.
+     */
     title: string;
+    /**
+     * One sentence under the heading. Up to 120 characters.
+     */
     subtitle: string;
+    /**
+     * Shown darkened behind the heading. Best size: landscape 16:9, at least 1920 × 1080 px.
+     */
     image: number | Media;
   };
   story: {
+    /**
+     * Section heading. Keep it short so it fits on two or three lines on phones. Up to 60 characters.
+     */
     title: string;
+    /**
+     * The story beside the photo. Paragraphs, bold, italic, links and lists. Up to 1500 characters.
+     */
     content: {
       root: {
         type: string;
@@ -893,13 +1075,31 @@ export interface AboutPage {
       };
       [k: string]: unknown;
     };
+    /**
+     * Best size: landscape 4:3, at least 1600 × 1200 px.
+     */
     image: number | Media;
   };
   values: {
+    /**
+     * Section heading. Keep it short so it fits on two or three lines on phones. Up to 60 characters.
+     */
     title: string;
+    /**
+     * One sentence under the heading. Up to 160 characters.
+     */
     subtitle: string;
+    /**
+     * 1 to 6 values. Drag to reorder.
+     */
     items: {
+      /**
+       * Value name. Up to 30 characters.
+       */
       title: string;
+      /**
+       * One or two sentences. Up to 160 characters.
+       */
       description: string;
       icon:
         | 'Award'
@@ -922,24 +1122,48 @@ export interface AboutPage {
     }[];
   };
   team: {
+    /**
+     * Section heading. Keep it short so it fits on two or three lines on phones. Up to 60 characters.
+     */
     title: string;
+    /**
+     * One sentence under the heading. Up to 160 characters.
+     */
     subtitle: string;
     /**
-     * Leave empty to hide the team section
+     * Up to 6 people. Leave empty to hide the team section.
      */
     members?:
       | {
+          /**
+           * Full name. Up to 40 characters.
+           */
           name: string;
+          /**
+           * Job title, shown in small red capitals. Up to 40 characters.
+           */
           position: string;
+          /**
+           * A few sentences. Optional. Up to 240 characters.
+           */
           bio?: string | null;
+          /**
+           * Optional. Best size: portrait 4:5, at least 800 × 1000 px.
+           */
           photo?: (number | null) | Media;
           id?: string | null;
         }[]
       | null;
   };
   cta: {
+    /**
+     * Large heading on the red banner. Up to 60 characters.
+     */
     title: string;
     button: {
+      /**
+       * Button text. Up to 24 characters so it stays on one line.
+       */
       label: string;
       /**
        * A page like /booking, a home page section like #services, or a full URL
@@ -951,7 +1175,7 @@ export interface AboutPage {
     title?: string | null;
     description?: string | null;
     /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     * Best size: 1200 × 630 px. Leave empty to use the share image from Business & SEO.
      */
     image?: (number | null) | Media;
   };
@@ -980,36 +1204,72 @@ export interface BookingPage {
     eventSlug?: string | null;
   };
   content: {
+    /**
+     * The link back to the home page, top left. Up to 24 characters.
+     */
     backLabel: string;
+    /**
+     * The large page heading. Keep it short so it fits on three lines on phones. Up to 60 characters.
+     */
     title: string;
     /**
-     * {business} is replaced with the business name
+     * Shown under the heading. {business} is replaced with the business name. Up to 240 characters.
      */
     intro: string;
+    /**
+     * Shown while the calendar loads. Up to 60 characters.
+     */
     loadingText: string;
+    /**
+     * Shown in the box under the calendar. Up to 80 characters.
+     */
     helpText: string;
+    /**
+     * Shown before the phone number. Up to 16 characters.
+     */
     phoneLabel: string;
+    /**
+     * Shown before the email address. Up to 16 characters.
+     */
     emailLabel: string;
   };
   calendarError: {
+    /**
+     * Shown if the calendar fails to load. Up to 60 characters.
+     */
     title: string;
+    /**
+     * One or two sentences. Up to 200 characters.
+     */
     message: string;
+    /**
+     * Button text. Up to 24 characters.
+     */
     retryLabel: string;
+    /**
+     * Shown above the phone number. Up to 40 characters.
+     */
     callLabel: string;
   };
   unavailable: {
+    /**
+     * Shown when online booking is turned off. Up to 60 characters.
+     */
     title: string;
     /**
-     * {phone} is replaced with the business phone number
+     * {phone} is replaced with the business phone number. Up to 200 characters.
      */
     message: string;
+    /**
+     * Button back to the home page. Up to 24 characters.
+     */
     buttonLabel: string;
   };
   meta?: {
     title?: string | null;
     description?: string | null;
     /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     * Best size: 1200 × 630 px. Leave empty to use the share image from Business & SEO.
      */
     image?: (number | null) | Media;
   };
@@ -1026,33 +1286,48 @@ export interface BookingPage {
 export interface SiteSetting {
   id: number;
   business: {
+    /**
+     * Used in page titles, the error page and wherever the logo is missing. Up to 40 characters.
+     */
     name: string;
+    /**
+     * Shown in the header popup, footer, hero and booking page.
+     */
     phone: string;
+    /**
+     * Shown in the footer, contact popup and booking page. Up to 60 characters.
+     */
     email: string;
+    /**
+     * Shown in the hero, footer and contact popup, for example Boise, ID, USA. Up to 80 characters.
+     */
     address: string;
+    /**
+     * One row per day or group of days, up to 7.
+     */
     hours: {
       /**
-       * For example Mon - Fri
+       * For example Mon - Fri. Up to 20 characters.
        */
       days: string;
       /**
-       * For example 8:00 am - 6:00 pm or Closed
+       * For example 8:00 am - 6:00 pm or Closed. Up to 30 characters.
        */
       time: string;
       id?: string | null;
     }[];
     /**
-     * Shown as the badge on the Home page about section
+     * A whole number from 0 to 99, shown as the badge on the Home page. Use 0 to hide the badge.
      */
     yearsOfExperience: number;
   };
   branding: {
     /**
-     * Shown in the header and footer on a dark background
+     * Shown in the header and footer on a dark background. Best size: a white logo on a transparent background, PNG or WebP, at least 600 px wide and about 4 times wider than tall.
      */
     logo: number | Media;
     /**
-     * Hex colour used for the browser theme and booking calendar
+     * Hex colour used for the browser theme and booking calendar, like #D9232D.
      */
     brandColor: string;
   };
@@ -1062,27 +1337,53 @@ export interface SiteSetting {
      */
     siteUrl: string;
     /**
-     * Added after each page title, for example | RPM Detailing
+     * Added after each page title in search results, for example | RPM Detailing. Up to 25 characters.
      */
     titleSuffix: string;
     /**
-     * Used when a page has no SEO description of its own
+     * Used in search results when a page has no SEO description of its own. At least 50 characters. Up to 160 characters.
      */
     description: string;
+    /**
+     * Optional, separated by commas. Up to 200 characters.
+     */
     keywords?: string | null;
     /**
-     * Used when a page has no SEO image of its own
+     * Used when a page has no SEO image of its own. Best size: 1200 × 630 px.
      */
     image: number | Media;
     /**
-     * Without the @
+     * Optional. Without the @.
      */
     twitterHandle?: string | null;
   };
   notFound: {
+    /**
+     * Shown under the large 404. Up to 40 characters.
+     */
     title: string;
+    /**
+     * One or two sentences. Up to 160 characters.
+     */
     message: string;
+    /**
+     * Button back to the home page. Up to 24 characters.
+     */
     buttonLabel: string;
+  };
+  errorPage: {
+    /**
+     * Shown if a page fails to load, under the business name. Up to 40 characters.
+     */
+    title: string;
+    /**
+     * One or two sentences. Up to 200 characters.
+     */
+    message: string;
+    /**
+     * Button that reloads the page. Up to 24 characters.
+     */
+    retryLabel: string;
   };
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
@@ -1094,7 +1395,13 @@ export interface SiteSetting {
  */
 export interface Header {
   id: number;
+  /**
+   * Up to 6 items. Longer menus switch to the menu button on more screen sizes so they never overlap.
+   */
   navItems: {
+    /**
+     * One or two words. Up to 14 characters.
+     */
     label: string;
     type: 'link' | 'contact';
     /**
@@ -1105,6 +1412,9 @@ export interface Header {
   }[];
   showCta?: boolean | null;
   cta?: {
+    /**
+     * Button text. Up to 16 characters so it stays on one line.
+     */
     label: string;
     /**
      * A page like /booking, a home page section like #services, or a full URL
@@ -1112,27 +1422,54 @@ export interface Header {
     url: string;
   };
   /**
-   * Appears when keyboard users press Tab, to jump past the menu
+   * Appears when keyboard users press Tab, to jump past the menu. Up to 40 characters.
    */
   skipLinkLabel: string;
+  /**
+   * The menu that slides in on phones and tablets.
+   */
   mobileMenu: {
+    /**
+     * Small capitals at the top of the menu. Up to 20 characters.
+     */
     title: string;
     /**
-     * Read aloud by screen readers
+     * Not shown on screen. Read aloud by screen readers, for example Open menu. Up to 40 characters.
      */
     openLabel: string;
     /**
-     * Read aloud by screen readers
+     * Not shown on screen. Read aloud by screen readers, for example Close menu. Up to 40 characters.
      */
     closeLabel: string;
   };
+  /**
+   * Opened by a menu item set to Open contact popup. Contact details and hours come from Business & SEO.
+   */
   contactPopup: {
+    /**
+     * Heading at the top of the popup. Up to 40 characters.
+     */
     title: string;
+    /**
+     * Small capitals. Up to 24 characters.
+     */
     contactHeading: string;
+    /**
+     * Small capitals. Up to 24 characters.
+     */
     hoursHeading: string;
+    /**
+     * Heading in the booking box. Up to 30 characters.
+     */
     ctaHeading: string;
+    /**
+     * One or two sentences in the booking box. Up to 160 characters.
+     */
     ctaText: string;
     ctaButton: {
+      /**
+       * Button text. Up to 24 characters so it stays on one line.
+       */
       label: string;
       /**
        * A page like /booking, a home page section like #services, or a full URL
@@ -1140,7 +1477,7 @@ export interface Header {
       url: string;
     };
     /**
-     * Read aloud by screen readers
+     * Not shown on screen. Read aloud by screen readers, for example Close contact details. Up to 40 characters.
      */
     closeLabel: string;
   };
@@ -1149,18 +1486,38 @@ export interface Header {
   createdAt?: string | null;
 }
 /**
+ * Contact details and opening hours come from Business & SEO
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "footer".
  */
 export interface Footer {
   id: number;
+  /**
+   * Shown under the logo. Up to 200 characters.
+   */
   description: string;
+  /**
+   * Small capitals. Up to 24 characters.
+   */
   contactHeading: string;
+  /**
+   * Small capitals. Up to 24 characters.
+   */
   hoursHeading: string;
   cta: {
+    /**
+     * Heading in the booking box. Up to 30 characters.
+     */
     heading: string;
+    /**
+     * One or two sentences in the booking box. Up to 160 characters.
+     */
     text: string;
     button: {
+      /**
+       * Button text. Up to 24 characters so it stays on one line.
+       */
       label: string;
       /**
        * A page like /booking, a home page section like #services, or a full URL
@@ -1169,7 +1526,7 @@ export interface Footer {
     };
   };
   /**
-   * {year} is replaced with the current year
+   * The small line at the bottom. {year} is replaced with the current year. Up to 80 characters.
    */
   copyright: string;
   _status?: ('draft' | 'published') | null;
@@ -1220,6 +1577,7 @@ export interface HomePageSelect<T extends boolean = true> {
         title?: T;
         body?: T;
         image?: T;
+        badgeSuffix?: T;
         badgeLabel?: T;
         cta?:
           | T
@@ -1293,6 +1651,8 @@ export interface HomePageSelect<T extends boolean = true> {
               image?: T;
               id?: T;
             };
+        previousLabel?: T;
+        nextLabel?: T;
         stats?:
           | T
           | {
@@ -1307,6 +1667,9 @@ export interface HomePageSelect<T extends boolean = true> {
     | {
         eyebrow?: T;
         title?: T;
+        limit?: T;
+        previousLabel?: T;
+        nextLabel?: T;
       };
   brands?:
     | T
@@ -1543,6 +1906,13 @@ export interface SiteSettingsSelect<T extends boolean = true> {
         title?: T;
         message?: T;
         buttonLabel?: T;
+      };
+  errorPage?:
+    | T
+    | {
+        title?: T;
+        message?: T;
+        retryLabel?: T;
       };
   _status?: T;
   updatedAt?: T;

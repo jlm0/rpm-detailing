@@ -154,10 +154,10 @@ export async function seed(payload: Payload) {
     data: {
       ...published,
       title: 'Restore',
-      price: '$299',
+      price: 299,
       duration: '4-6 hours',
       summary:
-        "Our restoration process goes beyond surface cleaning—it's a meticulous, multi-stage transformation designed to bring your vehicle back to its original beauty, or better.",
+        'A meticulous, multi-stage transformation that brings your vehicle back to its original beauty, or better.',
       description: richText(
         "Our restoration process goes beyond surface cleaning—it's a meticulous, multi-stage transformation designed to bring your vehicle back to its original beauty, or better. We use advanced techniques and premium products to reverse years of wear and damage.",
       ),
@@ -178,10 +178,10 @@ export async function seed(payload: Payload) {
     data: {
       ...published,
       title: 'Protect',
-      price: '$599',
+      price: 599,
       duration: '6-8 hours',
       summary:
-        'At RPM, we use only the highest-quality protective products to ensure your vehicle looks its best and stays that way. Our detailing solutions offer superior resistance against UV rays, road grime, water spots, and environmental contaminants.',
+        'Premium coatings and film that shield your paint from UV rays, road grime, water spots and contaminants.',
       description: richText(
         'At RPM, we use only the highest-quality protective products to ensure your vehicle looks its best and stays that way. Our protective solutions offer superior resistance against UV rays, road grime, water spots, and environmental contaminants.',
       ),
@@ -202,9 +202,10 @@ export async function seed(payload: Payload) {
     data: {
       ...published,
       title: 'Maintain — RPM+',
-      price: '$99/month',
+      price: 99,
+      priceSuffix: '/month',
       duration: '2-3 hours per visit',
-      summary: 'RPM+ (Subscription service – more to come)',
+      summary: 'RPM+ keeps your car in showroom condition with regular visits and member pricing.',
       description: richText(
         'Our exclusive RPM+ subscription service ensures your vehicle maintains its showroom condition year-round. Regular maintenance is key to preserving your investment and extending the life of protective coatings.',
       ),
@@ -292,6 +293,12 @@ export async function seed(payload: Payload) {
         title: 'Page Not Found',
         message: "The page you're looking for doesn't exist or has been moved.",
         buttonLabel: 'Back to Homepage',
+      },
+      errorPage: {
+        title: 'Something went wrong',
+        message:
+          'We apologize for the inconvenience. An unexpected error has occurred. Please try again or contact us if the problem persists.',
+        retryLabel: 'Try again',
       },
     },
   })
@@ -385,6 +392,7 @@ export async function seed(payload: Payload) {
         title: 'Expert Car Detailing Since 2020',
         body: "Modern vehicle finishes and interiors require specialized care. Our detailing service excels by combining advanced techniques, premium products, and highly skilled technicians to restore and protect your vehicle's beauty. Trust RPM Detailing for meticulous attention to detail.",
         image: aboutImage,
+        badgeSuffix: '+',
         badgeLabel: 'Years of Experience',
         cta: link('Book Now', '/booking'),
       },
@@ -446,10 +454,15 @@ export async function seed(payload: Payload) {
           { value: '29', label: 'Years of Detailing', icon: 'Settings2' },
           { value: '55', label: 'Detailing Awards', icon: 'Award' },
         ],
+        previousLabel: 'Previous step',
+        nextLabel: 'Next step',
       },
       testimonials: {
         eyebrow: 'CLIENT LOVE',
         title: 'What Our Clients Say About Our Detailing',
+        limit: 9,
+        previousLabel: 'Previous testimonial',
+        nextLabel: 'Next testimonial',
       },
       brands: {
         title: 'We Detail All Makes and Models',

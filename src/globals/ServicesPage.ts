@@ -1,6 +1,7 @@
 import { link } from '@/fields/link'
+import { text, textarea } from '@/fields/text'
 
-import { editableGlobal, section, seoTab } from './shared'
+import { editableGlobal, pageHero, section, seoTab } from './shared'
 
 export const ServicesPage = editableGlobal({
   slug: 'services-page',
@@ -12,29 +13,30 @@ export const ServicesPage = editableGlobal({
     {
       type: 'tabs',
       tabs: [
-        section('hero', 'Hero', [
-          { name: 'title', type: 'text', required: true },
-          { name: 'subtitle', type: 'text', required: true },
-          { name: 'image', type: 'upload', relationTo: 'media', required: true },
-        ]),
+        section('hero', 'Hero', pageHero),
         section('labels', 'Package labels', [
           {
-            name: 'includes',
-            type: 'text',
-            required: true,
-            admin: { description: 'Heading above each package’s list' },
-          },
-          {
-            name: 'price',
-            type: 'text',
-            required: true,
-            admin: { description: 'Shown above each price, for example Starting at' },
+            type: 'row',
+            fields: [
+              text({
+                name: 'includes',
+                max: 30,
+                help: 'Heading above each package’s list.',
+                width: '50%',
+              }),
+              text({
+                name: 'price',
+                max: 20,
+                help: 'Shown above each price, for example Starting at.',
+                width: '50%',
+              }),
+            ],
           },
           link({ name: 'bookButton', label: 'Package button' }),
         ]),
         section('cta', 'Call to action', [
-          { name: 'title', type: 'text', required: true },
-          { name: 'text', type: 'textarea', required: true },
+          text({ name: 'title', max: 60, help: 'Large heading on the red banner.' }),
+          textarea({ name: 'text', max: 200, help: 'One or two sentences under the heading.' }),
           link({ name: 'button' }),
         ]),
         seoTab,

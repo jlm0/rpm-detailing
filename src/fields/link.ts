@@ -1,13 +1,23 @@
 import type { GroupField, TextFieldSingleValidation } from 'payload'
+import { text } from 'payload/shared'
 
-const validateUrl: TextFieldSingleValidation = (value) => {
+export const validateUrl: TextFieldSingleValidation = (value, options) => {
   if (!value) return 'A link is required'
+  const valid = text(value, options)
+  if (valid !== true) return valid
+  if (/\s/.test(value)) return 'Links cannot contain spaces'
   return (
     /^(\/|#|https?:\/\/|mailto:|tel:)/.test(value) || 'Start with /, #, https://, mailto: or tel:'
   )
 }
 
-export const link = ({ name, label }: { name: string; label?: string }): GroupField => ({
+interface LinkOptions {
+  name: string
+  label?: string
+  maxLabel?: number
+}
+
+export const link = ({ name, label, maxLabel = 24 }: LinkOptions): GroupField => ({
   name,
   label,
   type: 'group',
@@ -15,12 +25,22 @@ export const link = ({ name, label }: { name: string; label?: string }): GroupFi
     {
       type: 'row',
       fields: [
-        { name: 'label', type: 'text', required: true, admin: { width: '50%' } },
+        {
+          name: 'label',
+          type: 'text',
+          required: true,
+          maxLength: maxLabel,
+          admin: {
+            width: '50%',
+            description: `Button text. Up to ${maxLabel} characters so it stays on one line.`,
+          },
+        },
         {
           name: 'url',
           label: 'Link',
           type: 'text',
           required: true,
+          maxLength: 300,
           validate: validateUrl,
           admin: {
             width: '50%',

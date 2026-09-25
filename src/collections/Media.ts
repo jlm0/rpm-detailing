@@ -17,7 +17,8 @@ export const Media: CollectionConfig = {
     group: 'Content',
     useAsTitle: 'alt',
     defaultColumns: ['filename', 'alt', 'updatedAt'],
-    description: 'Photos and logos used across the site',
+    description:
+      'Photos and logos used across the site. JPEG, PNG, WebP or AVIF. Set a focal point to choose what stays in view when a photo is cropped.',
   },
   access: {
     read: anyone,
@@ -32,7 +33,7 @@ export const Media: CollectionConfig = {
   },
   upload: {
     staticDir: path.resolve(process.env.PAYLOAD_MEDIA_DIR ?? path.resolve(dirname, '../../media')),
-    mimeTypes: ['image/*'],
+    mimeTypes: ['image/jpeg', 'image/png', 'image/webp', 'image/avif'],
     focalPoint: true,
     crop: true,
     adminThumbnail: 'thumbnail',
@@ -57,8 +58,11 @@ export const Media: CollectionConfig = {
       label: 'Description',
       type: 'text',
       required: true,
+      minLength: 3,
+      maxLength: 150,
       admin: {
-        description: 'Describe the photo for screen readers and search engines',
+        description:
+          'Describe the photo for screen readers and search engines, for example Black sedan after a ceramic coating. Up to 150 characters.',
       },
     },
   ],

@@ -1,4 +1,12 @@
+import { text, textarea } from '@/fields/text'
+import { matches } from '@/fields/validate'
+
 import { editableGlobal, section, seoTab } from './shared'
+
+const validateCalLink = matches(
+  /^[\w-]+$/,
+  'Use only letters, numbers, dashes and underscores, no spaces',
+)
 
 export const BookingPage = editableGlobal({
   slug: 'booking-page',
@@ -27,6 +35,8 @@ export const BookingPage = editableGlobal({
                 label: 'Cal.com username',
                 type: 'text',
                 required: true,
+                maxLength: 60,
+                validate: validateCalLink,
                 admin: {
                   width: '50%',
                   description: 'The part after cal.com/, for example rpm-detailing',
@@ -36,45 +46,69 @@ export const BookingPage = editableGlobal({
                 name: 'eventSlug',
                 label: 'Event',
                 type: 'text',
+                maxLength: 60,
+                validate: validateCalLink,
                 admin: { width: '50%', description: 'Optional event name, for example detail' },
               },
             ],
           },
         ]),
         section('content', 'Page text', [
-          { name: 'backLabel', type: 'text', required: true },
-          { name: 'title', type: 'text', required: true },
-          {
+          text({ name: 'backLabel', max: 24, help: 'The link back to the home page, top left.' }),
+          text({
+            name: 'title',
+            max: 60,
+            help: 'The large page heading. Keep it short so it fits on three lines on phones.',
+          }),
+          textarea({
             name: 'intro',
-            type: 'textarea',
-            required: true,
-            admin: { description: '{business} is replaced with the business name' },
-          },
-          { name: 'loadingText', type: 'text', required: true },
-          { name: 'helpText', type: 'text', required: true },
+            max: 240,
+            help: 'Shown under the heading. {business} is replaced with the business name.',
+          }),
+          text({ name: 'loadingText', max: 60, help: 'Shown while the calendar loads.' }),
+          text({ name: 'helpText', max: 80, help: 'Shown in the box under the calendar.' }),
           {
             type: 'row',
             fields: [
-              { name: 'phoneLabel', type: 'text', required: true, admin: { width: '50%' } },
-              { name: 'emailLabel', type: 'text', required: true, admin: { width: '50%' } },
+              text({
+                name: 'phoneLabel',
+                max: 16,
+                help: 'Shown before the phone number.',
+                width: '50%',
+              }),
+              text({
+                name: 'emailLabel',
+                max: 16,
+                help: 'Shown before the email address.',
+                width: '50%',
+              }),
             ],
           },
         ]),
         section('calendarError', 'Calendar error', [
-          { name: 'title', type: 'text', required: true },
-          { name: 'message', type: 'textarea', required: true },
-          { name: 'retryLabel', type: 'text', required: true },
-          { name: 'callLabel', type: 'text', required: true },
+          text({ name: 'title', max: 60, help: 'Shown if the calendar fails to load.' }),
+          textarea({ name: 'message', max: 200, help: 'One or two sentences.' }),
+          {
+            type: 'row',
+            fields: [
+              text({ name: 'retryLabel', max: 24, help: 'Button text.', width: '50%' }),
+              text({
+                name: 'callLabel',
+                max: 40,
+                help: 'Shown above the phone number.',
+                width: '50%',
+              }),
+            ],
+          },
         ]),
         section('unavailable', 'Booking off', [
-          { name: 'title', type: 'text', required: true },
-          {
+          text({ name: 'title', max: 60, help: 'Shown when online booking is turned off.' }),
+          textarea({
             name: 'message',
-            type: 'textarea',
-            required: true,
-            admin: { description: '{phone} is replaced with the business phone number' },
-          },
-          { name: 'buttonLabel', type: 'text', required: true },
+            max: 200,
+            help: '{phone} is replaced with the business phone number.',
+          }),
+          text({ name: 'buttonLabel', max: 24, help: 'Button back to the home page.' }),
         ]),
         seoTab,
       ],

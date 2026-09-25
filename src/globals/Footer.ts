@@ -1,4 +1,5 @@
 import { link } from '@/fields/link'
+import { text, textarea } from '@/fields/text'
 
 import { editableGlobal } from './shared'
 
@@ -7,13 +8,14 @@ export const Footer = editableGlobal({
   label: 'Footer',
   group: 'Site',
   previewAt: '/',
+  description: 'Contact details and opening hours come from Business & SEO',
   fields: [
-    { name: 'description', type: 'textarea', required: true },
+    textarea({ name: 'description', max: 200, help: 'Shown under the logo.' }),
     {
       type: 'row',
       fields: [
-        { name: 'contactHeading', type: 'text', required: true, admin: { width: '50%' } },
-        { name: 'hoursHeading', type: 'text', required: true, admin: { width: '50%' } },
+        text({ name: 'contactHeading', max: 24, help: 'Small capitals.', width: '50%' }),
+        text({ name: 'hoursHeading', max: 24, help: 'Small capitals.', width: '50%' }),
       ],
     },
     {
@@ -21,16 +23,15 @@ export const Footer = editableGlobal({
       label: 'Call to action',
       type: 'group',
       fields: [
-        { name: 'heading', type: 'text', required: true },
-        { name: 'text', type: 'textarea', required: true },
+        text({ name: 'heading', max: 30, help: 'Heading in the booking box.' }),
+        textarea({ name: 'text', max: 160, help: 'One or two sentences in the booking box.' }),
         link({ name: 'button' }),
       ],
     },
-    {
+    text({
       name: 'copyright',
-      type: 'text',
-      required: true,
-      admin: { description: '{year} is replaced with the current year' },
-    },
+      max: 80,
+      help: 'The small line at the bottom. {year} is replaced with the current year.',
+    }),
   ],
 })
