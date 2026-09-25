@@ -7,6 +7,7 @@ import { useId, useRef, useState, type KeyboardEvent } from 'react'
 
 import Reveal from '@/components/motion/reveal'
 import { Button } from '@/components/ui/button'
+import { duration, ease, scrollBehavior } from '@/lib/motion'
 
 import type { CmsImage } from './types'
 
@@ -27,7 +28,9 @@ export function ProcessSteps({ steps }: { steps: ProcessStep[] }) {
   const select = (index: number, focus = false) => {
     const next = (index + steps.length) % steps.length
     setSelected(next)
-    if (focus) tabs.current[next]?.focus()
+    const tab = tabs.current[next]
+    tab?.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: scrollBehavior() })
+    if (focus) tab?.focus({ preventScroll: true })
   }
 
   const onKeyDown = (event: KeyboardEvent) => {
@@ -61,7 +64,8 @@ export function ProcessSteps({ steps }: { steps: ProcessStep[] }) {
         >
           <ChevronLeft />
         </Button>
-        <div
+        <motion.div
+          layoutScroll
           role="tablist"
           onKeyDown={onKeyDown}
           className="-mx-4 flex flex-1 snap-x [scrollbar-width:none] gap-1 overflow-x-auto px-4 sm:mx-0 sm:justify-center sm:px-0"
@@ -87,13 +91,17 @@ export function ProcessSteps({ steps }: { steps: ProcessStep[] }) {
                 {String(index + 1).padStart(2, '0')}
               </span>
               {step.title}
-              <span
-                aria-hidden
-                className="absolute inset-x-4 bottom-0 h-0.5 origin-left scale-x-0 bg-brandRed transition-transform duration-300 ease-out group-aria-selected:scale-x-100 motion-reduce:transition-none"
-              />
+              {index === active && (
+                <motion.span
+                  aria-hidden
+                  layoutId={`${id}-indicator`}
+                  transition={{ duration: duration.base, ease: ease.standard }}
+                  className="absolute inset-x-4 bottom-0 h-0.5 bg-brandRed"
+                />
+              )}
             </button>
           ))}
-        </div>
+        </motion.div>
         <Button
           variant="ghost"
           size="icon"
@@ -121,11 +129,11 @@ export function ProcessSteps({ steps }: { steps: ProcessStep[] }) {
           <AnimatePresence initial={false}>
             <motion.div
               key={active}
-              className="absolute inset-0"
-              initial={{ opacity: 0, scale: 1.03 }}
+              className="absolute inset-0 z-1"
+              initial={{ opacity: 0, scale: 1.02 }}
               animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              exit={{ opacity: 0, zIndex: 0, transition: { delay: duration.slow, duration: 0 } }}
+              transition={{ duration: duration.slow, ease: ease.enter }}
             >
               <Image
                 src={activeStep.image.url}
@@ -138,11 +146,17 @@ export function ProcessSteps({ steps }: { steps: ProcessStep[] }) {
           </AnimatePresence>
           <div
             aria-hidden
-            className="absolute inset-x-0 bottom-0 flex items-end justify-between bg-linear-to-t from-brandInk/80 to-transparent px-6 pt-16 pb-5 text-white md:px-8 md:pb-7"
+            className="absolute inset-x-0 bottom-0 z-10 flex items-end justify-between bg-linear-to-t from-brandInk/80 to-transparent px-6 pt-16 pb-5 text-white md:px-8 md:pb-7"
           >
-            <p className="font-display text-xl font-bold [font-stretch:112%] md:text-2xl">
+            <motion.p
+              key={active}
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: duration.base, ease: ease.enter }}
+              className="font-display text-xl font-bold [font-stretch:112%] md:text-2xl"
+            >
               {activeStep.title}
-            </p>
+            </motion.p>
             <p className="text-xs font-medium tracking-[0.2em] text-white/70 tabular-nums">
               {String(active + 1).padStart(2, '0')} / {String(steps.length).padStart(2, '0')}
             </p>
