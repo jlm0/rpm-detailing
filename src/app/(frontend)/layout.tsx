@@ -112,7 +112,9 @@ export default async function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content={themeColor} />
       </head>
-      <body className="overflow-x-hidden">{children}</body>
+      <body>
+        <div className="overflow-x-clip">{children}</div>
+      </body>
     </html>
   )
 }
