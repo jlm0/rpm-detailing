@@ -58,11 +58,7 @@ export function AboutSection({ about, transformation, yearsOfExperience }: About
             </p>
             <h2 className="mb-4 text-3xl font-bold text-brandDark lg:text-4xl">{about.title}</h2>
             <Paragraphs text={about.body} />
-            <Button
-              asChild
-              variant="outline"
-              className="border-brandRed text-brandRed hover:bg-brandRed hover:text-white"
-            >
+            <Button asChild variant="brandOutline" size="lg">
               <CmsLink url={about.cta.url}>{about.cta.label}</CmsLink>
             </Button>
           </ScrollAnimate>

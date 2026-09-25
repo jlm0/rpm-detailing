@@ -45,12 +45,7 @@ export function BrandsSection({ section, brands }: BrandsSectionProps) {
           })}
         </ScrollAnimate>
         <ScrollAnimate variantName="fadeInUp" delay={0.4} className="mt-12 text-center">
-          <Button
-            asChild
-            variant="outline"
-            size="default"
-            className="border-white bg-transparent text-white hover:bg-white hover:text-brandRed md:px-6 md:py-3 md:text-base"
-          >
+          <Button asChild variant="light" size="lg">
             <CmsLink url={section.button.url}>{section.button.label}</CmsLink>
           </Button>
         </ScrollAnimate>

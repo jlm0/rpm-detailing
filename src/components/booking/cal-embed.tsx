@@ -83,7 +83,7 @@ export default function CalEmbed({
           <h3 className="mb-4 text-xl font-semibold text-brandDark">{calendarError.title}</h3>
           <p className="mb-6 text-brandMediumGray">{calendarError.message}</p>
           <div className="space-y-4">
-            <Button onClick={handleRetry} className="w-full bg-brandRed hover:bg-brandRed/90">
+            <Button onClick={handleRetry} variant="brand" size="lg" className="w-full">
               {calendarError.retryLabel}
             </Button>
             <div className="text-sm text-brandMediumGray">

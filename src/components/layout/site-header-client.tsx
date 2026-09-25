@@ -121,11 +121,9 @@ export default function SiteHeaderClient({ header, business, logo }: SiteHeaderC
         </nav>
         <div className="flex items-center space-x-4">
           {cta && (
-            <CmsLink url={cta.url}>
-              <Button className="hidden bg-brandRed text-white hover:bg-red-700 sm:inline-flex">
-                {cta.label}
-              </Button>
-            </CmsLink>
+            <Button asChild variant="brand" className="hidden sm:inline-flex">
+              <CmsLink url={cta.url}>{cta.label}</CmsLink>
+            </Button>
           )}
           <button
             onClick={toggleMobileMenu}
@@ -166,11 +164,11 @@ export default function SiteHeaderClient({ header, business, logo }: SiteHeaderC
               )}
 
               {cta && (
-                <CmsLink url={cta.url} onClick={closeMobileMenu} className="mt-4">
-                  <Button className="w-full bg-brandRed text-white hover:bg-red-700">
+                <Button asChild variant="brand" size="lg" className="mt-4 w-full">
+                  <CmsLink url={cta.url} onClick={closeMobileMenu}>
                     {cta.label}
-                  </Button>
-                </CmsLink>
+                  </CmsLink>
+                </Button>
               )}
             </nav>
           </div>

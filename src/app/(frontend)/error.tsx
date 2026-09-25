@@ -29,7 +29,7 @@ export default function Error({
             or contact us if the problem persists.
           </p>
 
-          <Button onClick={reset} className="w-full bg-brandRed hover:bg-brandRed/90">
+          <Button onClick={reset} variant="brand" size="lg" className="w-full">
             Try again
           </Button>
         </div>

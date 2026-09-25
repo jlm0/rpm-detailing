@@ -52,13 +52,9 @@ export function PackagesSection({ packages, services }: PackagesSectionProps) {
                     <p className="mb-4 line-clamp-4 flex-grow overflow-hidden text-sm leading-relaxed text-neutral-300">
                       {service.summary}
                     </p>
-                    <Button
-                      asChild
-                      variant="outline"
-                      className="self-start border-brandRed px-4 py-2 text-brandRed hover:bg-brandRed hover:text-white"
-                    >
+                    <Button asChild variant="light" className="self-start">
                       <CmsLink url={packages.cardButton.url}>
-                        {packages.cardButton.label} <ArrowRight className="ml-2 h-4 w-4" />
+                        {packages.cardButton.label} <ArrowRight />
                       </CmsLink>
                     </Button>
                   </CardContent>
@@ -68,7 +64,7 @@ export function PackagesSection({ packages, services }: PackagesSectionProps) {
           })}
         </ScrollAnimate>
         <ScrollAnimate variantName="fadeInUp" delay={0.3} className="mt-12 text-center">
-          <Button asChild className="bg-brandRed px-8 py-3 text-lg text-white hover:bg-red-700">
+          <Button asChild variant="brand" size="lg">
             <CmsLink url={packages.viewAll.url}>{packages.viewAll.label}</CmsLink>
           </Button>
         </ScrollAnimate>

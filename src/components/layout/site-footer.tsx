@@ -72,11 +72,9 @@ export default async function SiteFooter() {
             <div>
               <h3 className="mb-4 text-xl font-semibold text-white">{footer.cta.heading}</h3>
               <p className="mb-4 text-sm">{footer.cta.text}</p>
-              <CmsLink url={footer.cta.button.url}>
-                <Button className="w-full bg-brandRed text-white hover:bg-red-700">
-                  {footer.cta.button.label}
-                </Button>
-              </CmsLink>
+              <Button asChild variant="brand" size="lg" className="w-full">
+                <CmsLink url={footer.cta.button.url}>{footer.cta.button.label}</CmsLink>
+              </Button>
             </div>
           </ScrollAnimate>
         </ScrollAnimate>

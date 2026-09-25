@@ -12,15 +12,10 @@ export default function ServicesCta({ title, text, button }: ServicesPage['cta']
         <ScrollAnimate variantName="fadeInUp" className="mx-auto max-w-3xl text-center">
           <h2 className="mb-6 text-3xl font-bold lg:text-4xl">{title}</h2>
           <p className="mb-8 text-lg text-white/90">{text}</p>
-          <Button
-            asChild
-            size="lg"
-            variant="outline"
-            className="border-white bg-transparent text-white hover:bg-white hover:text-brandRed"
-          >
+          <Button asChild size="lg" variant="light">
             <CmsLink url={button.url}>
               {button.label}
-              <ArrowRight className="ml-2 h-5 w-5" />
+              <ArrowRight />
             </CmsLink>
           </Button>
         </ScrollAnimate>

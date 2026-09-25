@@ -30,11 +30,7 @@ export function CtaBannerSection({ ctaBanner }: { ctaBanner: HomePage['ctaBanner
           ))}
         </ScrollAnimate>
         <ScrollAnimate variantName="fadeInUp" delay={0.3} className="text-center">
-          <Button
-            asChild
-            variant="outline"
-            className="w-full border-white bg-transparent px-8 py-3 text-lg text-white hover:bg-white hover:text-brandRed sm:w-auto"
-          >
+          <Button asChild variant="light" size="lg" className="w-full sm:w-auto">
             <CmsLink url={ctaBanner.button.url}>{ctaBanner.button.label}</CmsLink>
           </Button>
         </ScrollAnimate>

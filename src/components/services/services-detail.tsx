@@ -79,14 +79,10 @@ export default function ServicesDetail({ services, labels }: ServicesDetailProps
                         </div>
                       )}
                     </div>
-                    <Button
-                      asChild
-                      size="lg"
-                      className="mt-auto self-start bg-brandRed text-white hover:bg-red-700"
-                    >
+                    <Button asChild size="lg" variant="brand" className="mt-auto self-start">
                       <CmsLink url={bookButton.url}>
                         {bookButton.label}
-                        <ArrowRight className="ml-2 h-5 w-5" />
+                        <ArrowRight />
                       </CmsLink>
                     </Button>
                   </div>

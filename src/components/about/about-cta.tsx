@@ -11,15 +11,10 @@ export default function AboutCta({ title, button }: AboutPage['cta']) {
       <div className="container mx-auto px-4">
         <ScrollAnimate variantName="fadeInUp" className="mx-auto max-w-3xl text-center">
           <h2 className="mb-8 text-3xl font-bold lg:text-4xl">{title}</h2>
-          <Button
-            asChild
-            size="default"
-            variant="outline"
-            className="border-white bg-transparent text-white hover:bg-white hover:text-brandDark sm:px-6 sm:py-3 sm:text-base"
-          >
+          <Button asChild size="lg" variant="light">
             <CmsLink url={button.url}>
               {button.label}
-              <ArrowRight className="ml-2 h-5 w-5" />
+              <ArrowRight />
             </CmsLink>
           </Button>
         </ScrollAnimate>

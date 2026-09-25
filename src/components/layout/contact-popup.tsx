@@ -88,11 +88,11 @@ export default function ContactPopup({ isOpen, onClose, popup, business }: Conta
             <div>
               <h3 className="mb-4 text-xl font-semibold text-white">{popup.ctaHeading}</h3>
               <p className="mb-4 text-sm">{popup.ctaText}</p>
-              <CmsLink url={popup.ctaButton.url} onClick={onClose}>
-                <Button className="w-full bg-brandRed text-white hover:bg-red-700">
+              <Button asChild variant="brand" size="lg" className="w-full">
+                <CmsLink url={popup.ctaButton.url} onClick={onClose}>
                   {popup.ctaButton.label}
-                </Button>
-              </CmsLink>
+                </CmsLink>
+              </Button>
             </div>
           </div>
         </div>

@@ -18,11 +18,9 @@ export default async function NotFound() {
           <h3 className="mb-4 text-2xl font-semibold text-brandDark">{notFound.title}</h3>
           <p className="mb-8 text-brandMediumGray">{notFound.message}</p>
 
-          <Link href="/">
-            <Button className="w-full bg-brandRed hover:bg-brandRed/90 sm:w-auto">
-              {notFound.buttonLabel}
-            </Button>
-          </Link>
+          <Button asChild variant="brand" size="lg" className="w-full sm:w-auto">
+            <Link href="/">{notFound.buttonLabel}</Link>
+          </Button>
         </div>
       </div>
     </div>

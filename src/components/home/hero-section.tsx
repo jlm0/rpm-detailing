@@ -36,11 +36,7 @@ export function HeroSection({ hero, business }: HeroSectionProps) {
 
       <div className="relative z-10 container mx-auto flex h-full items-center justify-between px-4">
         <HeroSlides slides={hero.slides}>
-          <Button
-            asChild
-            variant="outline"
-            className="w-full border-white bg-transparent px-8 py-3 text-lg text-white hover:bg-white hover:text-brandRed sm:w-auto"
-          >
+          <Button asChild variant="light" size="lg" className="w-full sm:w-auto">
             <CmsLink url={hero.cta.url}>{hero.cta.label}</CmsLink>
           </Button>
         </HeroSlides>

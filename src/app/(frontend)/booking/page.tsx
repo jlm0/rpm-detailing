@@ -23,9 +23,9 @@ export default async function BookingPage() {
         <p className="mb-8 text-brandMediumGray">
           {unavailable.message.replaceAll('{phone}', business.phone)}
         </p>
-        <Link href="/">
-          <Button>{unavailable.buttonLabel}</Button>
-        </Link>
+        <Button asChild variant="brand" size="lg">
+          <Link href="/">{unavailable.buttonLabel}</Link>
+        </Button>
       </div>
     )
   }
@@ -34,12 +34,12 @@ export default async function BookingPage() {
     <div className="min-h-screen bg-brandLightGray">
       <header className="bg-brandDark py-4 text-white">
         <div className="container mx-auto px-4 md:px-8">
-          <Link href="/">
-            <Button variant="ghost" className="text-white hover:text-brandRed">
-              <ArrowLeft className="mr-2 h-4 w-4" />
+          <Button asChild variant="ghost" className="-ml-3 text-white hover:bg-white/10">
+            <Link href="/">
+              <ArrowLeft />
               {content.backLabel}
-            </Button>
-          </Link>
+            </Link>
+          </Button>
         </div>
       </header>
 
