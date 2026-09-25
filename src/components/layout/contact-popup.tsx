@@ -1,13 +1,15 @@
 'use client'
 
-import { Mail, MapPin, Phone, X } from 'lucide-react'
-import { useEffect } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
+import { X } from 'lucide-react'
+import { useId, useRef } from 'react'
 
 import { Button } from '@/components/ui/button'
 import type { Header, SiteSetting } from '@/payload-types'
 
 import { CmsLink } from './cms-link'
-import { OpeningHours, telHref } from './contact'
+import { ContactDetails, OpeningHours } from './contact'
+import { useModal } from './use-modal'
 
 interface ContactPopupProps {
   isOpen: boolean
@@ -16,87 +18,77 @@ interface ContactPopupProps {
   business: SiteSetting['business']
 }
 
-export default function ContactPopup({ isOpen, onClose, popup, business }: ContactPopupProps) {
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose()
-      }
-    }
+const ease = [0.16, 1, 0.3, 1] as const
 
-    if (isOpen) {
-      document.addEventListener('keydown', handleEscape)
-      document.body.style.overflow = 'hidden'
-    }
-
-    return () => {
-      document.removeEventListener('keydown', handleEscape)
-      document.body.style.overflow = 'unset'
-    }
-  }, [isOpen, onClose])
-
-  if (!isOpen) return null
+function ContactDialog({ onClose, popup, business }: Omit<ContactPopupProps, 'isOpen'>) {
+  const dialog = useRef<HTMLDivElement>(null)
+  const titleId = useId()
+  useModal(dialog, onClose)
 
   return (
-    <>
-      <div
-        className="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs transition-opacity duration-200"
+    <div className="fixed inset-0 z-50 flex items-end justify-center p-3 sm:items-center sm:p-6">
+      <motion.div
+        className="absolute inset-0 bg-black/70 backdrop-blur-sm"
         onClick={onClose}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.25 }}
       />
+      <motion.div
+        ref={dialog}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        className="relative max-h-[90svh] w-full max-w-4xl overflow-y-auto rounded-xl bg-brandDark bg-grain text-white/75 shadow-2xl ring-1 ring-white/10"
+        initial={{ opacity: 0, y: 24, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease } }}
+        exit={{ opacity: 0, y: 12, scale: 0.98, transition: { duration: 0.2 } }}
+      >
+        <div className="sticky top-0 z-10 flex items-center justify-between border-b border-white/10 bg-brandDark px-6 py-5 sm:px-8">
+          <h2 id={titleId} className="text-2xl font-bold text-white sm:text-3xl">
+            {popup.title}
+          </h2>
+          <button
+            type="button"
+            onClick={onClose}
+            className="-mr-2 rounded-md p-2 text-white/60 transition-colors hover:bg-white/10 hover:text-white"
+            aria-label={popup.closeLabel}
+          >
+            <X className="size-6" />
+          </button>
+        </div>
 
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-        <div className="max-h-[90vh] w-full max-w-4xl transform overflow-y-auto rounded-lg bg-brandDark text-neutral-300 shadow-xl transition-all duration-200">
-          <div className="sticky top-0 flex items-center justify-between border-b border-neutral-700 bg-brandDark p-6">
-            <h2 className="text-2xl font-bold text-white">{popup.title}</h2>
-            <button
-              onClick={onClose}
-              className="rounded-lg p-2 text-neutral-400 transition-colors hover:bg-white/10 hover:text-white"
-              aria-label={popup.closeLabel}
-            >
-              <X className="h-6 w-6" />
-            </button>
+        <div className="grid gap-10 px-6 py-8 sm:px-8 md:grid-cols-3 md:gap-8">
+          <div>
+            <h3 className="mb-5 font-sans text-xs font-semibold tracking-[0.2em] text-white/60 uppercase [font-stretch:100%]">
+              {popup.contactHeading}
+            </h3>
+            <ContactDetails business={business} />
           </div>
 
-          <div className="grid gap-8 p-6 md:grid-cols-3">
-            <div>
-              <h3 className="mb-4 text-xl font-semibold text-white">{popup.contactHeading}</h3>
-              <ul className="space-y-3 text-sm">
-                <li className="flex items-center space-x-2 transition-colors hover:text-white">
-                  <Phone className="h-4 w-4 shrink-0 text-brandRed" />
-                  <a href={telHref(business.phone)} className="hover:underline">
-                    {business.phone}
-                  </a>
-                </li>
-                <li className="flex items-center space-x-2 transition-colors hover:text-white">
-                  <Mail className="h-4 w-4 shrink-0 text-brandRed" />
-                  <a href={`mailto:${business.email}`} className="break-all hover:underline">
-                    {business.email}
-                  </a>
-                </li>
-                <li className="flex items-start space-x-2 transition-colors hover:text-white">
-                  <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-brandRed" />
-                  <span>{business.address}</span>
-                </li>
-              </ul>
-            </div>
+          <div>
+            <h3 className="mb-5 font-sans text-xs font-semibold tracking-[0.2em] text-white/60 uppercase [font-stretch:100%]">
+              {popup.hoursHeading}
+            </h3>
+            <OpeningHours hours={business.hours} />
+          </div>
 
-            <div>
-              <h3 className="mb-4 text-xl font-semibold text-white">{popup.hoursHeading}</h3>
-              <OpeningHours hours={business.hours} />
-            </div>
-
-            <div>
-              <h3 className="mb-4 text-xl font-semibold text-white">{popup.ctaHeading}</h3>
-              <p className="mb-4 text-sm">{popup.ctaText}</p>
-              <Button asChild variant="brand" size="lg" className="w-full">
-                <CmsLink url={popup.ctaButton.url} onClick={onClose}>
-                  {popup.ctaButton.label}
-                </CmsLink>
-              </Button>
-            </div>
+          <div className="rounded-lg bg-white/[0.04] p-5 ring-1 ring-white/10">
+            <h3 className="mb-3 text-lg font-bold text-white">{popup.ctaHeading}</h3>
+            <p className="mb-5 text-sm leading-relaxed">{popup.ctaText}</p>
+            <Button asChild variant="brand" size="lg" className="w-full">
+              <CmsLink url={popup.ctaButton.url} onClick={onClose}>
+                {popup.ctaButton.label}
+              </CmsLink>
+            </Button>
           </div>
         </div>
-      </div>
-    </>
+      </motion.div>
+    </div>
   )
+}
+
+export default function ContactPopup({ isOpen, ...props }: ContactPopupProps) {
+  return <AnimatePresence>{isOpen && <ContactDialog {...props} />}</AnimatePresence>
 }
