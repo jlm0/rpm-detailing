@@ -26,7 +26,7 @@ export default defineConfig({
       name: 'mobile',
       use: { ...devices['Pixel 7'] },
       grepInvert: remoteBaseURL ? /@local/ : undefined,
-      testIgnore: /(admin|api|headers|seo)\.spec\.ts/,
+      testIgnore: /(admin|api|cms|headers|seo)\.spec\.ts/,
     },
   ],
   webServer: remoteBaseURL
