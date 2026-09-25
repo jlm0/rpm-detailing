@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 import { authenticated, authenticatedOrPublished } from '@/access'
-import { documentViews } from '@/admin/document'
+import { documentComponents, documentViews } from '@/admin/document'
 import { appearsOn, type AppearsOnProps } from '@/fields/appears-on'
 import { revalidateAfterChange, revalidateAfterDelete } from '@/hooks/revalidate'
 import { livePath, liveTarget } from '@/lib/site-map'
@@ -29,7 +29,7 @@ export const contentCollection = ({
       group: 'Content',
       livePreview: { url: ({ data }) => livePreviewFor(data.id as number | undefined) },
       preview: (doc) => previewFor(doc.id as number | undefined),
-      components: { views: documentViews },
+      components: { edit: documentComponents, views: documentViews },
       ...config.admin,
     },
     access: {

@@ -8,7 +8,7 @@ import {
 import type { Field, GlobalConfig, Tab, UnnamedTab } from 'payload'
 
 import { anyone, authenticated } from '@/access'
-import { documentViews } from '@/admin/document'
+import { documentComponents, documentViews } from '@/admin/document'
 import { appearsOn } from '@/fields/appears-on'
 import { image } from '@/fields/image'
 import { text } from '@/fields/text'
@@ -31,7 +31,7 @@ export const editableGlobal = ({ slug, description, fields }: EditableGlobal): G
       description,
       livePreview: { url: () => previewPath(path) },
       preview: () => previewPath(path),
-      components: { views: documentViews },
+      components: { elements: documentComponents, views: documentViews },
     },
     access: { read: anyone, readVersions: authenticated, update: authenticated },
     versions: { drafts: { autosave: { interval: 100 } }, max: 25 },
