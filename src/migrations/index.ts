@@ -7,6 +7,7 @@ import * as migration_20250802_014246_add_seo_metadata_fields from './20250802_0
 import * as migration_20250809_141833_add_vercel_blob_storage from './20250809_141833_add_vercel_blob_storage';
 import * as migration_20260924_235217_payload_3_90_upgrade from './20260924_235217_payload_3_90_upgrade';
 import * as migration_20260925_005353_payload_cms_restructure from './20260925_005353_payload_cms_restructure';
+import * as migration_20260925_014321_header_skip_link from './20260925_014321_header_skip_link';
 
 export const migrations = [
   {
@@ -52,6 +53,11 @@ export const migrations = [
   {
     up: migration_20260925_005353_payload_cms_restructure.up,
     down: migration_20260925_005353_payload_cms_restructure.down,
-    name: '20260925_005353_payload_cms_restructure'
+    name: '20260925_005353_payload_cms_restructure',
+  },
+  {
+    up: migration_20260925_014321_header_skip_link.up,
+    down: migration_20260925_014321_header_skip_link.down,
+    name: '20260925_014321_header_skip_link'
   },
 ];

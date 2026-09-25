@@ -194,6 +194,12 @@ export default function SiteHeaderClient({ header, business, logo }: SiteHeaderC
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/5 bg-brandDark text-white">
+      <a
+        href="#main-content"
+        className="sr-only rounded-md bg-white px-4 py-2 text-sm font-semibold text-brandInk focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-60"
+      >
+        {header.skipLinkLabel}
+      </a>
       <div className="container mx-auto flex h-20 items-center justify-between gap-6 px-4 md:px-8">
         <Link href="/" className="flex items-center gap-2 rounded-sm">
           {logo && (

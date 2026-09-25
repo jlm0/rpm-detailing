@@ -26,7 +26,7 @@ export default async function Home() {
   return (
     <div className="flex min-h-screen flex-col bg-white">
       <SiteHeader />
-      <main className="flex flex-1 flex-col">
+      <main id="main-content" className="flex flex-1 flex-col">
         <HeroSection hero={home.hero} business={settings.business} />
         {servicesBarItems.length > 0 && <ServicesBar items={servicesBarItems} />}
         <AboutSection

@@ -60,6 +60,14 @@ export const Header = editableGlobal({
       admin: { condition: (data) => Boolean(data.showCta) },
     },
     {
+      name: 'skipLinkLabel',
+      label: 'Skip link label',
+      type: 'text',
+      required: true,
+      defaultValue: 'Skip to content',
+      admin: { description: 'Appears when keyboard users press Tab, to jump past the menu' },
+    },
+    {
       name: 'mobileMenu',
       type: 'group',
       fields: [

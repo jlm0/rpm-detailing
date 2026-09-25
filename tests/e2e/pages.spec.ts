@@ -45,3 +45,13 @@ test('mobile menu opens and closes @mobile', async ({ page }) => {
   await page.getByRole('button', { name: /close mobile menu/i }).click()
   await expect(page.locator('header nav').last()).toBeHidden()
 })
+
+test('keyboard users can skip past the header', async ({ page }) => {
+  await page.goto('/')
+  await page.keyboard.press('Tab')
+  const skipLink = page.getByRole('link', { name: /skip to content/i })
+  await expect(skipLink).toBeFocused()
+  await expect(skipLink).toBeVisible()
+  await skipLink.press('Enter')
+  await expect(page).toHaveURL(/#main-content$/)
+})

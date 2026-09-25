@@ -1111,6 +1111,10 @@ export interface Header {
      */
     url: string;
   };
+  /**
+   * Appears when keyboard users press Tab, to jump past the menu
+   */
+  skipLinkLabel: string;
   mobileMenu: {
     title: string;
     /**
@@ -1565,6 +1569,7 @@ export interface HeaderSelect<T extends boolean = true> {
         label?: T;
         url?: T;
       };
+  skipLinkLabel?: T;
   mobileMenu?:
     | T
     | {

@@ -14,7 +14,7 @@ export default async function Page() {
   return (
     <div className="flex min-h-screen flex-col bg-white">
       <SiteHeader />
-      <main className="flex flex-1 flex-col">
+      <main id="main-content" className="flex flex-1 flex-col">
         <PageHero {...page.hero} />
         <ServicesDetail services={services} labels={page.labels} />
         <ServicesCta {...page.cta} />

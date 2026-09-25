@@ -310,6 +310,7 @@ export async function seed(payload: Payload) {
       ],
       showCta: true,
       cta: link('Book Now', '/booking'),
+      skipLinkLabel: 'Skip to content',
       mobileMenu: {
         title: 'Menu',
         openLabel: 'Toggle mobile menu',
