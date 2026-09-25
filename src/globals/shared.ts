@@ -5,39 +5,65 @@ import {
   OverviewField,
   PreviewField,
 } from '@payloadcms/plugin-seo/fields'
-import type { Field, GlobalConfig, Tab } from 'payload'
+import type { Field, GlobalConfig, Tab, UnnamedTab } from 'payload'
 
 import { anyone, authenticated } from '@/access'
+import { documentViews } from '@/admin/document'
+import { appearsOn } from '@/fields/appears-on'
 import { image } from '@/fields/image'
 import { text } from '@/fields/text'
 import { revalidateGlobalAfterChange } from '@/hooks/revalidate'
+import { outlineFor, siteMap, siteSection, trail, type SiteSlug } from '@/lib/site-map'
 import { previewPath } from '@/utilities/preview'
 
-type EditableGlobal = Pick<GlobalConfig, 'slug' | 'label' | 'fields'> & {
-  group: 'Pages' | 'Site'
-  previewAt: string
-  description?: string
+type EditableGlobal = Pick<GlobalConfig, 'fields'> & {
+  slug: SiteSlug
+  description: string
 }
 
-export const editableGlobal = ({
-  slug,
+export const editableGlobal = ({ slug, description, fields }: EditableGlobal): GlobalConfig => {
+  const { label, path } = siteMap[slug]
+  return {
+    slug,
+    label,
+    admin: {
+      group: false,
+      description,
+      livePreview: { url: () => previewPath(path) },
+      preview: () => previewPath(path),
+      components: { views: documentViews },
+    },
+    access: { read: anyone, readVersions: authenticated, update: authenticated },
+    versions: { drafts: { autosave: { interval: 100 } }, max: 25 },
+    hooks: { afterChange: [revalidateGlobalAfterChange] },
+    fields,
+  }
+}
+
+const cue = (slug: SiteSlug, name: string) => {
+  const { label, where } = siteSection(slug, name)
+  return appearsOn(name, {
+    trail: trail(slug === 'site-settings' ? 'Site-wide' : siteMap[slug].label, label),
+    where,
+    outline: outlineFor(slug, name),
+  })
+}
+
+export const section = (slug: SiteSlug, name: string, fields: Field[]): Tab => ({
+  name,
+  label: siteSection(slug, name).label,
+  fields: [cue(slug, name), ...fields],
+})
+
+export const panel = (slug: SiteSlug, name: string, fields: Field[]): UnnamedTab => ({
+  label: siteSection(slug, name).label,
+  fields: [cue(slug, name), ...fields],
+})
+
+export const collapsed = (label: string, fields: Field[]): Field => ({
+  type: 'collapsible',
   label,
-  group,
-  previewAt,
-  description,
-  fields,
-}: EditableGlobal): GlobalConfig => ({
-  slug,
-  label,
-  admin: {
-    group,
-    description,
-    livePreview: { url: () => previewPath(previewAt) },
-    preview: () => previewPath(previewAt),
-  },
-  access: { read: anyone, readVersions: authenticated, update: authenticated },
-  versions: { drafts: { autosave: { interval: 100 } }, max: 25 },
-  hooks: { afterChange: [revalidateGlobalAfterChange] },
+  admin: { initCollapsed: true },
   fields,
 })
 
@@ -47,12 +73,13 @@ metaImage.admin = {
   description: 'Best size: 1200 × 630 px. Leave empty to use the share image from Business & SEO.',
 }
 
-export const seoTab: Tab = {
+export const seoTab = (slug: SiteSlug): Tab => ({
   name: 'meta',
   label: 'SEO',
   description:
-    'How this page appears in search results and when shared. Titles up to 60 characters, descriptions up to 160. Leave empty to use the defaults from Business & SEO.',
+    'Titles up to 60 characters, descriptions up to 160. Leave empty to use the defaults from Business & SEO.',
   fields: [
+    cue(slug, 'meta'),
     OverviewField({
       titlePath: 'meta.title',
       descriptionPath: 'meta.description',
@@ -67,12 +94,6 @@ export const seoTab: Tab = {
       descriptionPath: 'meta.description',
     }),
   ],
-}
-
-export const section = (name: string, label: string, fields: Field[]): Tab => ({
-  name,
-  label,
-  fields,
 })
 
 export const pageHero: Field[] = [

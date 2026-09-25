@@ -6,6 +6,8 @@ import { text, textarea } from '@/fields/text'
 
 import { editableGlobal, pageHero, section, seoTab } from './shared'
 
+const page = 'about-page'
+
 const heading = text({
   name: 'title',
   max: 60,
@@ -13,21 +15,19 @@ const heading = text({
 })
 
 export const AboutPage = editableGlobal({
-  slug: 'about-page',
-  label: 'About',
-  group: 'Pages',
-  previewAt: '/about',
+  slug: page,
+  description: 'The About page, top to bottom: your story, values and team.',
   fields: [
     {
       type: 'tabs',
       tabs: [
-        section('hero', 'Hero', pageHero),
-        section('story', 'Story', [
+        section(page, 'hero', pageHero),
+        section(page, 'story', [
           heading,
           richText({ name: 'content', max: 1500, help: 'The story beside the photo.' }),
           image({ name: 'image', size: 'landscape 4:3, at least 1600 × 1200 px' }),
         ]),
-        section('values', 'Values', [
+        section(page, 'values', [
           heading,
           textarea({ name: 'subtitle', max: 160, help: 'One sentence under the heading.' }),
           {
@@ -45,7 +45,7 @@ export const AboutPage = editableGlobal({
             ],
           },
         ]),
-        section('team', 'Team', [
+        section(page, 'team', [
           heading,
           textarea({ name: 'subtitle', max: 160, help: 'One sentence under the heading.' }),
           {
@@ -82,11 +82,11 @@ export const AboutPage = editableGlobal({
             ],
           },
         ]),
-        section('cta', 'Call to action', [
+        section(page, 'cta', [
           text({ name: 'title', max: 60, help: 'Large heading on the red banner.' }),
           link({ name: 'button' }),
         ]),
-        seoTab,
+        seoTab(page),
       ],
     },
   ],

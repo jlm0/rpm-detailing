@@ -1,5 +1,6 @@
 import { image } from '@/fields/image'
 import { text } from '@/fields/text'
+import { outlineFor, trail } from '@/lib/site-map'
 
 import { contentCollection } from './content'
 
@@ -8,7 +9,12 @@ export const Brands = contentCollection({
   admin: {
     useAsTitle: 'name',
     defaultColumns: ['name', '_status'],
-    description: 'Car brand logos shown on the Home page. Drag to reorder.',
+    description: 'Car brand logos on the Home page, just above the footer. Drag to reorder.',
+  },
+  where: {
+    trail: trail('Home', 'Brands'),
+    where: 'One logo in the row of car brands, in the order of this list.',
+    outline: outlineFor('home-page', 'brands'),
   },
   fields: [
     text({ name: 'name', max: 40, help: 'The car brand, for example Porsche.' }),

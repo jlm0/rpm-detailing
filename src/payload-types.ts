@@ -98,18 +98,18 @@ export interface Config {
     'services-page': ServicesPage;
     'about-page': AboutPage;
     'booking-page': BookingPage;
-    'site-settings': SiteSetting;
     header: Header;
     footer: Footer;
+    'site-settings': SiteSetting;
   };
   globalsSelect: {
     'home-page': HomePageSelect<false> | HomePageSelect<true>;
     'services-page': ServicesPageSelect<false> | ServicesPageSelect<true>;
     'about-page': AboutPageSelect<false> | AboutPageSelect<true>;
     'booking-page': BookingPageSelect<false> | BookingPageSelect<true>;
-    'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
+    'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
   };
   locale: null;
   widgets: {
@@ -140,7 +140,7 @@ export interface UserAuthOperations {
   };
 }
 /**
- * Detailing packages and pricing. Drag to reorder. Shown on the Services page and wherever the Home page features them.
+ * Your detailing packages and prices. Drag to reorder. Shown in this order on the Services page, and as cards on the Home page when featured there.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "services".
@@ -269,7 +269,7 @@ export interface Media {
   };
 }
 /**
- * Customer reviews shown on the Home page. Drag to reorder. The Home page sets how many are shown.
+ * Customer reviews for the carousel on the Home page. Drag to reorder. Home › Reviews sets how many are shown.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "testimonials".
@@ -299,7 +299,7 @@ export interface Testimonial {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Car brand logos shown on the Home page. Drag to reorder.
+ * Car brand logos on the Home page, just above the footer. Drag to reorder.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "brands".
@@ -622,6 +622,8 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   createdAt?: T;
 }
 /**
+ * Everything on the Home page, in order from top to bottom. Changes save as a draft until you publish.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "home-page".
  */
@@ -918,7 +920,7 @@ export interface HomePage {
      */
     title: string;
     /**
-     * How many published reviews to show, 1 to 12, in the order of the Testimonials list.
+     * How many published reviews to show, 1 to 12, in the order of the Reviews list.
      */
     limit: number;
     /**
@@ -959,7 +961,7 @@ export interface HomePage {
   createdAt?: string | null;
 }
 /**
- * Packages and prices are edited in Service Packages
+ * The Services page, top to bottom. The packages and prices themselves are edited in Service Packages.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "services-page".
@@ -1033,6 +1035,8 @@ export interface ServicesPage {
   createdAt?: string | null;
 }
 /**
+ * The About page, top to bottom: your story, values and team.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "about-page".
  */
@@ -1184,25 +1188,13 @@ export interface AboutPage {
   createdAt?: string | null;
 }
 /**
+ * The Booking page, top to bottom, plus what shows if the calendar fails or booking is off.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "booking-page".
  */
 export interface BookingPage {
   id: number;
-  calendar: {
-    /**
-     * Turn off to show the unavailable message instead of the calendar
-     */
-    enabled?: boolean | null;
-    /**
-     * The part after cal.com/, for example rpm-detailing
-     */
-    calLink: string;
-    /**
-     * Optional event name, for example detail
-     */
-    eventSlug?: string | null;
-  };
   content: {
     /**
      * The link back to the home page, top left. Up to 24 characters.
@@ -1232,6 +1224,20 @@ export interface BookingPage {
      * Shown before the email address. Up to 16 characters.
      */
     emailLabel: string;
+  };
+  calendar: {
+    /**
+     * Turn off to show the unavailable message instead of the calendar
+     */
+    enabled?: boolean | null;
+    /**
+     * The part after cal.com/, for example rpm-detailing
+     */
+    calLink: string;
+    /**
+     * Optional event name, for example detail
+     */
+    eventSlug?: string | null;
   };
   calendarError: {
     /**
@@ -1278,7 +1284,147 @@ export interface BookingPage {
   createdAt?: string | null;
 }
 /**
- * Business details, branding and search defaults used across every page
+ * The bar at the top of every page, left to right, and the menus it opens.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "header".
+ */
+export interface Header {
+  id: number;
+  /**
+   * Up to 6 items. Longer menus switch to the menu button on more screen sizes so they never overlap.
+   */
+  navItems: {
+    /**
+     * One or two words. Up to 14 characters.
+     */
+    label: string;
+    type: 'link' | 'contact';
+    /**
+     * A page like /services or a home page section like #testimonials
+     */
+    url?: string | null;
+    id?: string | null;
+  }[];
+  /**
+   * Appears when keyboard users press Tab, to jump past the menu. Up to 40 characters.
+   */
+  skipLinkLabel: string;
+  showCta?: boolean | null;
+  cta?: {
+    /**
+     * Button text. Up to 16 characters so it stays on one line.
+     */
+    label: string;
+    /**
+     * A page like /booking, a home page section like #services, or a full URL
+     */
+    url: string;
+  };
+  mobileMenu: {
+    /**
+     * Small capitals at the top of the menu. Up to 20 characters.
+     */
+    title: string;
+    /**
+     * Not shown on screen. Read aloud by screen readers, for example Open menu. Up to 40 characters.
+     */
+    openLabel: string;
+    /**
+     * Not shown on screen. Read aloud by screen readers, for example Close menu. Up to 40 characters.
+     */
+    closeLabel: string;
+  };
+  contactPopup: {
+    /**
+     * Heading at the top of the popup. Up to 40 characters.
+     */
+    title: string;
+    /**
+     * Small capitals. Up to 24 characters.
+     */
+    contactHeading: string;
+    /**
+     * Small capitals. Up to 24 characters.
+     */
+    hoursHeading: string;
+    /**
+     * Heading in the booking box. Up to 30 characters.
+     */
+    ctaHeading: string;
+    /**
+     * One or two sentences in the booking box. Up to 160 characters.
+     */
+    ctaText: string;
+    ctaButton: {
+      /**
+       * Button text. Up to 24 characters so it stays on one line.
+       */
+      label: string;
+      /**
+       * A page like /booking, a home page section like #services, or a full URL
+       */
+      url: string;
+    };
+    /**
+     * Not shown on screen. Read aloud by screen readers, for example Close contact details. Up to 40 characters.
+     */
+    closeLabel: string;
+  };
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * The dark band at the bottom of every page, left to right. Contact details and opening hours come from Business & SEO.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer".
+ */
+export interface Footer {
+  id: number;
+  /**
+   * Shown under the logo. Up to 200 characters.
+   */
+  description: string;
+  /**
+   * Small capitals. Up to 24 characters.
+   */
+  contactHeading: string;
+  /**
+   * Small capitals. Up to 24 characters.
+   */
+  hoursHeading: string;
+  cta: {
+    /**
+     * Heading in the booking box. Up to 30 characters.
+     */
+    heading: string;
+    /**
+     * One or two sentences in the booking box. Up to 160 characters.
+     */
+    text: string;
+    button: {
+      /**
+       * Button text. Up to 24 characters so it stays on one line.
+       */
+      label: string;
+      /**
+       * A page like /booking, a home page section like #services, or a full URL
+       */
+      url: string;
+    };
+  };
+  /**
+   * The small line at the bottom. {year} is replaced with the current year. Up to 80 characters.
+   */
+  copyright: string;
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Business details, logo and search defaults used across every page. Change them here once and every page updates.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-settings".
@@ -1331,32 +1477,6 @@ export interface SiteSetting {
      */
     brandColor: string;
   };
-  seo: {
-    /**
-     * The public address, for example https://rpmdetail.co
-     */
-    siteUrl: string;
-    /**
-     * Added after each page title in search results, for example | RPM Detailing. Up to 25 characters.
-     */
-    titleSuffix: string;
-    /**
-     * Used in search results when a page has no SEO description of its own. At least 50 characters. Up to 160 characters.
-     */
-    description: string;
-    /**
-     * Optional, separated by commas. Up to 200 characters.
-     */
-    keywords?: string | null;
-    /**
-     * Used when a page has no SEO image of its own. Best size: 1200 × 630 px.
-     */
-    image: number | Media;
-    /**
-     * Optional. Without the @.
-     */
-    twitterHandle?: string | null;
-  };
   notFound: {
     /**
      * Shown under the large 404. Up to 40 characters.
@@ -1385,150 +1505,32 @@ export interface SiteSetting {
      */
     retryLabel: string;
   };
-  _status?: ('draft' | 'published') | null;
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "header".
- */
-export interface Header {
-  id: number;
-  /**
-   * Up to 6 items. Longer menus switch to the menu button on more screen sizes so they never overlap.
-   */
-  navItems: {
+  seo: {
     /**
-     * One or two words. Up to 14 characters.
+     * Added after each page title in search results, for example | RPM Detailing. Up to 25 characters.
      */
-    label: string;
-    type: 'link' | 'contact';
+    titleSuffix: string;
     /**
-     * A page like /services or a home page section like #testimonials
+     * Used in search results when a page has no SEO description of its own. At least 50 characters. Up to 160 characters.
      */
-    url?: string | null;
-    id?: string | null;
-  }[];
-  showCta?: boolean | null;
-  cta?: {
+    description: string;
     /**
-     * Button text. Up to 16 characters so it stays on one line.
+     * Used when a page has no SEO image of its own. Best size: 1200 × 630 px.
      */
-    label: string;
+    image: number | Media;
     /**
-     * A page like /booking, a home page section like #services, or a full URL
+     * The public address, for example https://rpmdetail.co. Only admins can change it.
      */
-    url: string;
+    siteUrl: string;
+    /**
+     * Optional, separated by commas. Up to 200 characters.
+     */
+    keywords?: string | null;
+    /**
+     * Optional. Without the @.
+     */
+    twitterHandle?: string | null;
   };
-  /**
-   * Appears when keyboard users press Tab, to jump past the menu. Up to 40 characters.
-   */
-  skipLinkLabel: string;
-  /**
-   * The menu that slides in on phones and tablets.
-   */
-  mobileMenu: {
-    /**
-     * Small capitals at the top of the menu. Up to 20 characters.
-     */
-    title: string;
-    /**
-     * Not shown on screen. Read aloud by screen readers, for example Open menu. Up to 40 characters.
-     */
-    openLabel: string;
-    /**
-     * Not shown on screen. Read aloud by screen readers, for example Close menu. Up to 40 characters.
-     */
-    closeLabel: string;
-  };
-  /**
-   * Opened by a menu item set to Open contact popup. Contact details and hours come from Business & SEO.
-   */
-  contactPopup: {
-    /**
-     * Heading at the top of the popup. Up to 40 characters.
-     */
-    title: string;
-    /**
-     * Small capitals. Up to 24 characters.
-     */
-    contactHeading: string;
-    /**
-     * Small capitals. Up to 24 characters.
-     */
-    hoursHeading: string;
-    /**
-     * Heading in the booking box. Up to 30 characters.
-     */
-    ctaHeading: string;
-    /**
-     * One or two sentences in the booking box. Up to 160 characters.
-     */
-    ctaText: string;
-    ctaButton: {
-      /**
-       * Button text. Up to 24 characters so it stays on one line.
-       */
-      label: string;
-      /**
-       * A page like /booking, a home page section like #services, or a full URL
-       */
-      url: string;
-    };
-    /**
-     * Not shown on screen. Read aloud by screen readers, for example Close contact details. Up to 40 characters.
-     */
-    closeLabel: string;
-  };
-  _status?: ('draft' | 'published') | null;
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
-/**
- * Contact details and opening hours come from Business & SEO
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "footer".
- */
-export interface Footer {
-  id: number;
-  /**
-   * Shown under the logo. Up to 200 characters.
-   */
-  description: string;
-  /**
-   * Small capitals. Up to 24 characters.
-   */
-  contactHeading: string;
-  /**
-   * Small capitals. Up to 24 characters.
-   */
-  hoursHeading: string;
-  cta: {
-    /**
-     * Heading in the booking box. Up to 30 characters.
-     */
-    heading: string;
-    /**
-     * One or two sentences in the booking box. Up to 160 characters.
-     */
-    text: string;
-    button: {
-      /**
-       * Button text. Up to 24 characters so it stays on one line.
-       */
-      label: string;
-      /**
-       * A page like /booking, a home page section like #services, or a full URL
-       */
-      url: string;
-    };
-  };
-  /**
-   * The small line at the bottom. {year} is replaced with the current year. Up to 80 characters.
-   */
-  copyright: string;
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -1818,13 +1820,6 @@ export interface AboutPageSelect<T extends boolean = true> {
  * via the `definition` "booking-page_select".
  */
 export interface BookingPageSelect<T extends boolean = true> {
-  calendar?:
-    | T
-    | {
-        enabled?: T;
-        calLink?: T;
-        eventSlug?: T;
-      };
   content?:
     | T
     | {
@@ -1835,6 +1830,13 @@ export interface BookingPageSelect<T extends boolean = true> {
         helpText?: T;
         phoneLabel?: T;
         emailLabel?: T;
+      };
+  calendar?:
+    | T
+    | {
+        enabled?: T;
+        calLink?: T;
+        eventSlug?: T;
       };
   calendarError?:
     | T
@@ -1865,62 +1867,6 @@ export interface BookingPageSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "site-settings_select".
- */
-export interface SiteSettingsSelect<T extends boolean = true> {
-  business?:
-    | T
-    | {
-        name?: T;
-        phone?: T;
-        email?: T;
-        address?: T;
-        hours?:
-          | T
-          | {
-              days?: T;
-              time?: T;
-              id?: T;
-            };
-        yearsOfExperience?: T;
-      };
-  branding?:
-    | T
-    | {
-        logo?: T;
-        brandColor?: T;
-      };
-  seo?:
-    | T
-    | {
-        siteUrl?: T;
-        titleSuffix?: T;
-        description?: T;
-        keywords?: T;
-        image?: T;
-        twitterHandle?: T;
-      };
-  notFound?:
-    | T
-    | {
-        title?: T;
-        message?: T;
-        buttonLabel?: T;
-      };
-  errorPage?:
-    | T
-    | {
-        title?: T;
-        message?: T;
-        retryLabel?: T;
-      };
-  _status?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
@@ -1932,6 +1878,7 @@ export interface HeaderSelect<T extends boolean = true> {
         url?: T;
         id?: T;
       };
+  skipLinkLabel?: T;
   showCta?: T;
   cta?:
     | T
@@ -1939,7 +1886,6 @@ export interface HeaderSelect<T extends boolean = true> {
         label?: T;
         url?: T;
       };
-  skipLinkLabel?: T;
   mobileMenu?:
     | T
     | {
@@ -1989,6 +1935,62 @@ export interface FooterSelect<T extends boolean = true> {
             };
       };
   copyright?: T;
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings_select".
+ */
+export interface SiteSettingsSelect<T extends boolean = true> {
+  business?:
+    | T
+    | {
+        name?: T;
+        phone?: T;
+        email?: T;
+        address?: T;
+        hours?:
+          | T
+          | {
+              days?: T;
+              time?: T;
+              id?: T;
+            };
+        yearsOfExperience?: T;
+      };
+  branding?:
+    | T
+    | {
+        logo?: T;
+        brandColor?: T;
+      };
+  notFound?:
+    | T
+    | {
+        title?: T;
+        message?: T;
+        buttonLabel?: T;
+      };
+  errorPage?:
+    | T
+    | {
+        title?: T;
+        message?: T;
+        retryLabel?: T;
+      };
+  seo?:
+    | T
+    | {
+        titleSuffix?: T;
+        description?: T;
+        image?: T;
+        siteUrl?: T;
+        keywords?: T;
+        twitterHandle?: T;
+      };
   _status?: T;
   updatedAt?: T;
   createdAt?: T;

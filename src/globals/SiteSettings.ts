@@ -1,11 +1,14 @@
 import type { EmailFieldValidation, TextFieldSingleValidation } from 'payload'
 import { email } from 'payload/shared'
 
+import { adminsFieldLevel } from '@/access'
 import { image } from '@/fields/image'
 import { text, textarea } from '@/fields/text'
 import { matches, wholeNumber } from '@/fields/validate'
 
-import { editableGlobal, section } from './shared'
+import { collapsed, editableGlobal, section } from './shared'
+
+const part = 'site-settings'
 
 const phoneCharacters = matches(
   /^\+?[\d\s().-]+$/,
@@ -26,16 +29,14 @@ const validateEmail: EmailFieldValidation = (value, options) => {
 }
 
 export const SiteSettings = editableGlobal({
-  slug: 'site-settings',
-  label: 'Business & SEO',
-  group: 'Site',
-  previewAt: '/',
-  description: 'Business details, branding and search defaults used across every page',
+  slug: part,
+  description:
+    'Business details, logo and search defaults used across every page. Change them here once and every page updates.',
   fields: [
     {
       type: 'tabs',
       tabs: [
-        section('business', 'Business', [
+        section(part, 'business', [
           text({
             name: 'name',
             label: 'Business name',
@@ -117,7 +118,7 @@ export const SiteSettings = editableGlobal({
             },
           },
         ]),
-        section('branding', 'Branding', [
+        section(part, 'branding', [
           image({
             name: 'logo',
             size: 'a white logo on a transparent background, PNG or WebP, at least 600 px wide and about 4 times wider than tall',
@@ -135,19 +136,21 @@ export const SiteSettings = editableGlobal({
             },
           },
         ]),
-        section('seo', 'SEO defaults', [
-          {
-            name: 'siteUrl',
-            label: 'Site URL',
-            type: 'text',
-            required: true,
-            maxLength: 100,
-            validate: matches(
-              /^https?:\/\/[^\s/]+$/,
-              'Use the full address without a trailing slash, like https://rpmdetail.co',
-            ),
-            admin: { description: 'The public address, for example https://rpmdetail.co' },
-          },
+        section(part, 'notFound', [
+          text({ name: 'title', max: 40, help: 'Shown under the large 404.' }),
+          textarea({ name: 'message', max: 160, help: 'One or two sentences.' }),
+          text({ name: 'buttonLabel', max: 24, help: 'Button back to the home page.' }),
+        ]),
+        section(part, 'errorPage', [
+          text({
+            name: 'title',
+            max: 40,
+            help: 'Shown if a page fails to load, under the business name.',
+          }),
+          textarea({ name: 'message', max: 200, help: 'One or two sentences.' }),
+          text({ name: 'retryLabel', max: 24, help: 'Button that reloads the page.' }),
+        ]),
+        section(part, 'seo', [
           text({
             name: 'titleSuffix',
             max: 25,
@@ -159,39 +162,46 @@ export const SiteSettings = editableGlobal({
             max: 160,
             help: 'Used in search results when a page has no SEO description of its own. At least 50 characters.',
           }),
-          text({
-            name: 'keywords',
-            max: 200,
-            help: 'Optional, separated by commas.',
-            required: false,
-          }),
           image({
             name: 'image',
             label: 'Share image',
             size: '1200 × 630 px',
             help: 'Used when a page has no SEO image of its own.',
           }),
-          {
-            name: 'twitterHandle',
-            type: 'text',
-            maxLength: 15,
-            validate: matches(/^\w{1,15}$/, 'Letters, numbers and underscores only, without the @'),
-            admin: { description: 'Optional. Without the @.' },
-          },
-        ]),
-        section('notFound', '404 page', [
-          text({ name: 'title', max: 40, help: 'Shown under the large 404.' }),
-          textarea({ name: 'message', max: 160, help: 'One or two sentences.' }),
-          text({ name: 'buttonLabel', max: 24, help: 'Button back to the home page.' }),
-        ]),
-        section('errorPage', 'Error page', [
-          text({
-            name: 'title',
-            max: 40,
-            help: 'Shown if a page fails to load, under the business name.',
-          }),
-          textarea({ name: 'message', max: 200, help: 'One or two sentences.' }),
-          text({ name: 'retryLabel', max: 24, help: 'Button that reloads the page.' }),
+          collapsed('Advanced', [
+            {
+              name: 'siteUrl',
+              label: 'Site URL',
+              type: 'text',
+              required: true,
+              maxLength: 100,
+              validate: matches(
+                /^https?:\/\/[^\s/]+$/,
+                'Use the full address without a trailing slash, like https://rpmdetail.co',
+              ),
+              access: { update: adminsFieldLevel },
+              admin: {
+                description:
+                  'The public address, for example https://rpmdetail.co. Only admins can change it.',
+              },
+            },
+            text({
+              name: 'keywords',
+              max: 200,
+              help: 'Optional, separated by commas.',
+              required: false,
+            }),
+            {
+              name: 'twitterHandle',
+              type: 'text',
+              maxLength: 15,
+              validate: matches(
+                /^\w{1,15}$/,
+                'Letters, numbers and underscores only, without the @',
+              ),
+              admin: { description: 'Optional. Without the @.' },
+            },
+          ]),
         ]),
       ],
     },

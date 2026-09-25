@@ -2,6 +2,7 @@ import { image } from '@/fields/image'
 import { richText } from '@/fields/rich-text'
 import { text, textarea } from '@/fields/text'
 import { wholeNumber } from '@/fields/validate'
+import { outlineFor, trail } from '@/lib/site-map'
 
 import { contentCollection } from './content'
 
@@ -12,7 +13,13 @@ export const Services = contentCollection({
     useAsTitle: 'title',
     defaultColumns: ['title', 'price', 'duration', '_status'],
     description:
-      'Detailing packages and pricing. Drag to reorder. Shown on the Services page and wherever the Home page features them.',
+      'Your detailing packages and prices. Drag to reorder. Shown in this order on the Services page, and as cards on the Home page when featured there.',
+  },
+  where: {
+    trail: trail('Services', 'Packages'),
+    where:
+      'Listed in full on the Services page, in this order. Also a card in Home › Packages when featured there.',
+    outline: outlineFor('services-page', 'labels'),
   },
   fields: [
     text({

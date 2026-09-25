@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url'
 import type { CollectionConfig } from 'payload'
 
 import { anyone, authenticated } from '@/access'
+import { documentViews } from '@/admin/document'
 import { revalidateAfterChange, revalidateAfterDelete } from '@/hooks/revalidate'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -19,6 +20,7 @@ export const Media: CollectionConfig = {
     defaultColumns: ['filename', 'alt', 'updatedAt'],
     description:
       'Photos and logos used across the site. JPEG, PNG, WebP or AVIF. Set a focal point to choose what stays in view when a photo is cropped.',
+    components: { views: documentViews },
   },
   access: {
     read: anyone,

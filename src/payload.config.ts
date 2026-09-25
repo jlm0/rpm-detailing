@@ -32,6 +32,9 @@ export default buildConfig({
   admin: {
     user: Users.slug,
     importMap: { baseDir: dirname },
+    components: {
+      beforeNavLinks: ['/components/admin/site-nav#SiteNav'],
+    },
     meta: {
       titleSuffix: ' - RPM Detailing',
       robots: 'noindex, nofollow',
@@ -45,7 +48,7 @@ export default buildConfig({
     },
   },
   collections: [Services, Testimonials, Brands, Media, Users],
-  globals: [HomePage, ServicesPage, AboutPage, BookingPage, SiteSettings, Header, Footer],
+  globals: [HomePage, ServicesPage, AboutPage, BookingPage, Header, Footer, SiteSettings],
   editor: lexicalEditor(),
   db: postgresAdapter({
     pool: { connectionString: process.env.DATABASE_URI },

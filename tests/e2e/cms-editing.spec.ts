@@ -86,7 +86,7 @@ test('the client edits a headline, previews the draft and publishes it @local', 
   request,
 }) => {
   const headline = `Loved by drivers ${String(Date.now())}`
-  await openGlobal(page, 'home-page', 'Testimonials')
+  await openGlobal(page, 'home-page', 'Reviews')
   await page.locator('#field-testimonials__title').fill(headline)
   await expect(page.getByRole('button', { name: 'Revert to published' })).toBeVisible()
   await expect.poll(() => publicHtml(request, '/')).not.toContain(headline)
@@ -177,7 +177,7 @@ test('the client adds, reorders and removes a hero slide @local', async ({ page,
 
 test('the client updates contact details shown on every page @local', async ({ page, request }) => {
   const phone = '(208) 555-0142'
-  await openGlobal(page, 'site-settings', 'Business')
+  await openGlobal(page, 'site-settings', 'Business details')
   await page.locator('#field-business__phone').fill(phone)
   await publish(page)
 
@@ -198,11 +198,11 @@ test('the client cannot publish a too-long or missing value @local', async ({ pa
   await expect.poll(() => publicHtml(request, '/')).not.toContain('x'.repeat(61))
 
   await title.fill('Advanced Detailing Solutions for Your Prized Automobile')
-  await page.getByRole('button', { name: 'Testimonials', exact: true }).click()
+  await page.getByRole('button', { name: 'Reviews', exact: true }).click()
   const heading = page.locator('#field-testimonials__title')
   await heading.fill('')
   await page.getByRole('button', { name: 'Publish changes' }).click()
-  await expect(page.getByText(/field is invalid: Testimonials → Title/i)).toBeVisible()
+  await expect(page.getByText(/field is invalid: Reviews → Title/i)).toBeVisible()
   await expect
     .poll(() => publicHtml(request, '/'))
     .toContain((originals.get('home-page')?.testimonials as { title: string }).title)

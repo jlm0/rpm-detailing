@@ -4,7 +4,9 @@ import { link } from '@/fields/link'
 import { eyebrow, screenReaderLabel, text, textarea } from '@/fields/text'
 import { matches } from '@/fields/validate'
 
-import { editableGlobal, section, seoTab } from './shared'
+import { collapsed, editableGlobal, section, seoTab } from './shared'
+
+const page = 'home-page'
 
 const heading = text({
   name: 'title',
@@ -13,15 +15,14 @@ const heading = text({
 })
 
 export const HomePage = editableGlobal({
-  slug: 'home-page',
-  label: 'Home',
-  group: 'Pages',
-  previewAt: '/',
+  slug: page,
+  description:
+    'Everything on the Home page, in order from top to bottom. Changes save as a draft until you publish.',
   fields: [
     {
       type: 'tabs',
       tabs: [
-        section('hero', 'Hero', [
+        section(page, 'hero', [
           {
             name: 'slides',
             type: 'array',
@@ -72,7 +73,7 @@ export const HomePage = editableGlobal({
             ],
           },
         ]),
-        section('servicesBar', 'Services bar', [
+        section(page, 'servicesBar', [
           {
             name: 'items',
             type: 'array',
@@ -99,7 +100,7 @@ export const HomePage = editableGlobal({
             ],
           },
         ]),
-        section('about', 'About', [
+        section(page, 'about', [
           eyebrow,
           heading,
           textarea({
@@ -133,7 +134,7 @@ export const HomePage = editableGlobal({
           },
           link({ name: 'cta', label: 'Button' }),
         ]),
-        section('transformation', 'Transformation', [
+        section(page, 'transformation', [
           eyebrow,
           heading,
           textarea({
@@ -164,7 +165,7 @@ export const HomePage = editableGlobal({
             },
           },
         ]),
-        section('packages', 'Packages', [
+        section(page, 'packages', [
           eyebrow,
           heading,
           {
@@ -184,7 +185,7 @@ export const HomePage = editableGlobal({
           link({ name: 'cardButton', label: 'Package button', maxLabel: 14 }),
           link({ name: 'viewAll', label: 'View all button' }),
         ]),
-        section('ctaBanner', 'Booking steps', [
+        section(page, 'ctaBanner', [
           eyebrow,
           text({
             name: 'heading',
@@ -207,7 +208,7 @@ export const HomePage = editableGlobal({
           },
           link({ name: 'button' }),
         ]),
-        section('process', 'Process', [
+        section(page, 'process', [
           eyebrow,
           heading,
           {
@@ -227,13 +228,15 @@ export const HomePage = editableGlobal({
               }),
             ],
           },
-          {
-            type: 'row',
-            fields: [
-              screenReaderLabel('previousLabel', 'Previous button', 'Previous step'),
-              screenReaderLabel('nextLabel', 'Next button', 'Next step'),
-            ],
-          },
+          collapsed('Screen reader labels', [
+            {
+              type: 'row',
+              fields: [
+                screenReaderLabel('previousLabel', 'Previous button', 'Previous step'),
+                screenReaderLabel('nextLabel', 'Next button', 'Next step'),
+              ],
+            },
+          ]),
           {
             name: 'stats',
             type: 'array',
@@ -261,7 +264,7 @@ export const HomePage = editableGlobal({
             ],
           },
         ]),
-        section('testimonials', 'Testimonials', [
+        section(page, 'testimonials', [
           eyebrow,
           heading,
           {
@@ -275,18 +278,20 @@ export const HomePage = editableGlobal({
             admin: {
               step: 1,
               description:
-                'How many published reviews to show, 1 to 12, in the order of the Testimonials list.',
+                'How many published reviews to show, 1 to 12, in the order of the Reviews list.',
             },
           },
-          {
-            type: 'row',
-            fields: [
-              screenReaderLabel('previousLabel', 'Previous button', 'Previous review'),
-              screenReaderLabel('nextLabel', 'Next button', 'Next review'),
-            ],
-          },
+          collapsed('Screen reader labels', [
+            {
+              type: 'row',
+              fields: [
+                screenReaderLabel('previousLabel', 'Previous button', 'Previous review'),
+                screenReaderLabel('nextLabel', 'Next button', 'Next review'),
+              ],
+            },
+          ]),
         ]),
-        section('brands', 'Brands', [
+        section(page, 'brands', [
           text({
             name: 'title',
             max: 60,
@@ -294,7 +299,7 @@ export const HomePage = editableGlobal({
           }),
           link({ name: 'button' }),
         ]),
-        seoTab,
+        seoTab(page),
       ],
     },
   ],

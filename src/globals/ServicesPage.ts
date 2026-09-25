@@ -3,18 +3,18 @@ import { text, textarea } from '@/fields/text'
 
 import { editableGlobal, pageHero, section, seoTab } from './shared'
 
+const page = 'services-page'
+
 export const ServicesPage = editableGlobal({
-  slug: 'services-page',
-  label: 'Services',
-  group: 'Pages',
-  previewAt: '/services',
-  description: 'Packages and prices are edited in Service Packages',
+  slug: page,
+  description:
+    'The Services page, top to bottom. The packages and prices themselves are edited in Service Packages.',
   fields: [
     {
       type: 'tabs',
       tabs: [
-        section('hero', 'Hero', pageHero),
-        section('labels', 'Package labels', [
+        section(page, 'hero', pageHero),
+        section(page, 'labels', [
           {
             type: 'row',
             fields: [
@@ -34,12 +34,12 @@ export const ServicesPage = editableGlobal({
           },
           link({ name: 'bookButton', label: 'Package button' }),
         ]),
-        section('cta', 'Call to action', [
+        section(page, 'cta', [
           text({ name: 'title', max: 60, help: 'Large heading on the red banner.' }),
           textarea({ name: 'text', max: 200, help: 'One or two sentences under the heading.' }),
           link({ name: 'button' }),
         ]),
-        seoTab,
+        seoTab(page),
       ],
     },
   ],

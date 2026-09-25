@@ -6,9 +6,11 @@ export const anyone: Access = () => true
 
 export const authenticated: Access<User> = ({ req: { user } }) => Boolean(user)
 
-export const admins: Access<User> = ({ req: { user } }) => user?.role === 'admin'
+export const isAdmin = (user: unknown) => (user as User | null | undefined)?.role === 'admin'
 
-export const adminsFieldLevel: FieldAccess<User> = ({ req: { user } }) => user?.role === 'admin'
+export const admins: Access<User> = ({ req: { user } }) => isAdmin(user)
+
+export const adminsFieldLevel: FieldAccess<User> = ({ req: { user } }) => isAdmin(user)
 
 export const adminsOrSelf: Access<User> = ({ req: { user } }) => {
   if (user?.role === 'admin') return true

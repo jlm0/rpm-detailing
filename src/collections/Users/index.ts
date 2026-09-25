@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
-import { admins, adminsFieldLevel, adminsOrSelf } from '@/access'
+import { admins, adminsFieldLevel, adminsOrSelf, isAdmin } from '@/access'
+import { documentViews } from '@/admin/document'
 
 import { ensureFirstUserIsAdmin, preventDeletingLastAdmin, preventDemotingLastAdmin } from './hooks'
 
@@ -11,6 +12,8 @@ export const Users: CollectionConfig = {
     useAsTitle: 'name',
     defaultColumns: ['name', 'email', 'role'],
     description: 'People who can sign in to manage the site',
+    hidden: ({ user }) => !isAdmin(user),
+    components: { views: documentViews },
   },
   auth: {
     maxLoginAttempts: 5,

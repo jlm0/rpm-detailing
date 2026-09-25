@@ -1,15 +1,22 @@
 import { image } from '@/fields/image'
 import { text, textarea } from '@/fields/text'
+import { outlineFor, trail } from '@/lib/site-map'
 
 import { contentCollection } from './content'
 
 export const Testimonials = contentCollection({
   slug: 'testimonials',
+  labels: { singular: 'Review', plural: 'Reviews' },
   admin: {
     useAsTitle: 'name',
     defaultColumns: ['name', 'title', '_status'],
     description:
-      'Customer reviews shown on the Home page. Drag to reorder. The Home page sets how many are shown.',
+      'Customer reviews for the carousel on the Home page. Drag to reorder. Home › Reviews sets how many are shown.',
+  },
+  where: {
+    trail: trail('Home', 'Reviews'),
+    where: 'One card in the review carousel, in the order of this list.',
+    outline: outlineFor('home-page', 'testimonials'),
   },
   fields: [
     {
