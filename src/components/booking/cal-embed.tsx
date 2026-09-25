@@ -102,7 +102,7 @@ export default function CalEmbed({
     <div className="relative h-full min-h-[600px] w-full md:min-h-[800px]">
       {isLoading && (
         <div className="absolute inset-0 flex items-center justify-center rounded-lg bg-brandLightGray">
-          <div className="text-center">
+          <div role="status" className="text-center">
             <LoadingSpinner size="lg" />
             <p className="mt-4 text-brandMediumGray">{loadingText}</p>
           </div>

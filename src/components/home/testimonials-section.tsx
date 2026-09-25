@@ -29,7 +29,7 @@ export function TestimonialsSection({ section, testimonials }: TestimonialsSecti
           className="mb-12 md:mb-16"
         />
         <Reveal order={1}>
-          <TestimonialsCarousel>
+          <TestimonialsCarousel previousLabel={section.previousLabel} nextLabel={section.nextLabel}>
             {testimonials.map((testimonial) => {
               const avatar = image(testimonial.avatar, 'thumbnail')
               return (
@@ -51,18 +51,19 @@ export function TestimonialsSection({ section, testimonials }: TestimonialsSecti
                           alt={avatar.alt}
                           width={44}
                           height={44}
-                          className="size-11 rounded-md object-cover"
+                          className="size-11 shrink-0 rounded-md object-cover"
+                          style={{ objectPosition: avatar.position }}
                           sizes="44px"
                         />
                       ) : (
                         <span
                           aria-hidden
-                          className="flex size-11 items-center justify-center rounded-md bg-brandInk text-sm font-semibold text-white"
+                          className="flex size-11 shrink-0 items-center justify-center rounded-md bg-brandInk text-sm font-semibold text-white"
                         >
                           {initials(testimonial.name)}
                         </span>
                       )}
-                      <div>
+                      <div className="min-w-0">
                         <p className="font-semibold text-brandInk">{testimonial.name}</p>
                         {testimonial.title && (
                           <p className="text-sm text-brandMediumGray">{testimonial.title}</p>

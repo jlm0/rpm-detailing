@@ -46,18 +46,22 @@ export function AboutSection({ about, transformation, yearsOfExperience }: About
                   alt={aboutImage.alt}
                   fill
                   className="object-cover"
+                  style={{ objectPosition: aboutImage.position }}
                   sizes="(max-width: 768px) 100vw, 50vw"
                 />
               </div>
             )}
-            <div className="absolute -right-4 -bottom-8 flex min-w-40 flex-col gap-1 rounded-md bg-brandRed bg-grunge-texture px-6 py-5 text-white bg-blend-multiply shadow-[0_24px_48px_-24px_rgb(217_35_45/0.8)] md:right-auto md:-left-6 lg:-left-10">
-              <p className="font-display text-5xl leading-none font-bold tracking-tight [font-stretch:118%]">
-                {yearsOfExperience}+
-              </p>
-              <p className="text-xs font-semibold tracking-[0.16em] text-white/85 uppercase">
-                {about.badgeLabel}
-              </p>
-            </div>
+            {yearsOfExperience > 0 && (
+              <div className="absolute -right-4 -bottom-8 flex max-w-60 min-w-40 flex-col gap-1 rounded-md bg-brandRed bg-grunge-texture px-6 py-5 text-white bg-blend-multiply shadow-[0_24px_48px_-24px_rgb(217_35_45/0.8)] md:right-auto md:-left-6 lg:-left-10">
+                <p className="font-display text-5xl leading-none font-bold tracking-tight whitespace-nowrap [font-stretch:118%]">
+                  {yearsOfExperience}
+                  {about.badgeSuffix}
+                </p>
+                <p className="text-xs font-semibold tracking-[0.16em] text-white/85 uppercase">
+                  {about.badgeLabel}
+                </p>
+              </div>
+            )}
           </Reveal>
           <div>
             <SectionHeading
@@ -114,6 +118,7 @@ export function AboutSection({ about, transformation, yearsOfExperience }: About
                       alt={photo.alt}
                       fill
                       className="object-cover"
+                      style={{ objectPosition: photo.position }}
                       sizes="(max-width: 768px) 50vw, 25vw"
                     />
                   </Reveal>

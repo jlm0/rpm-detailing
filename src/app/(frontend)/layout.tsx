@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 
 import '@/app/globals.css'
 
+import { ErrorCopyProvider } from '@/components/error-copy'
 import { LivePreviewListener } from '@/components/live-preview-listener'
 import { MotionProvider } from '@/components/motion/motion-provider'
 import { getGlobal, isPreview } from '@/lib/cms'
@@ -27,13 +28,18 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const preview = await isPreview()
+  const [preview, { business, errorPage }] = await Promise.all([
+    isPreview(),
+    getGlobal('site-settings'),
+  ])
 
   return (
     <html lang="en" className={fontVariables} data-scroll-behavior="smooth">
       <body>
         <MotionProvider>
-          <div className="overflow-x-clip">{children}</div>
+          <ErrorCopyProvider value={{ ...errorPage, businessName: business.name }}>
+            <div className="overflow-x-clip">{children}</div>
+          </ErrorCopyProvider>
         </MotionProvider>
         {preview && (
           <>

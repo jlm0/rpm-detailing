@@ -77,5 +77,6 @@ export const image = (media: number | Media | null | undefined, size?: ImageSize
     alt: media.alt,
     width: (size && media.sizes?.[size]?.width) || media.width || undefined,
     height: (size && media.sizes?.[size]?.height) || media.height || undefined,
+    position: `${String(media.focalX ?? 50)}% ${String(media.focalY ?? 50)}%`,
   }
 }

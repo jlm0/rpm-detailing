@@ -21,19 +21,23 @@ export function ProcessSection({ process }: { process: HomePage['process'] }) {
           align="center"
           className="mb-12 md:mb-14"
         />
-        <ProcessSteps steps={steps} />
+        <ProcessSteps
+          steps={steps}
+          previousLabel={process.previousLabel}
+          nextLabel={process.nextLabel}
+        />
         {process.stats && process.stats.length > 0 && (
           <Reveal
             stagger
-            className="mx-auto mt-16 grid max-w-6xl grid-cols-2 gap-y-10 md:mt-24 md:grid-cols-4"
+            className="mx-auto mt-16 flex max-w-6xl flex-wrap justify-center gap-y-10 md:mt-24 md:flex-nowrap"
           >
             {process.stats.map((stat, index) => (
               <Reveal
                 key={stat.id ?? index}
-                className="flex flex-col items-center gap-2 border-neutral-300 px-4 text-center md:border-l md:first:border-l-0"
+                className="flex min-w-0 basis-1/2 flex-col items-center gap-2 border-neutral-300 px-4 text-center md:flex-1 md:border-l md:first:border-l-0"
               >
                 <Icon name={stat.icon} strokeWidth={1.5} className="mb-2 size-6 text-brandRed" />
-                <p className="font-display text-5xl leading-none font-bold tracking-tight text-brandInk [font-stretch:118%] tabular-nums lg:text-6xl">
+                <p className="font-display text-4xl leading-none font-bold tracking-tight whitespace-nowrap text-brandInk [font-stretch:118%] tabular-nums lg:text-5xl xl:text-6xl">
                   {stat.value}
                 </p>
                 <p className="text-sm text-brandMediumGray">{stat.label}</p>
