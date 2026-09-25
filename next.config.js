@@ -3,6 +3,7 @@ import { withPayload } from '@payloadcms/next/withPayload'
 import redirects from './redirects.js'
 
 const isDev = process.env.NODE_ENV === 'development'
+const servedOverHttp = process.env.NEXT_PUBLIC_SERVER_URL?.startsWith('http://') ?? false
 
 const contentSecurityPolicy = [
   "default-src 'self'",
@@ -16,7 +17,7 @@ const contentSecurityPolicy = [
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",
-  ...(isDev ? [] : ['upgrade-insecure-requests']),
+  ...(isDev || servedOverHttp ? [] : ['upgrade-insecure-requests']),
 ].join('; ')
 
 /** @type {import('next').NextConfig} */
