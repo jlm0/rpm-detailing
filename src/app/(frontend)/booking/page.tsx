@@ -19,7 +19,10 @@ export default async function BookingPage() {
 
   if (!calendar.enabled) {
     return (
-      <div className="flex min-h-svh flex-col items-center justify-center bg-brandInk p-4 text-center text-white">
+      <div
+        data-cms="booking-page/unavailable"
+        className="flex min-h-svh flex-col items-center justify-center bg-brandInk p-4 text-center text-white"
+      >
         <h1 className="mb-4 max-w-2xl text-4xl font-bold md:text-5xl">{unavailable.title}</h1>
         <p className="mb-10 max-w-md leading-relaxed text-white/65">
           {unavailable.message.replaceAll('{phone}', business.phone)}
@@ -37,7 +40,10 @@ export default async function BookingPage() {
 
   return (
     <div className="min-h-svh bg-brandLightGray">
-      <div className="bg-brandInk bg-grain pb-40 text-white md:pb-48">
+      <div
+        data-cms="booking-page/content"
+        className="bg-brandInk bg-grain pb-40 text-white md:pb-48"
+      >
         <header className="container mx-auto flex h-20 items-center justify-between px-4 md:px-8">
           <Button
             asChild
@@ -75,7 +81,10 @@ export default async function BookingPage() {
       </div>
 
       <main className="container mx-auto -mt-28 px-4 pb-20 md:-mt-36 md:px-8">
-        <div className="mx-auto h-[600px] max-w-5xl animate-rise overflow-auto rounded-xl bg-white p-3 shadow-[0_40px_80px_-40px_rgb(17_17_17/0.5)] ring-1 ring-black/5 enter-step-2 md:h-[800px] md:p-6">
+        <div
+          data-cms="booking-page/calendar"
+          className="mx-auto h-[600px] max-w-5xl animate-rise overflow-auto rounded-xl bg-white p-3 shadow-[0_40px_80px_-40px_rgb(17_17_17/0.5)] ring-1 ring-black/5 enter-step-2 md:h-[800px] md:p-6"
+        >
           <CalEmbed
             calLink={calendar.calLink}
             eventSlug={calendar.eventSlug}

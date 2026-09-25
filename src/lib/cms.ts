@@ -1,7 +1,7 @@
 import 'server-only'
 
 import { unstable_cache } from 'next/cache'
-import { draftMode } from 'next/headers'
+import { draftMode, headers } from 'next/headers'
 import { connection } from 'next/server'
 import { getPayload } from 'payload'
 import { cache } from 'react'
@@ -37,6 +37,13 @@ const cacheKey = process.env.VERCEL_DEPLOYMENT_ID ?? 'local'
 export const isPreview = cache(async () => {
   await connection()
   return (await draftMode()).isEnabled
+})
+
+export const isEditorPreview = cache(async () => {
+  if (!(await isPreview())) return false
+  const payload = await getPayload({ config })
+  const { user } = await payload.auth({ headers: await headers() })
+  return Boolean(user)
 })
 
 const bypassCache = async () => process.env.NODE_ENV === 'development' || (await isPreview())

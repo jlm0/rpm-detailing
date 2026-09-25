@@ -19,7 +19,10 @@ export function HeroSection({ hero, business }: HeroSectionProps) {
   const background = image(hero.backgroundImage, 'hero')
 
   return (
-    <section className="relative isolate flex min-h-[max(40rem,calc(100svh-5rem))] flex-col justify-end overflow-hidden bg-brandInk text-white md:justify-center">
+    <section
+      data-cms="home-page/hero"
+      className="relative isolate flex min-h-[max(40rem,calc(100svh-5rem))] flex-col justify-end overflow-hidden bg-brandInk text-white md:justify-center"
+    >
       {background && (
         <div className="absolute inset-x-0 top-0 -z-10 h-[58%] hero-parallax md:inset-0 md:h-auto">
           <Image

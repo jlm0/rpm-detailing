@@ -8,7 +8,10 @@ type AboutValuesProps = AboutPage['values']
 
 export default function AboutValues({ title, subtitle, items }: AboutValuesProps) {
   return (
-    <section className="bg-brandDark bg-tire-track-pattern py-20 text-white md:py-28 lg:py-32">
+    <section
+      data-cms="about-page/values"
+      className="bg-brandDark bg-tire-track-pattern py-20 text-white md:py-28 lg:py-32"
+    >
       <div className="container mx-auto px-4">
         <SectionHeading
           title={title}

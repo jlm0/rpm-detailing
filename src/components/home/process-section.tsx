@@ -13,7 +13,7 @@ export function ProcessSection({ process }: { process: HomePage['process'] }) {
   })
 
   return (
-    <section className="bg-brandLightGray py-20 md:py-28 lg:py-36">
+    <section data-cms="home-page/process" className="bg-brandLightGray py-20 md:py-28 lg:py-36">
       <div className="container mx-auto px-4">
         <SectionHeading
           eyebrow={process.eyebrow}

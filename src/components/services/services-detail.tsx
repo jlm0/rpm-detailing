@@ -21,7 +21,7 @@ export default function ServicesDetail({ services, labels }: ServicesDetailProps
   if (services.length === 0) return null
 
   return (
-    <section className="bg-white py-20 md:py-28 lg:py-32">
+    <section data-cms="services-page/labels" className="bg-white py-20 md:py-28 lg:py-32">
       <div className="container mx-auto divide-y divide-neutral-200 px-4">
         {services.map((service, index) => {
           const photo = image(service.image, 'card')
@@ -30,6 +30,7 @@ export default function ServicesDetail({ services, labels }: ServicesDetailProps
             <article
               key={service.id}
               id={serviceAnchor(service.id)}
+              data-cms={`services/${String(service.id)}`}
               className="grid scroll-mt-28 gap-10 py-16 first:pt-0 last:pb-0 md:grid-cols-2 md:gap-14 md:py-24 lg:gap-24"
             >
               <Reveal className={cn('md:sticky md:top-28 md:self-start', reversed && 'md:order-2')}>

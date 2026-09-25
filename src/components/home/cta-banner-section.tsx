@@ -10,7 +10,10 @@ import type { HomePage } from '@/payload-types'
 
 export function CtaBannerSection({ ctaBanner }: { ctaBanner: HomePage['ctaBanner'] }) {
   return (
-    <section className="bg-brandRed bg-grunge-texture py-20 text-white bg-blend-multiply md:py-28 lg:py-32">
+    <section
+      data-cms="home-page/ctaBanner"
+      className="bg-brandRed bg-grunge-texture py-20 text-white bg-blend-multiply md:py-28 lg:py-32"
+    >
       <div className="container mx-auto px-4">
         <div className="mb-14 flex flex-col gap-8 md:mb-20 md:flex-row md:items-end md:justify-between">
           <SectionHeading eyebrow={ctaBanner.eyebrow} title={ctaBanner.heading} tone="red" />

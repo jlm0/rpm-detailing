@@ -37,7 +37,10 @@ export function AboutSection({ about, transformation, yearsOfExperience }: About
   return (
     <section id="about" className="overflow-hidden bg-white py-20 md:py-28 lg:py-36">
       <div className="container mx-auto px-4">
-        <div className="grid items-center gap-16 md:grid-cols-2 lg:grid-cols-[1.1fr_1fr] lg:gap-24">
+        <div
+          data-cms="home-page/about"
+          className="grid items-center gap-16 md:grid-cols-2 lg:grid-cols-[1.1fr_1fr] lg:gap-24"
+        >
           <Reveal className="relative mr-4 mb-8 md:mr-0">
             {aboutImage && (
               <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-brandLightGray lg:aspect-[5/4]">
@@ -77,7 +80,10 @@ export function AboutSection({ about, transformation, yearsOfExperience }: About
           </div>
         </div>
 
-        <div className="mt-28 grid items-center gap-16 md:grid-cols-2 lg:mt-40 lg:grid-cols-[1fr_1.1fr] lg:gap-24">
+        <div
+          data-cms="home-page/transformation"
+          className="mt-28 grid items-center gap-16 md:grid-cols-2 lg:mt-40 lg:grid-cols-[1fr_1.1fr] lg:gap-24"
+        >
           <div>
             <SectionHeading
               eyebrow={transformation.eyebrow}

@@ -17,7 +17,7 @@ export default async function Page() {
     <div className="flex min-h-screen flex-col bg-white">
       <SiteHeader />
       <main id="main-content" className="flex flex-1 flex-col">
-        <PageHero {...hero} />
+        <PageHero {...hero} cms="about-page/hero" />
         <AboutStory {...story} />
         <AboutValues {...values} />
         {team.members && team.members.length > 0 && <AboutTeam {...team} members={team.members} />}

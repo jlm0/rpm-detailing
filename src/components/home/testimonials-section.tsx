@@ -21,7 +21,11 @@ const initials = (name: string) =>
 
 export function TestimonialsSection({ section, testimonials }: TestimonialsSectionProps) {
   return (
-    <section id="testimonials" className="bg-white py-20 md:py-28 lg:py-36">
+    <section
+      id="testimonials"
+      data-cms="home-page/testimonials"
+      className="bg-white py-20 md:py-28 lg:py-36"
+    >
       <div className="container mx-auto px-4">
         <SectionHeading
           eyebrow={section.eyebrow}

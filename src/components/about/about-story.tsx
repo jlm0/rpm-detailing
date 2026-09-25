@@ -10,7 +10,7 @@ export default function AboutStory({ title, content, image: media }: AboutPage['
   const photo = image(media, 'card')
 
   return (
-    <section className="bg-white py-20 md:py-28 lg:py-36">
+    <section data-cms="about-page/story" className="bg-white py-20 md:py-28 lg:py-36">
       <div className="container mx-auto px-4">
         <div className="grid items-center gap-12 md:grid-cols-2 lg:grid-cols-[1fr_1.15fr] lg:gap-24">
           <div>

@@ -11,7 +11,7 @@ type AboutTeamProps = AboutPage['team'] & {
 
 export default function AboutTeam({ title, subtitle, members }: AboutTeamProps) {
   return (
-    <section className="bg-white py-20 md:py-28 lg:py-36">
+    <section data-cms="about-page/team" className="bg-white py-20 md:py-28 lg:py-36">
       <div className="container mx-auto px-4">
         <SectionHeading
           title={title}

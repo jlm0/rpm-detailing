@@ -9,7 +9,10 @@ import type { ServicesPage } from '@/payload-types'
 
 export default function ServicesCta({ title, text, button }: ServicesPage['cta']) {
   return (
-    <section className="bg-brandRed bg-grunge-texture py-20 text-white bg-blend-multiply md:py-28">
+    <section
+      data-cms="services-page/cta"
+      className="bg-brandRed bg-grunge-texture py-20 text-white bg-blend-multiply md:py-28"
+    >
       <div className="container mx-auto flex flex-col items-center px-4 text-center">
         <SectionHeading title={title} description={text} tone="red" align="center" />
         <Reveal order={1} className="mt-10">

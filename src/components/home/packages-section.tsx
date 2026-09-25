@@ -32,6 +32,7 @@ export function PackagesSection({ packages, services }: PackagesSectionProps) {
   return (
     <section
       id="services"
+      data-cms="home-page/packages"
       className="bg-brandDark bg-tire-track-pattern py-20 text-white md:py-28 lg:py-36"
     >
       <div className="container mx-auto px-4">

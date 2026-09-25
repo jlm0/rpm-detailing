@@ -15,7 +15,7 @@ export default async function Page() {
     <div className="flex min-h-screen flex-col bg-white">
       <SiteHeader />
       <main id="main-content" className="flex flex-1 flex-col">
-        <PageHero {...page.hero} />
+        <PageHero {...page.hero} cms="services-page/hero" />
         <ServicesDetail services={services} labels={page.labels} />
         <ServicesCta {...page.cta} />
       </main>

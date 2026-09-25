@@ -7,13 +7,17 @@ interface PageHeroProps {
   title: string
   subtitle: string
   image: number | Media
+  cms: string
 }
 
-export function PageHero({ title, subtitle, image: media }: PageHeroProps) {
+export function PageHero({ title, subtitle, image: media, cms }: PageHeroProps) {
   const background = image(media, 'hero')
 
   return (
-    <section className="relative isolate flex min-h-[26rem] items-end overflow-hidden bg-brandInk text-white md:min-h-[34rem]">
+    <section
+      data-cms={cms}
+      className="relative isolate flex min-h-[26rem] items-end overflow-hidden bg-brandInk text-white md:min-h-[34rem]"
+    >
       {background && (
         <div className="absolute inset-0 -z-20 hero-parallax">
           <Image

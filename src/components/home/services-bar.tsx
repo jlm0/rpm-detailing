@@ -6,7 +6,7 @@ type Items = NonNullable<NonNullable<HomePage['servicesBar']>['items']>
 
 export function ServicesBar({ items }: { items: Items }) {
   return (
-    <section className="border-b border-white/5 bg-brandInk">
+    <section data-cms="home-page/servicesBar" className="border-b border-white/5 bg-brandInk">
       <div className="container mx-auto px-4">
         <Reveal
           stagger

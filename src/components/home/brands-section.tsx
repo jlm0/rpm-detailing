@@ -14,7 +14,11 @@ interface BrandsSectionProps {
 
 export function BrandsSection({ section, brands }: BrandsSectionProps) {
   return (
-    <section id="brands" className="bg-brandInk py-20 text-white md:py-28">
+    <section
+      id="brands"
+      data-cms="home-page/brands"
+      className="bg-brandInk py-20 text-white md:py-28"
+    >
       <div className="container mx-auto px-4">
         <SectionHeading title={section.title} tone="dark" align="center" className="mb-12" />
         <Reveal

@@ -21,7 +21,11 @@ export default async function SiteFooter() {
   const copyright = footer.copyright.replaceAll('{year}', String(new Date().getFullYear()))
 
   return (
-    <footer id="contact" className="border-t border-white/5 bg-brandDark bg-grain text-white/70">
+    <footer
+      id="contact"
+      data-cms="footer"
+      className="border-t border-white/5 bg-brandDark bg-grain text-white/70"
+    >
       <div className="container mx-auto px-4 pt-20 pb-10 md:pt-24">
         <Reveal
           stagger
