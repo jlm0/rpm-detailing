@@ -1,7 +1,7 @@
 import Image from 'next/image'
 
 import ScrollAnimate from '@/components/motion/scroll-animate'
-import { Card, CardContent } from '@/components/ui/card'
+import { SectionHeading } from '@/components/ui/section-heading'
 import { image } from '@/lib/cms'
 import type { AboutPage } from '@/payload-types'
 
@@ -11,36 +11,50 @@ type AboutTeamProps = AboutPage['team'] & {
 
 export default function AboutTeam({ title, subtitle, members }: AboutTeamProps) {
   return (
-    <section className="bg-white py-16 lg:py-24">
+    <section className="bg-white py-20 md:py-28 lg:py-36">
       <div className="container mx-auto px-4">
-        <ScrollAnimate variantName="fadeInUp" className="mb-12 text-center">
-          <h2 className="mb-4 text-3xl font-bold text-brandDark lg:text-4xl">{title}</h2>
-          <p className="mx-auto max-w-2xl text-lg text-brandMediumGray">{subtitle}</p>
-        </ScrollAnimate>
+        <SectionHeading
+          title={title}
+          description={subtitle}
+          align="center"
+          className="mb-14 md:mb-16"
+        />
 
         <ScrollAnimate
           variantName="fadeIn"
           staggerChildren={0.1}
-          className="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+          className="flex flex-wrap justify-center gap-x-6 gap-y-12"
         >
           {members.map((member, index) => {
             const photo = image(member.photo, 'card')
             return (
-              <ScrollAnimate key={member.id ?? index} variantName="fadeInUp">
-                <Card className="h-full min-h-[400px] transition-shadow hover:shadow-lg">
+              <ScrollAnimate
+                key={member.id ?? index}
+                variantName="fadeInUp"
+                className="group w-full max-w-sm sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)]"
+              >
+                <figure>
                   {photo && (
-                    <div className="relative aspect-square overflow-hidden">
-                      <Image src={photo.url} alt={photo.alt} fill className="object-cover" />
+                    <div className="relative mb-6 aspect-[4/5] overflow-hidden rounded-lg bg-brandInk">
+                      <Image
+                        src={photo.url}
+                        alt={photo.alt}
+                        fill
+                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
+                      />
                     </div>
                   )}
-                  <CardContent className="p-6">
-                    <h3 className="mb-1 text-xl font-semibold text-brandDark">{member.name}</h3>
-                    <p className="mb-3 font-medium text-brandRed">{member.position}</p>
+                  <figcaption>
+                    <p className="text-xs font-semibold tracking-[0.2em] text-brandRed uppercase">
+                      {member.position}
+                    </p>
+                    <h3 className="mt-2 text-2xl font-bold text-brandInk">{member.name}</h3>
                     {member.bio && (
-                      <p className="line-clamp-3 text-sm text-brandMediumGray">{member.bio}</p>
+                      <p className="mt-3 leading-relaxed text-brandMediumGray">{member.bio}</p>
                     )}
-                  </CardContent>
-                </Card>
+                  </figcaption>
+                </figure>
               </ScrollAnimate>
             )
           })}

@@ -2,6 +2,7 @@ import Image from 'next/image'
 
 import ScrollAnimate from '@/components/motion/scroll-animate'
 import { RichText } from '@/components/rich-text'
+import { SectionHeading } from '@/components/ui/section-heading'
 import { image } from '@/lib/cms'
 import type { AboutPage } from '@/payload-types'
 
@@ -9,20 +10,30 @@ export default function AboutStory({ title, content, image: media }: AboutPage['
   const photo = image(media, 'card')
 
   return (
-    <section className="bg-white py-16 lg:py-24">
+    <section className="bg-white py-20 md:py-28 lg:py-36">
       <div className="container mx-auto px-4">
-        <div className="grid items-center gap-12 md:grid-cols-2 lg:gap-16">
-          <ScrollAnimate variantName="fadeInUp">
-            <h2 className="mb-6 text-3xl font-bold text-brandDark lg:text-4xl">{title}</h2>
-            <RichText
-              data={content}
-              className="prose prose-sm max-w-none text-brandMediumGray md:prose-lg"
-            />
-          </ScrollAnimate>
+        <div className="grid items-center gap-12 md:grid-cols-2 lg:grid-cols-[1fr_1.15fr] lg:gap-24">
+          <div>
+            <SectionHeading title={title} />
+            <ScrollAnimate variantName="fadeInUp" delay={0.1} className="mt-6">
+              <RichText
+                data={content}
+                className="prose max-w-prose text-brandMediumGray md:prose-lg"
+              />
+            </ScrollAnimate>
+          </div>
 
-          <ScrollAnimate variantName="fadeInUp" delay={0.2}>
-            <div className="relative aspect-[4/3] overflow-hidden rounded-lg shadow-xl">
-              {photo && <Image src={photo.url} alt={photo.alt} fill className="object-cover" />}
+          <ScrollAnimate variantName="fadeInUp" delay={0.15}>
+            <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-brandInk lg:aspect-[5/4]">
+              {photo && (
+                <Image
+                  src={photo.url}
+                  alt={photo.alt}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 55vw"
+                />
+              )}
             </div>
           </ScrollAnimate>
         </div>

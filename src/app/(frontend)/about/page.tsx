@@ -1,8 +1,8 @@
 import AboutCta from '@/components/about/about-cta'
-import AboutHero from '@/components/about/about-hero'
 import AboutStory from '@/components/about/about-story'
 import AboutTeam from '@/components/about/about-team'
 import AboutValues from '@/components/about/about-values'
+import { PageHero } from '@/components/layout/page-hero'
 import SiteFooter from '@/components/layout/site-footer'
 import SiteHeader from '@/components/layout/site-header'
 import { getGlobal } from '@/lib/cms'
@@ -17,7 +17,7 @@ export default async function Page() {
     <div className="flex min-h-screen flex-col bg-white">
       <SiteHeader />
       <main className="flex flex-1 flex-col">
-        <AboutHero {...hero} />
+        <PageHero {...hero} />
         <AboutStory {...story} />
         <AboutValues {...values} />
         {team.members && team.members.length > 0 && <AboutTeam {...team} members={team.members} />}
