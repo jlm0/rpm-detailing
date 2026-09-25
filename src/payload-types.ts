@@ -67,10 +67,11 @@ export interface Config {
   };
   blocks: {};
   collections: {
-    users: User;
-    media: Media;
+    services: Service;
     testimonials: Testimonial;
     brands: Brand;
+    media: Media;
+    users: User;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -78,10 +79,11 @@ export interface Config {
   };
   collectionsJoins: {};
   collectionsSelect: {
-    users: UsersSelect<false> | UsersSelect<true>;
-    media: MediaSelect<false> | MediaSelect<true>;
+    services: ServicesSelect<false> | ServicesSelect<true>;
     testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
     brands: BrandsSelect<false> | BrandsSelect<true>;
+    media: MediaSelect<false> | MediaSelect<true>;
+    users: UsersSelect<false> | UsersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -92,18 +94,22 @@ export interface Config {
   };
   fallbackLocale: null;
   globals: {
-    'site-settings': SiteSetting;
-    'landing-page': LandingPage;
+    'home-page': HomePage;
     'services-page': ServicesPage;
-    'ui-labels': UiLabel;
     'about-page': AboutPage;
+    'booking-page': BookingPage;
+    'site-settings': SiteSetting;
+    header: Header;
+    footer: Footer;
   };
   globalsSelect: {
-    'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
-    'landing-page': LandingPageSelect<false> | LandingPageSelect<true>;
+    'home-page': HomePageSelect<false> | HomePageSelect<true>;
     'services-page': ServicesPageSelect<false> | ServicesPageSelect<true>;
-    'ui-labels': UiLabelsSelect<false> | UiLabelsSelect<true>;
     'about-page': AboutPageSelect<false> | AboutPageSelect<true>;
+    'booking-page': BookingPageSelect<false> | BookingPageSelect<true>;
+    'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
+    header: HeaderSelect<false> | HeaderSelect<true>;
+    footer: FooterSelect<false> | FooterSelect<true>;
   };
   locale: null;
   widgets: {
@@ -134,13 +140,168 @@ export interface UserAuthOperations {
   };
 }
 /**
+ * Detailing packages and pricing. Drag to reorder. Shown on the Services page and wherever the Home page features them.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services".
+ */
+export interface Service {
+  id: number;
+  _order?: string | null;
+  title: string;
+  /**
+   * For example $299 or $99/month
+   */
+  price: string;
+  /**
+   * For example 4-6 hours
+   */
+  duration?: string | null;
+  /**
+   * Short description for the Home page package cards
+   */
+  summary: string;
+  /**
+   * Full description for the Services page
+   */
+  description: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  features?:
+    | {
+        feature: string;
+        id?: string | null;
+      }[]
+    | null;
+  image: number | Media;
+  updatedAt: string;
+  createdAt: string;
+  deletedAt?: string | null;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Photos and logos used across the site
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media".
+ */
+export interface Media {
+  id: number;
+  /**
+   * Describe the photo for screen readers and search engines
+   */
+  alt: string;
+  prefix?: string | null;
+  _objectKey?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  deletedAt?: string | null;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+  sizes?: {
+    thumbnail?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    card?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    hero?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    og?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
+}
+/**
+ * Customer reviews shown on the Home page. Drag to reorder.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials".
+ */
+export interface Testimonial {
+  id: number;
+  _order?: string | null;
+  name: string;
+  /**
+   * For example Regular Client
+   */
+  title?: string | null;
+  review: string;
+  avatar?: (number | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+  deletedAt?: string | null;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Car brand logos shown on the Home page. Drag to reorder.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "brands".
+ */
+export interface Brand {
+  id: number;
+  _order?: string | null;
+  name: string;
+  logo: number | Media;
+  updatedAt: string;
+  createdAt: string;
+  deletedAt?: string | null;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * People who can sign in to manage the site
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
   id: number;
-  name?: string | null;
-  role?: ('admin' | 'editor' | 'user') | null;
+  name: string;
+  /**
+   * Admins manage users and all content. Editors manage content only.
+   */
+  role: 'admin' | 'editor';
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -160,59 +321,6 @@ export interface User {
     | null;
   password?: string | null;
   collection: 'users';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media".
- */
-export interface Media {
-  id: number;
-  alt?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
-}
-/**
- * Customer testimonials displayed on the landing page
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "testimonials".
- */
-export interface Testimonial {
-  id: number;
-  name?: string | null;
-  /**
-   * Customer's title or vehicle type (e.g., 'Tesla Model 3 Owner')
-   */
-  title?: string | null;
-  review?: string | null;
-  avatar?: (number | null) | Media;
-  rating?: number | null;
-  featured?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * Car brands/manufacturers displayed on the landing page
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "brands".
- */
-export interface Brand {
-  id: number;
-  name?: string | null;
-  logo?: (number | null) | Media;
-  order?: number | null;
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -239,12 +347,8 @@ export interface PayloadLockedDocument {
   id: number;
   document?:
     | ({
-        relationTo: 'users';
-        value: number | User;
-      } | null)
-    | ({
-        relationTo: 'media';
-        value: number | Media;
+        relationTo: 'services';
+        value: number | Service;
       } | null)
     | ({
         relationTo: 'testimonials';
@@ -253,6 +357,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'brands';
         value: number | Brand;
+      } | null)
+    | ({
+        relationTo: 'media';
+        value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'users';
+        value: number | User;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -298,6 +410,122 @@ export interface PayloadMigration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services_select".
+ */
+export interface ServicesSelect<T extends boolean = true> {
+  _order?: T;
+  title?: T;
+  price?: T;
+  duration?: T;
+  summary?: T;
+  description?: T;
+  features?:
+    | T
+    | {
+        feature?: T;
+        id?: T;
+      };
+  image?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  deletedAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials_select".
+ */
+export interface TestimonialsSelect<T extends boolean = true> {
+  _order?: T;
+  name?: T;
+  title?: T;
+  review?: T;
+  avatar?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  deletedAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "brands_select".
+ */
+export interface BrandsSelect<T extends boolean = true> {
+  _order?: T;
+  name?: T;
+  logo?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  deletedAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media_select".
+ */
+export interface MediaSelect<T extends boolean = true> {
+  alt?: T;
+  prefix?: T;
+  _objectKey?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  deletedAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+  sizes?:
+    | T
+    | {
+        thumbnail?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        card?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        hero?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        og?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+      };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
@@ -320,49 +548,6 @@ export interface UsersSelect<T extends boolean = true> {
         createdAt?: T;
         expiresAt?: T;
       };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media_select".
- */
-export interface MediaSelect<T extends boolean = true> {
-  alt?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  url?: T;
-  thumbnailURL?: T;
-  filename?: T;
-  mimeType?: T;
-  filesize?: T;
-  width?: T;
-  height?: T;
-  focalX?: T;
-  focalY?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "testimonials_select".
- */
-export interface TestimonialsSelect<T extends boolean = true> {
-  name?: T;
-  title?: T;
-  review?: T;
-  avatar?: T;
-  rating?: T;
-  featured?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "brands_select".
- */
-export interface BrandsSelect<T extends boolean = true> {
-  name?: T;
-  logo?: T;
-  order?: T;
-  updatedAt?: T;
-  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -405,186 +590,295 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   createdAt?: T;
 }
 /**
- * Global settings for the entire website including company info, navigation, and branding
- *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "site-settings".
+ * via the `definition` "home-page".
  */
-export interface SiteSetting {
+export interface HomePage {
   id: number;
-  companyName?: string | null;
-  phone?: string | null;
-  email?: string | null;
-  address?: string | null;
-  yearsOfExperience?: number | null;
-  hours?: {
-    weekdays?: string | null;
-    saturday?: string | null;
-    sunday?: string | null;
+  hero: {
+    /**
+     * Rotating headlines. Drag to reorder.
+     */
+    slides: {
+      /**
+       * Small text above the heading
+       */
+      eyebrow: string;
+      title: string;
+      id?: string | null;
+    }[];
+    backgroundImage: number | Media;
+    cta: {
+      label: string;
+      /**
+       * A page like /booking, a home page section like #services, or a full URL
+       */
+      url: string;
+    };
+    showPhone?: boolean | null;
+    /**
+     * For example Call Us:
+     */
+    phoneLabel: string;
+    showAddress?: boolean | null;
   };
-  contactInfo?: {
-    additionalPhones?:
+  servicesBar: {
+    /**
+     * The strip of services under the hero. Drag to reorder.
+     */
+    items: {
+      label: string;
+      icon:
+        | 'Award'
+        | 'CalendarDays'
+        | 'Car'
+        | 'Clock'
+        | 'Heart'
+        | 'Palette'
+        | 'Settings2'
+        | 'Shield'
+        | 'ShieldCheck'
+        | 'Sparkles'
+        | 'SprayCan'
+        | 'Star'
+        | 'Trophy'
+        | 'Users'
+        | 'Wind'
+        | 'Wrench';
+      id?: string | null;
+    }[];
+  };
+  about: {
+    /**
+     * Small text above the heading
+     */
+    eyebrow: string;
+    title: string;
+    body: string;
+    image: number | Media;
+    /**
+     * Shown under the years of experience from Business & SEO
+     */
+    badgeLabel: string;
+    cta: {
+      label: string;
+      /**
+       * A page like /booking, a home page section like #services, or a full URL
+       */
+      url: string;
+    };
+  };
+  transformation: {
+    /**
+     * Small text above the heading
+     */
+    eyebrow: string;
+    title: string;
+    body: string;
+    features?:
       | {
-          number?: string | null;
-          label?: string | null;
+          feature: string;
+          id?: string | null;
+        }[]
+      | null;
+    gallery: (number | Media)[];
+  };
+  packages: {
+    /**
+     * Small text above the heading
+     */
+    eyebrow: string;
+    title: string;
+    /**
+     * Packages shown on the Home page. Edit prices in Service Packages.
+     */
+    services: (number | Service)[];
+    cardButton: {
+      label: string;
+      /**
+       * A page like /booking, a home page section like #services, or a full URL
+       */
+      url: string;
+    };
+    viewAll: {
+      label: string;
+      /**
+       * A page like /booking, a home page section like #services, or a full URL
+       */
+      url: string;
+    };
+  };
+  ctaBanner: {
+    /**
+     * Small text above the heading
+     */
+    eyebrow: string;
+    heading: string;
+    steps: {
+      title: string;
+      description: string;
+      icon:
+        | 'Award'
+        | 'CalendarDays'
+        | 'Car'
+        | 'Clock'
+        | 'Heart'
+        | 'Palette'
+        | 'Settings2'
+        | 'Shield'
+        | 'ShieldCheck'
+        | 'Sparkles'
+        | 'SprayCan'
+        | 'Star'
+        | 'Trophy'
+        | 'Users'
+        | 'Wind'
+        | 'Wrench';
+      id?: string | null;
+    }[];
+    button: {
+      label: string;
+      /**
+       * A page like /booking, a home page section like #services, or a full URL
+       */
+      url: string;
+    };
+  };
+  process: {
+    /**
+     * Small text above the heading
+     */
+    eyebrow: string;
+    title: string;
+    /**
+     * Each step is a tab with its own photo
+     */
+    steps: {
+      title: string;
+      image: number | Media;
+      id?: string | null;
+    }[];
+    stats?:
+      | {
+          value: string;
+          label: string;
+          icon:
+            | 'Award'
+            | 'CalendarDays'
+            | 'Car'
+            | 'Clock'
+            | 'Heart'
+            | 'Palette'
+            | 'Settings2'
+            | 'Shield'
+            | 'ShieldCheck'
+            | 'Sparkles'
+            | 'SprayCan'
+            | 'Star'
+            | 'Trophy'
+            | 'Users'
+            | 'Wind'
+            | 'Wrench';
           id?: string | null;
         }[]
       | null;
   };
-  /**
-   * Light version of the logo for dark backgrounds
-   */
-  logo?: (number | null) | Media;
-  /**
-   * Dark version of the logo for light backgrounds
-   */
-  darkLogo?: (number | null) | Media;
-  description?: string | null;
-  /**
-   * Use {year} to automatically insert the current year
-   */
-  copyright?: string | null;
-  footerSectionTitles?: {
-    contactInfoTitle?: string | null;
-    openingHoursTitle?: string | null;
+  testimonials: {
+    /**
+     * Small text above the heading
+     */
+    eyebrow: string;
+    title: string;
   };
-  footerCTA?: {
-    heading?: string | null;
-    text?: string | null;
-    buttonText?: string | null;
-    buttonLink?: string | null;
+  brands: {
+    title: string;
+    button: {
+      label: string;
+      /**
+       * A page like /booking, a home page section like #services, or a full URL
+       */
+      url: string;
+    };
   };
-  /**
-   * Main navigation menu items. Items will be sorted by order number.
-   */
-  navigation?:
-    | {
-        label?: string | null;
-        /**
-         * Use / for home, /services for services page, #section-name for sections
-         */
-        link?: string | null;
-        order?: number | null;
-        id?: string | null;
-      }[]
-    | null;
-  headerCTA?: {
-    show?: boolean | null;
-    text?: string | null;
-    link?: string | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
   };
-  calcom?: {
-    enabled?: boolean | null;
-    /**
-     * Your Cal.com username or team slug (e.g., "yourname" for cal.com/yourname)
-     */
-    link?: string | null;
-    /**
-     * Optional: specific event type slug (e.g., "30min" for cal.com/yourname/30min)
-     */
-    eventSlug?: string | null;
-    /**
-     * Title to show when Cal.com is disabled
-     */
-    fallbackTitle?: string | null;
-    /**
-     * Message to show when Cal.com is disabled
-     */
-    fallbackMessage?: string | null;
-  };
-  /**
-   * The full URL of your website (without trailing slash)
-   */
-  siteUrl?: string | null;
-  /**
-   * Default meta description for the site
-   */
-  siteDescription?: string | null;
-  /**
-   * Comma-separated keywords for SEO
-   */
-  keywords?: string | null;
-  location?: {
-    city?: string | null;
-    state?: string | null;
-    country?: string | null;
-  };
-  /**
-   * Browser theme color (hex format)
-   */
-  themeColor?: string | null;
-  locale?: ('en_US' | 'es_US') | null;
-  openGraph?: {
-    /**
-     * Default image for social media sharing (recommended: 1200x630)
-     */
-    defaultImage?: (number | null) | Media;
-    /**
-     * Open Graph image width in pixels
-     */
-    imageWidth?: number | null;
-    /**
-     * Open Graph image height in pixels
-     */
-    imageHeight?: number | null;
-  };
-  twitter?: {
-    /**
-     * Twitter username without @ symbol
-     */
-    handle?: string | null;
-    cardType?: ('summary' | 'summary_large_image') | null;
-  };
+  _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
 /**
- * Manage all content sections for the home/landing page
+ * Packages and prices are edited in Service Packages
  *
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "landing-page".
+ * via the `definition` "services-page".
  */
-export interface LandingPage {
+export interface ServicesPage {
   id: number;
-  /**
-   * Rotating slides for the hero banner (recommended: 3 slides)
-   */
-  heroSlides?:
-    | {
-        title?: string | null;
-        subtitle?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  /**
-   * Common settings for all hero slides
-   */
-  hero?: {
-    backgroundImage?: (number | null) | Media;
-    ctaText?: string | null;
-    ctaLink?: string | null;
-    showPhoneNumbers?: boolean | null;
-    showAddress?: boolean | null;
+  hero: {
+    title: string;
+    subtitle: string;
+    image: number | Media;
   };
-  /**
-   * Quick overview of services shown below the hero section
-   */
-  servicesBar?:
-    | {
-        order?: number | null;
-        icon?: ('SprayCan' | 'Car' | 'Sparkles' | 'Wind' | 'ShieldCheck' | 'Palette') | null;
-        title?: string | null;
-        description?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  /**
-   * Brief about section on the landing page
-   */
-  aboutSection?: {
+  labels: {
+    /**
+     * Heading above each package’s list
+     */
+    includes: string;
+    /**
+     * Shown above each price, for example Starting at
+     */
+    price: string;
+    bookButton: {
+      label: string;
+      /**
+       * A page like /booking, a home page section like #services, or a full URL
+       */
+      url: string;
+    };
+  };
+  cta: {
+    title: string;
+    text: string;
+    button: {
+      label: string;
+      /**
+       * A page like /booking, a home page section like #services, or a full URL
+       */
+      url: string;
+    };
+  };
+  meta?: {
     title?: string | null;
-    subtitle?: string | null;
-    content?: {
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+  };
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about-page".
+ */
+export interface AboutPage {
+  id: number;
+  hero: {
+    title: string;
+    subtitle: string;
+    image: number | Media;
+  };
+  story: {
+    title: string;
+    content: {
       root: {
         type: string;
         children: {
@@ -598,421 +892,401 @@ export interface LandingPage {
         version: number;
       };
       [k: string]: unknown;
-    } | null;
-    image?: (number | null) | Media;
-    imageAltText?: string | null;
-    experienceBadgeText?: string | null;
-    bookNowText?: string | null;
-    features?:
-      | {
-          feature?: string | null;
-          id?: string | null;
-        }[]
-      | null;
-    stats?:
-      | {
-          value?: string | null;
-          label?: string | null;
-          icon?: ('Users' | 'Car' | 'Award' | 'Settings2' | 'Trophy' | 'Clock') | null;
-          id?: string | null;
-        }[]
-      | null;
-  };
-  servicesSection?: {
-    sectionSubtitle?: string | null;
-    sectionTitle?: string | null;
-    bookNowText?: string | null;
-    viewAllText?: string | null;
-  };
-  /**
-   * Detailed service packages shown on the landing page
-   */
-  detailedServices?:
-    | {
-        order?: number | null;
-        packageId?: string | null;
-        title?: string | null;
-        description?: string | null;
-        image?: (number | null) | Media;
-        price?: string | null;
-        duration?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  /**
-   * Mid-page call-to-action section with process steps
-   */
-  ctaBanner?: {
-    heading?: string | null;
-    description?: string | null;
-    buttonText?: string | null;
-    buttonLink?: string | null;
-    backgroundImage?: (number | null) | Media;
-    preHeading?: string | null;
-    ctaItems?:
-      | {
-          title?: string | null;
-          description?: string | null;
-          iconName?: ('Wrench' | 'CalendarDays' | 'Car' | 'Sparkles' | 'SprayCan') | null;
-          id?: string | null;
-        }[]
-      | null;
-  };
-  processSection?: {
-    /**
-     * Small text above the main title
-     */
-    preHeading?: string | null;
-    title?: string | null;
-    subtitle?: string | null;
-    imageAltText?: string | null;
-    steps?:
-      | {
-          order?: number | null;
-          title?: string | null;
-          active?: boolean | null;
-          description?: string | null;
-          image?: (number | null) | Media;
-          id?: string | null;
-        }[]
-      | null;
-  };
-  testimonialsSection?: {
-    title?: string | null;
-    subtitle?: string | null;
-  };
-  brandsSection?: {
-    title?: string | null;
-    subtitle?: string | null;
-    bookYourMakeText?: string | null;
-  };
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
-/**
- * Manage content for the dedicated services page
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "services-page".
- */
-export interface ServicesPage {
-  id: number;
-  heroTitle?: string | null;
-  heroSubtitle?: string | null;
-  heroImage?: (number | null) | Media;
-  heroImageAlt?: string | null;
-  serviceIncludesLabel?: string | null;
-  startingAtLabel?: string | null;
-  bookServiceButtonText?: string | null;
-  services?:
-    | {
-        title?: string | null;
-        description?: {
-          root: {
-            type: string;
-            children: {
-              type: any;
-              version: number;
-              [k: string]: unknown;
-            }[];
-            direction: ('ltr' | 'rtl') | null;
-            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-            indent: number;
-            version: number;
-          };
-          [k: string]: unknown;
-        } | null;
-        features?:
-          | {
-              feature?: string | null;
-              id?: string | null;
-            }[]
-          | null;
-        image?: (number | null) | Media;
-        price?: string | null;
-        duration?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  ctaTitle?: string | null;
-  ctaText?: string | null;
-  ctaButtonText?: string | null;
-  ctaButtonLink?: string | null;
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
-/**
- * User interface text and labels used throughout the website
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ui-labels".
- */
-export interface UiLabel {
-  id: number;
-  modalLabels?: {
-    getInTouch?: string | null;
-    contactInfo?: string | null;
-    openingHours?: string | null;
-    needHelp?: string | null;
-  };
-  navigationLabels?: {
-    menu?: string | null;
-    close?: string | null;
-    closeMobileMenu?: string | null;
-    toggleMobileMenu?: string | null;
-  };
-  buttons?: {
-    bookNow?: string | null;
-    viewAllServices?: string | null;
-    bookYourMake?: string | null;
-    getInTouch?: string | null;
-  };
-  accessibility?: {
-    closeModal?: string | null;
-    professionalCarPolishing?: string | null;
-    carDetailingProcess?: string | null;
-    carDetailingInAction?: string | null;
-  };
-  sectionHeaders?: {
-    ourDetailingPackages?: string | null;
-    transformYourVehicle?: string | null;
-    clientLove?: string | null;
-    whatOurClientsSay?: string | null;
-    weDetailAllMakes?: string | null;
-  };
-  statsLabels?: {
-    happyClients?: string | null;
-    vehiclesDetailed?: string | null;
-    yearsOfDetailing?: string | null;
-    detailingAwards?: string | null;
-    yearsOfExperience?: string | null;
-  };
-  processLabels?: {
-    washDecon?: string | null;
-    paintCorrection?: string | null;
-    protection?: string | null;
-    interiorFinishing?: string | null;
-  };
-  ctaDefaults?: {
-    chooseYourPackageTitle?: string | null;
-    chooseYourPackageDesc?: string | null;
-    scheduleYourDetailTitle?: string | null;
-    scheduleYourDetailDesc?: string | null;
-    enjoyPristineCarTitle?: string | null;
-    enjoyPristineCarDesc?: string | null;
-  };
-  serviceDefaults?: {
-    exteriorWash?: string | null;
-    interiorDetail?: string | null;
-    paintCorrection?: string | null;
-    ceramicCoating?: string | null;
-    wheelTireCare?: string | null;
-    odorRemoval?: string | null;
-  };
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
-/**
- * Manage content for the about us page
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "about-page".
- */
-export interface AboutPage {
-  id: number;
-  heroTitle?: string | null;
-  heroSubtitle?: string | null;
-  heroImage?: (number | null) | Media;
-  storyTitle?: string | null;
-  storyContent?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
     };
-    [k: string]: unknown;
-  } | null;
-  storyImage?: (number | null) | Media;
-  valuesSectionTitle?: string | null;
-  valuesSectionSubtitle?: string | null;
-  values?:
-    | {
-        title?: string | null;
-        description?: string | null;
-        /**
-         * Lucide icon name (e.g., Shield, Star, Heart)
-         */
-        icon?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  teamTitle?: string | null;
-  teamSubtitle?: string | null;
-  teamMembers?:
-    | {
-        name?: string | null;
-        position?: string | null;
-        bio?: string | null;
-        image?: (number | null) | Media;
-        id?: string | null;
-      }[]
-    | null;
-  ctaTitle?: string | null;
-  ctaButtonText?: string | null;
-  ctaButtonLink?: string | null;
+    image: number | Media;
+  };
+  values: {
+    title: string;
+    subtitle: string;
+    items: {
+      title: string;
+      description: string;
+      icon:
+        | 'Award'
+        | 'CalendarDays'
+        | 'Car'
+        | 'Clock'
+        | 'Heart'
+        | 'Palette'
+        | 'Settings2'
+        | 'Shield'
+        | 'ShieldCheck'
+        | 'Sparkles'
+        | 'SprayCan'
+        | 'Star'
+        | 'Trophy'
+        | 'Users'
+        | 'Wind'
+        | 'Wrench';
+      id?: string | null;
+    }[];
+  };
+  team: {
+    title: string;
+    subtitle: string;
+    /**
+     * Leave empty to hide the team section
+     */
+    members?:
+      | {
+          name: string;
+          position: string;
+          bio?: string | null;
+          photo?: (number | null) | Media;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  cta: {
+    title: string;
+    button: {
+      label: string;
+      /**
+       * A page like /booking, a home page section like #services, or a full URL
+       */
+      url: string;
+    };
+  };
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+  };
+  _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "site-settings_select".
+ * via the `definition` "booking-page".
  */
-export interface SiteSettingsSelect<T extends boolean = true> {
-  companyName?: T;
-  phone?: T;
-  email?: T;
-  address?: T;
-  yearsOfExperience?: T;
-  hours?:
-    | T
-    | {
-        weekdays?: T;
-        saturday?: T;
-        sunday?: T;
-      };
-  contactInfo?:
-    | T
-    | {
-        additionalPhones?:
-          | T
-          | {
-              number?: T;
-              label?: T;
-              id?: T;
-            };
-      };
-  logo?: T;
-  darkLogo?: T;
-  description?: T;
-  copyright?: T;
-  footerSectionTitles?:
-    | T
-    | {
-        contactInfoTitle?: T;
-        openingHoursTitle?: T;
-      };
-  footerCTA?:
-    | T
-    | {
-        heading?: T;
-        text?: T;
-        buttonText?: T;
-        buttonLink?: T;
-      };
-  navigation?:
-    | T
-    | {
-        label?: T;
-        link?: T;
-        order?: T;
-        id?: T;
-      };
-  headerCTA?:
-    | T
-    | {
-        show?: T;
-        text?: T;
-        link?: T;
-      };
-  calcom?:
-    | T
-    | {
-        enabled?: T;
-        link?: T;
-        eventSlug?: T;
-        fallbackTitle?: T;
-        fallbackMessage?: T;
-      };
-  siteUrl?: T;
-  siteDescription?: T;
-  keywords?: T;
-  location?:
-    | T
-    | {
-        city?: T;
-        state?: T;
-        country?: T;
-      };
-  themeColor?: T;
-  locale?: T;
-  openGraph?:
-    | T
-    | {
-        defaultImage?: T;
-        imageWidth?: T;
-        imageHeight?: T;
-      };
-  twitter?:
-    | T
-    | {
-        handle?: T;
-        cardType?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
+export interface BookingPage {
+  id: number;
+  calendar: {
+    /**
+     * Turn off to show the unavailable message instead of the calendar
+     */
+    enabled?: boolean | null;
+    /**
+     * The part after cal.com/, for example rpm-detailing
+     */
+    calLink: string;
+    /**
+     * Optional event name, for example detail
+     */
+    eventSlug?: string | null;
+  };
+  content: {
+    backLabel: string;
+    title: string;
+    /**
+     * {business} is replaced with the business name
+     */
+    intro: string;
+    loadingText: string;
+    helpText: string;
+    phoneLabel: string;
+    emailLabel: string;
+  };
+  calendarError: {
+    title: string;
+    message: string;
+    retryLabel: string;
+    callLabel: string;
+  };
+  unavailable: {
+    title: string;
+    /**
+     * {phone} is replaced with the business phone number
+     */
+    message: string;
+    buttonLabel: string;
+  };
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    /**
+     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
+     */
+    image?: (number | null) | Media;
+  };
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Business details, branding and search defaults used across every page
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings".
+ */
+export interface SiteSetting {
+  id: number;
+  business: {
+    name: string;
+    phone: string;
+    email: string;
+    address: string;
+    hours: {
+      /**
+       * For example Mon - Fri
+       */
+      days: string;
+      /**
+       * For example 8:00 am - 6:00 pm or Closed
+       */
+      time: string;
+      id?: string | null;
+    }[];
+    /**
+     * Shown as the badge on the Home page about section
+     */
+    yearsOfExperience: number;
+  };
+  branding: {
+    /**
+     * Shown in the header and footer on a dark background
+     */
+    logo: number | Media;
+    /**
+     * Hex colour used for the browser theme and booking calendar
+     */
+    brandColor: string;
+  };
+  seo: {
+    /**
+     * The public address, for example https://rpmdetail.co
+     */
+    siteUrl: string;
+    /**
+     * Added after each page title, for example | RPM Detailing
+     */
+    titleSuffix: string;
+    /**
+     * Used when a page has no SEO description of its own
+     */
+    description: string;
+    keywords?: string | null;
+    /**
+     * Used when a page has no SEO image of its own
+     */
+    image: number | Media;
+    /**
+     * Without the @
+     */
+    twitterHandle?: string | null;
+  };
+  notFound: {
+    title: string;
+    message: string;
+    buttonLabel: string;
+  };
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "landing-page_select".
+ * via the `definition` "header".
  */
-export interface LandingPageSelect<T extends boolean = true> {
-  heroSlides?:
-    | T
-    | {
-        title?: T;
-        subtitle?: T;
-        id?: T;
-      };
+export interface Header {
+  id: number;
+  navItems: {
+    label: string;
+    type: 'link' | 'contact';
+    /**
+     * A page like /services or a home page section like #testimonials
+     */
+    url?: string | null;
+    id?: string | null;
+  }[];
+  showCta?: boolean | null;
+  cta?: {
+    label: string;
+    /**
+     * A page like /booking, a home page section like #services, or a full URL
+     */
+    url: string;
+  };
+  mobileMenu: {
+    title: string;
+    /**
+     * Read aloud by screen readers
+     */
+    openLabel: string;
+    /**
+     * Read aloud by screen readers
+     */
+    closeLabel: string;
+  };
+  contactPopup: {
+    title: string;
+    contactHeading: string;
+    hoursHeading: string;
+    ctaHeading: string;
+    ctaText: string;
+    ctaButton: {
+      label: string;
+      /**
+       * A page like /booking, a home page section like #services, or a full URL
+       */
+      url: string;
+    };
+    /**
+     * Read aloud by screen readers
+     */
+    closeLabel: string;
+  };
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer".
+ */
+export interface Footer {
+  id: number;
+  description: string;
+  contactHeading: string;
+  hoursHeading: string;
+  cta: {
+    heading: string;
+    text: string;
+    button: {
+      label: string;
+      /**
+       * A page like /booking, a home page section like #services, or a full URL
+       */
+      url: string;
+    };
+  };
+  /**
+   * {year} is replaced with the current year
+   */
+  copyright: string;
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home-page_select".
+ */
+export interface HomePageSelect<T extends boolean = true> {
   hero?:
     | T
     | {
+        slides?:
+          | T
+          | {
+              eyebrow?: T;
+              title?: T;
+              id?: T;
+            };
         backgroundImage?: T;
-        ctaText?: T;
-        ctaLink?: T;
-        showPhoneNumbers?: T;
+        cta?:
+          | T
+          | {
+              label?: T;
+              url?: T;
+            };
+        showPhone?: T;
+        phoneLabel?: T;
         showAddress?: T;
       };
   servicesBar?:
     | T
     | {
-        order?: T;
-        icon?: T;
-        title?: T;
-        description?: T;
-        id?: T;
+        items?:
+          | T
+          | {
+              label?: T;
+              icon?: T;
+              id?: T;
+            };
       };
-  aboutSection?:
+  about?:
     | T
     | {
+        eyebrow?: T;
         title?: T;
-        subtitle?: T;
-        content?: T;
+        body?: T;
         image?: T;
-        imageAltText?: T;
-        experienceBadgeText?: T;
-        bookNowText?: T;
+        badgeLabel?: T;
+        cta?:
+          | T
+          | {
+              label?: T;
+              url?: T;
+            };
+      };
+  transformation?:
+    | T
+    | {
+        eyebrow?: T;
+        title?: T;
+        body?: T;
         features?:
           | T
           | {
               feature?: T;
+              id?: T;
+            };
+        gallery?: T;
+      };
+  packages?:
+    | T
+    | {
+        eyebrow?: T;
+        title?: T;
+        services?: T;
+        cardButton?:
+          | T
+          | {
+              label?: T;
+              url?: T;
+            };
+        viewAll?:
+          | T
+          | {
+              label?: T;
+              url?: T;
+            };
+      };
+  ctaBanner?:
+    | T
+    | {
+        eyebrow?: T;
+        heading?: T;
+        steps?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              icon?: T;
+              id?: T;
+            };
+        button?:
+          | T
+          | {
+              label?: T;
+              url?: T;
+            };
+      };
+  process?:
+    | T
+    | {
+        eyebrow?: T;
+        title?: T;
+        steps?:
+          | T
+          | {
+              title?: T;
+              image?: T;
               id?: T;
             };
         stats?:
@@ -1024,75 +1298,31 @@ export interface LandingPageSelect<T extends boolean = true> {
               id?: T;
             };
       };
-  servicesSection?:
+  testimonials?:
     | T
     | {
-        sectionSubtitle?: T;
-        sectionTitle?: T;
-        bookNowText?: T;
-        viewAllText?: T;
+        eyebrow?: T;
+        title?: T;
       };
-  detailedServices?:
+  brands?:
     | T
     | {
-        order?: T;
-        packageId?: T;
+        title?: T;
+        button?:
+          | T
+          | {
+              label?: T;
+              url?: T;
+            };
+      };
+  meta?:
+    | T
+    | {
         title?: T;
         description?: T;
         image?: T;
-        price?: T;
-        duration?: T;
-        id?: T;
       };
-  ctaBanner?:
-    | T
-    | {
-        heading?: T;
-        description?: T;
-        buttonText?: T;
-        buttonLink?: T;
-        backgroundImage?: T;
-        preHeading?: T;
-        ctaItems?:
-          | T
-          | {
-              title?: T;
-              description?: T;
-              iconName?: T;
-              id?: T;
-            };
-      };
-  processSection?:
-    | T
-    | {
-        preHeading?: T;
-        title?: T;
-        subtitle?: T;
-        imageAltText?: T;
-        steps?:
-          | T
-          | {
-              order?: T;
-              title?: T;
-              active?: T;
-              description?: T;
-              image?: T;
-              id?: T;
-            };
-      };
-  testimonialsSection?:
-    | T
-    | {
-        title?: T;
-        subtitle?: T;
-      };
-  brandsSection?:
-    | T
-    | {
-        title?: T;
-        subtitle?: T;
-        bookYourMakeText?: T;
-      };
+  _status?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -1102,120 +1332,45 @@ export interface LandingPageSelect<T extends boolean = true> {
  * via the `definition` "services-page_select".
  */
 export interface ServicesPageSelect<T extends boolean = true> {
-  heroTitle?: T;
-  heroSubtitle?: T;
-  heroImage?: T;
-  heroImageAlt?: T;
-  serviceIncludesLabel?: T;
-  startingAtLabel?: T;
-  bookServiceButtonText?: T;
-  services?:
+  hero?:
+    | T
+    | {
+        title?: T;
+        subtitle?: T;
+        image?: T;
+      };
+  labels?:
+    | T
+    | {
+        includes?: T;
+        price?: T;
+        bookButton?:
+          | T
+          | {
+              label?: T;
+              url?: T;
+            };
+      };
+  cta?:
+    | T
+    | {
+        title?: T;
+        text?: T;
+        button?:
+          | T
+          | {
+              label?: T;
+              url?: T;
+            };
+      };
+  meta?:
     | T
     | {
         title?: T;
         description?: T;
-        features?:
-          | T
-          | {
-              feature?: T;
-              id?: T;
-            };
         image?: T;
-        price?: T;
-        duration?: T;
-        id?: T;
       };
-  ctaTitle?: T;
-  ctaText?: T;
-  ctaButtonText?: T;
-  ctaButtonLink?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ui-labels_select".
- */
-export interface UiLabelsSelect<T extends boolean = true> {
-  modalLabels?:
-    | T
-    | {
-        getInTouch?: T;
-        contactInfo?: T;
-        openingHours?: T;
-        needHelp?: T;
-      };
-  navigationLabels?:
-    | T
-    | {
-        menu?: T;
-        close?: T;
-        closeMobileMenu?: T;
-        toggleMobileMenu?: T;
-      };
-  buttons?:
-    | T
-    | {
-        bookNow?: T;
-        viewAllServices?: T;
-        bookYourMake?: T;
-        getInTouch?: T;
-      };
-  accessibility?:
-    | T
-    | {
-        closeModal?: T;
-        professionalCarPolishing?: T;
-        carDetailingProcess?: T;
-        carDetailingInAction?: T;
-      };
-  sectionHeaders?:
-    | T
-    | {
-        ourDetailingPackages?: T;
-        transformYourVehicle?: T;
-        clientLove?: T;
-        whatOurClientsSay?: T;
-        weDetailAllMakes?: T;
-      };
-  statsLabels?:
-    | T
-    | {
-        happyClients?: T;
-        vehiclesDetailed?: T;
-        yearsOfDetailing?: T;
-        detailingAwards?: T;
-        yearsOfExperience?: T;
-      };
-  processLabels?:
-    | T
-    | {
-        washDecon?: T;
-        paintCorrection?: T;
-        protection?: T;
-        interiorFinishing?: T;
-      };
-  ctaDefaults?:
-    | T
-    | {
-        chooseYourPackageTitle?: T;
-        chooseYourPackageDesc?: T;
-        scheduleYourDetailTitle?: T;
-        scheduleYourDetailDesc?: T;
-        enjoyPristineCarTitle?: T;
-        enjoyPristineCarDesc?: T;
-      };
-  serviceDefaults?:
-    | T
-    | {
-        exteriorWash?: T;
-        interiorDetail?: T;
-        paintCorrection?: T;
-        ceramicCoating?: T;
-        wheelTireCare?: T;
-        odorRemoval?: T;
-      };
+  _status?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -1225,36 +1380,241 @@ export interface UiLabelsSelect<T extends boolean = true> {
  * via the `definition` "about-page_select".
  */
 export interface AboutPageSelect<T extends boolean = true> {
-  heroTitle?: T;
-  heroSubtitle?: T;
-  heroImage?: T;
-  storyTitle?: T;
-  storyContent?: T;
-  storyImage?: T;
-  valuesSectionTitle?: T;
-  valuesSectionSubtitle?: T;
+  hero?:
+    | T
+    | {
+        title?: T;
+        subtitle?: T;
+        image?: T;
+      };
+  story?:
+    | T
+    | {
+        title?: T;
+        content?: T;
+        image?: T;
+      };
   values?:
     | T
     | {
         title?: T;
-        description?: T;
-        icon?: T;
-        id?: T;
+        subtitle?: T;
+        items?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              icon?: T;
+              id?: T;
+            };
       };
-  teamTitle?: T;
-  teamSubtitle?: T;
-  teamMembers?:
+  team?:
+    | T
+    | {
+        title?: T;
+        subtitle?: T;
+        members?:
+          | T
+          | {
+              name?: T;
+              position?: T;
+              bio?: T;
+              photo?: T;
+              id?: T;
+            };
+      };
+  cta?:
+    | T
+    | {
+        title?: T;
+        button?:
+          | T
+          | {
+              label?: T;
+              url?: T;
+            };
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "booking-page_select".
+ */
+export interface BookingPageSelect<T extends boolean = true> {
+  calendar?:
+    | T
+    | {
+        enabled?: T;
+        calLink?: T;
+        eventSlug?: T;
+      };
+  content?:
+    | T
+    | {
+        backLabel?: T;
+        title?: T;
+        intro?: T;
+        loadingText?: T;
+        helpText?: T;
+        phoneLabel?: T;
+        emailLabel?: T;
+      };
+  calendarError?:
+    | T
+    | {
+        title?: T;
+        message?: T;
+        retryLabel?: T;
+        callLabel?: T;
+      };
+  unavailable?:
+    | T
+    | {
+        title?: T;
+        message?: T;
+        buttonLabel?: T;
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings_select".
+ */
+export interface SiteSettingsSelect<T extends boolean = true> {
+  business?:
     | T
     | {
         name?: T;
-        position?: T;
-        bio?: T;
+        phone?: T;
+        email?: T;
+        address?: T;
+        hours?:
+          | T
+          | {
+              days?: T;
+              time?: T;
+              id?: T;
+            };
+        yearsOfExperience?: T;
+      };
+  branding?:
+    | T
+    | {
+        logo?: T;
+        brandColor?: T;
+      };
+  seo?:
+    | T
+    | {
+        siteUrl?: T;
+        titleSuffix?: T;
+        description?: T;
+        keywords?: T;
         image?: T;
+        twitterHandle?: T;
+      };
+  notFound?:
+    | T
+    | {
+        title?: T;
+        message?: T;
+        buttonLabel?: T;
+      };
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "header_select".
+ */
+export interface HeaderSelect<T extends boolean = true> {
+  navItems?:
+    | T
+    | {
+        label?: T;
+        type?: T;
+        url?: T;
         id?: T;
       };
-  ctaTitle?: T;
-  ctaButtonText?: T;
-  ctaButtonLink?: T;
+  showCta?: T;
+  cta?:
+    | T
+    | {
+        label?: T;
+        url?: T;
+      };
+  mobileMenu?:
+    | T
+    | {
+        title?: T;
+        openLabel?: T;
+        closeLabel?: T;
+      };
+  contactPopup?:
+    | T
+    | {
+        title?: T;
+        contactHeading?: T;
+        hoursHeading?: T;
+        ctaHeading?: T;
+        ctaText?: T;
+        ctaButton?:
+          | T
+          | {
+              label?: T;
+              url?: T;
+            };
+        closeLabel?: T;
+      };
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer_select".
+ */
+export interface FooterSelect<T extends boolean = true> {
+  description?: T;
+  contactHeading?: T;
+  hoursHeading?: T;
+  cta?:
+    | T
+    | {
+        heading?: T;
+        text?: T;
+        button?:
+          | T
+          | {
+              label?: T;
+              url?: T;
+            };
+      };
+  copyright?: T;
+  _status?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
