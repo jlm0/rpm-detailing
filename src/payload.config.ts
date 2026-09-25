@@ -33,7 +33,14 @@ export default buildConfig({
     user: Users.slug,
     importMap: { baseDir: dirname },
     components: {
+      graphics: {
+        Logo: '/components/admin/brand#Logo',
+        Icon: '/components/admin/brand#Icon',
+      },
       beforeNavLinks: ['/components/admin/site-nav#SiteNav'],
+      views: {
+        dashboard: { Component: '/components/admin/dashboard#Dashboard' },
+      },
     },
     meta: {
       titleSuffix: ' - RPM Detailing',
