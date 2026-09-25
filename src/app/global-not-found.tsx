@@ -4,12 +4,13 @@ import '@/app/globals.css'
 
 import { getGlobal } from '@/lib/cms'
 import { fontVariables } from '@/lib/fonts'
+import { icons } from '@/lib/icons'
 
 import NotFound from './(frontend)/not-found'
 
 export async function generateMetadata(): Promise<Metadata> {
   const { notFound, seo } = await getGlobal('site-settings')
-  return { title: `${notFound.title} ${seo.titleSuffix}` }
+  return { title: `${notFound.title} ${seo.titleSuffix}`, icons }
 }
 
 export default function GlobalNotFound() {

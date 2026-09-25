@@ -8,6 +8,7 @@ import { MotionProvider } from '@/components/motion/motion-provider'
 import { PreviewOverlay } from '@/components/preview-overlay'
 import { getGlobal, isEditorPreview, isPreview } from '@/lib/cms'
 import { fontVariables } from '@/lib/fonts'
+import { icons } from '@/lib/icons'
 
 export async function generateMetadata(): Promise<Metadata> {
   const { business, seo } = await getGlobal('site-settings')
@@ -16,6 +17,7 @@ export async function generateMetadata(): Promise<Metadata> {
     metadataBase: new URL(seo.siteUrl),
     title: { default: business.name, template: `%s ${seo.titleSuffix}` },
     robots: { index: true, follow: true },
+    icons,
   }
 }
 
