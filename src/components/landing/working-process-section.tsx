@@ -1,14 +1,14 @@
 'use client'
 
 import {
-  Users,
-  Car,
   Award,
-  Settings2,
+  Car,
   ChevronLeft,
   ChevronRight,
-  Trophy,
   Clock,
+  Settings2,
+  Trophy,
+  Users,
   type LucideIcon,
 } from 'lucide-react'
 import Image from 'next/image'

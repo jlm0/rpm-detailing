@@ -1,6 +1,6 @@
 'use client'
 
-import { Shield, Star, Heart, Users, Sparkles, Award } from 'lucide-react'
+import { Award, Heart, Shield, Sparkles, Star, Users } from 'lucide-react'
 
 import ScrollAnimate from '@/components/motion/scroll-animate'
 import { Card, CardContent } from '@/components/ui/card'

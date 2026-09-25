@@ -2,7 +2,7 @@ import { Suspense, type ComponentProps } from 'react'
 
 import { ErrorBoundary } from '@/components/error-boundary'
 import { LoadingSpinner } from '@/components/ui/loading-spinner'
-import { getPayloadData, getGlobalSettings } from '@/lib/payload'
+import { getGlobalSettings, getPayloadData } from '@/lib/payload'
 import type { Brand } from '@/payload-types'
 
 import BrandsSection from './brands-section'

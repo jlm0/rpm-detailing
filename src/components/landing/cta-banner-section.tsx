@@ -1,6 +1,6 @@
 'use client'
 
-import { Wrench, CalendarDays, Car, Sparkles, SprayCan, type LucideIcon } from 'lucide-react'
+import { CalendarDays, Car, Sparkles, SprayCan, Wrench, type LucideIcon } from 'lucide-react'
 import Link from 'next/link'
 
 import ScrollAnimate from '@/components/motion/scroll-animate'

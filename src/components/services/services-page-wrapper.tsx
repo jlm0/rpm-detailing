@@ -2,8 +2,8 @@ import { Suspense, type ComponentProps } from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 
 import { LoadingSpinner } from '@/components/ui/loading-spinner'
-import { getGlobalSettings, getMediaUrl } from '@/lib/payload'
 import { defaultServices } from '@/lib/default-content'
+import { getGlobalSettings, getMediaUrl } from '@/lib/payload'
 
 import ServicesPage from './services-page'
 

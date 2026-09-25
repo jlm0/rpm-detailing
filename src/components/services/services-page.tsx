@@ -1,6 +1,7 @@
+import type { ComponentProps } from 'react'
+
 import LandingFooter from '@/components/landing/landing-footer'
 import LandingHeader from '@/components/landing/landing-header'
-import type { ComponentProps } from 'react'
 import type { ServicesPage } from '@/payload-types'
 
 import ServicesCta from './services-cta'

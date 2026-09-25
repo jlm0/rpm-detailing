@@ -1,8 +1,9 @@
 'use client'
 
+import type { ComponentProps } from 'react'
+
 import LandingFooter from '@/components/landing/landing-footer'
 import LandingHeader from '@/components/landing/landing-header'
-import type { ComponentProps } from 'react'
 import type { AboutPage as AboutPageType } from '@/payload-types'
 
 import AboutCta from './about-cta'

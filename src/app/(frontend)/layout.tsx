@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
+
 import '@/app/globals.css'
+
 import { getGlobalSettings, getMediaUrl } from '@/lib/payload'
 
 // Force dynamic rendering for all pages to ensure fresh CMS data

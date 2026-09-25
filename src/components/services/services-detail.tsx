@@ -1,12 +1,12 @@
 'use client'
 
-import { Check, Clock, ArrowRight } from 'lucide-react'
+import { ArrowRight, Check, Clock } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
 import ScrollAnimate from '@/components/motion/scroll-animate'
-import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
 import type { ServicesPage } from '@/payload-types'
 
 type ServiceDescription = string | NonNullable<ServicesPage['services']>[0]['description']

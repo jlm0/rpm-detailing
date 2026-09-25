@@ -4,10 +4,10 @@ import { Menu, X } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
-import { Button } from '@/components/ui/button'
 import ContactModal from '@/components/landing/contact-modal'
+import { Button } from '@/components/ui/button'
 
 interface NavigationItem {
   label: string

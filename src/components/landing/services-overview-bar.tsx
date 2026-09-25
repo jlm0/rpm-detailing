@@ -1,6 +1,6 @@
 'use client'
 
-import { SprayCan, Car, Sparkles, Wind, ShieldCheck, Palette, type LucideIcon } from 'lucide-react'
+import { Car, Palette, ShieldCheck, Sparkles, SprayCan, Wind, type LucideIcon } from 'lucide-react'
 
 import ScrollAnimate from '@/components/motion/scroll-animate'
 

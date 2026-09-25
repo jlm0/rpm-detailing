@@ -1,10 +1,10 @@
-import { lexicalEditor } from '@payloadcms/richtext-lexical'
-import { postgresAdapter } from '@payloadcms/db-postgres'
-import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
-import { buildConfig } from 'payload'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import type { Access } from 'payload'
+
+import { postgresAdapter } from '@payloadcms/db-postgres'
+import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
+import { buildConfig, type Access } from 'payload'
 import sharp from 'sharp'
 
 import type { User } from './payload-types'
