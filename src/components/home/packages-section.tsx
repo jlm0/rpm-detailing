@@ -2,7 +2,9 @@ import { ArrowRight } from 'lucide-react'
 import Image from 'next/image'
 
 import { CmsLink } from '@/components/layout/cms-link'
+import { Magnetic } from '@/components/motion/magnetic'
 import Reveal from '@/components/motion/reveal'
+import { Spotlight } from '@/components/motion/spotlight'
 import { Button } from '@/components/ui/button'
 import { SectionHeading } from '@/components/ui/section-heading'
 import { image } from '@/lib/cms'
@@ -15,12 +17,14 @@ interface PackagesSectionProps {
 
 export function PackagesSection({ packages, services }: PackagesSectionProps) {
   const viewAll = (
-    <Button asChild variant="brand" size="lg">
-      <CmsLink url={packages.viewAll.url}>
-        {packages.viewAll.label}
-        <ArrowRight />
-      </CmsLink>
-    </Button>
+    <Magnetic>
+      <Button asChild variant="brand" size="lg">
+        <CmsLink url={packages.viewAll.url}>
+          {packages.viewAll.label}
+          <ArrowRight />
+        </CmsLink>
+      </Button>
+    </Magnetic>
   )
 
   return (
@@ -76,6 +80,7 @@ export function PackagesSection({ packages, services }: PackagesSectionProps) {
                       </Button>
                     </div>
                   </div>
+                  <Spotlight />
                 </article>
               </Reveal>
             )

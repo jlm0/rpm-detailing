@@ -3,6 +3,7 @@ import Image from 'next/image'
 
 import { CmsLink } from '@/components/layout/cms-link'
 import { telHref } from '@/components/layout/contact'
+import { Magnetic } from '@/components/motion/magnetic'
 import { Button } from '@/components/ui/button'
 import { image } from '@/lib/cms'
 import type { HomePage, SiteSetting } from '@/payload-types'
@@ -41,9 +42,11 @@ export function HeroSection({ hero, business }: HeroSectionProps) {
       <div className="container">
         <div className="-mx-4 px-4 pt-16 pb-10 max-md:bg-brandRed max-md:bg-grunge-texture max-md:bg-blend-multiply max-md:[clip-path:polygon(0_2.5rem,100%_0,100%_100%,0_100%)] md:mx-0 md:max-w-[calc(50vw-6rem)] md:px-0 md:py-24 lg:max-w-[34rem]">
           <HeroSlides slides={hero.slides}>
-            <Button asChild variant="light" size="lg" className="w-full sm:w-auto">
-              <CmsLink url={hero.cta.url}>{hero.cta.label}</CmsLink>
-            </Button>
+            <Magnetic className="w-full sm:w-auto">
+              <Button asChild variant="light" size="lg" className="w-full">
+                <CmsLink url={hero.cta.url}>{hero.cta.label}</CmsLink>
+              </Button>
+            </Magnetic>
           </HeroSlides>
         </div>
       </div>

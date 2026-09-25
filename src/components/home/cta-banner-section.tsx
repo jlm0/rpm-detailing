@@ -2,6 +2,7 @@ import { ArrowRight } from 'lucide-react'
 
 import { Icon } from '@/components/icon'
 import { CmsLink } from '@/components/layout/cms-link'
+import { Magnetic } from '@/components/motion/magnetic'
 import Reveal from '@/components/motion/reveal'
 import { Button } from '@/components/ui/button'
 import { SectionHeading } from '@/components/ui/section-heading'
@@ -14,12 +15,14 @@ export function CtaBannerSection({ ctaBanner }: { ctaBanner: HomePage['ctaBanner
         <div className="mb-14 flex flex-col gap-8 md:mb-20 md:flex-row md:items-end md:justify-between">
           <SectionHeading eyebrow={ctaBanner.eyebrow} title={ctaBanner.heading} tone="red" />
           <Reveal order={1} className="shrink-0">
-            <Button asChild variant="light" size="lg" className="w-full sm:w-auto">
-              <CmsLink url={ctaBanner.button.url}>
-                {ctaBanner.button.label}
-                <ArrowRight />
-              </CmsLink>
-            </Button>
+            <Magnetic className="w-full sm:w-auto">
+              <Button asChild variant="light" size="lg" className="w-full">
+                <CmsLink url={ctaBanner.button.url}>
+                  {ctaBanner.button.label}
+                  <ArrowRight />
+                </CmsLink>
+              </Button>
+            </Magnetic>
           </Reveal>
         </div>
         <Reveal stagger order={1} className="grid gap-10 md:grid-cols-3 md:gap-8 lg:gap-12">

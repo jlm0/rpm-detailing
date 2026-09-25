@@ -1,6 +1,7 @@
 import { ArrowRight } from 'lucide-react'
 
 import { CmsLink } from '@/components/layout/cms-link'
+import { Magnetic } from '@/components/motion/magnetic'
 import Reveal from '@/components/motion/reveal'
 import { Button } from '@/components/ui/button'
 import { SectionHeading } from '@/components/ui/section-heading'
@@ -12,12 +13,14 @@ export default function ServicesCta({ title, text, button }: ServicesPage['cta']
       <div className="container mx-auto flex flex-col items-center px-4 text-center">
         <SectionHeading title={title} description={text} tone="red" align="center" />
         <Reveal order={1} className="mt-10">
-          <Button asChild size="lg" variant="light">
-            <CmsLink url={button.url}>
-              {button.label}
-              <ArrowRight />
-            </CmsLink>
-          </Button>
+          <Magnetic>
+            <Button asChild size="lg" variant="light">
+              <CmsLink url={button.url}>
+                {button.label}
+                <ArrowRight />
+              </CmsLink>
+            </Button>
+          </Magnetic>
         </Reveal>
       </div>
     </section>
