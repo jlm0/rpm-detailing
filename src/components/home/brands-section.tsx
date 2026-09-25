@@ -27,7 +27,7 @@ export function BrandsSection({ section, brands }: BrandsSectionProps) {
               logo && (
                 <div
                   key={brand.id}
-                  className="flex h-16 w-24 items-center justify-center opacity-55 grayscale transition-opacity duration-base hover:opacity-100 hover:duration-quick md:w-32"
+                  className="flex h-16 w-24 items-center justify-center opacity-55 grayscale md:w-32"
                 >
                   <Image
                     src={logo.url}

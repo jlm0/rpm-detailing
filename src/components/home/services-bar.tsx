@@ -12,14 +12,10 @@ export function ServicesBar({ items }: { items: Items }) {
           {items.map((item, index) => (
             <Reveal
               key={item.id ?? index}
-              className="group flex flex-col items-center gap-3 px-2 py-7 text-center md:py-9"
+              className="flex flex-col items-center gap-3 px-2 py-7 text-center md:py-9"
             >
-              <Icon
-                name={item.icon}
-                strokeWidth={1.5}
-                className="size-7 text-brandRed transition-transform duration-300 ease-out motion-safe:group-hover:-translate-y-0.5 md:size-8"
-              />
-              <span className="text-xs font-medium tracking-wide text-white/70 transition-colors group-hover:text-white md:text-sm">
+              <Icon name={item.icon} strokeWidth={1.5} className="size-7 text-brandRed md:size-8" />
+              <span className="text-xs font-medium tracking-wide text-white/70 md:text-sm">
                 {item.label}
               </span>
             </Reveal>

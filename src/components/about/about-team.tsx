@@ -26,7 +26,7 @@ export default function AboutTeam({ title, subtitle, members }: AboutTeamProps) 
             return (
               <Reveal
                 key={member.id ?? index}
-                className="group w-full max-w-sm sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)]"
+                className="w-full max-w-sm sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)]"
               >
                 <figure>
                   {photo && (
@@ -35,7 +35,7 @@ export default function AboutTeam({ title, subtitle, members }: AboutTeamProps) 
                         src={photo.url}
                         alt={photo.alt}
                         fill
-                        className="object-cover transition-transform duration-700 ease-out motion-safe:group-hover:scale-[1.03]"
+                        className="object-cover"
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
                       />
                     </div>
