@@ -122,7 +122,7 @@ export function AboutSection({ about, transformation, yearsOfExperience }: About
                       src={photo.url}
                       alt={photo.alt}
                       fill
-                      className="object-cover transition-transform duration-700 ease-out hover:scale-[1.03]"
+                      className="object-cover transition-transform duration-700 ease-out motion-safe:hover:scale-[1.03]"
                       sizes="(max-width: 768px) 50vw, 25vw"
                     />
                   </ScrollAnimate>

@@ -40,7 +40,7 @@ export default function AboutTeam({ title, subtitle, members }: AboutTeamProps) 
                         src={photo.url}
                         alt={photo.alt}
                         fill
-                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                        className="object-cover transition-transform duration-700 ease-out motion-safe:group-hover:scale-[1.03]"
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
                       />
                     </div>

@@ -25,7 +25,7 @@ interface SiteHeaderClientProps {
 const ease = [0.16, 1, 0.3, 1] as const
 
 const desktopItemClass =
-  'relative py-2 text-sm font-medium text-white/70 transition-colors hover:text-white aria-[current=page]:text-white after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:origin-left after:scale-x-0 after:bg-brandRed after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100 aria-[current=page]:after:scale-x-100'
+  'relative py-2 text-sm font-medium text-white/70 transition-colors hover:text-white aria-[current=page]:text-white after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:origin-left after:scale-x-0 after:bg-brandRed after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100 motion-reduce:after:transition-none aria-[current=page]:after:scale-x-100'
 
 const mobileItemClass =
   'group flex w-full items-baseline gap-4 border-b border-white/10 py-4 text-left font-display text-2xl font-bold tracking-tight text-white/85 [font-stretch:112%] transition-colors hover:text-white aria-[current=page]:text-brandRed'

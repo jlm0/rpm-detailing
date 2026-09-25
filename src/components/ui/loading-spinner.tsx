@@ -16,7 +16,7 @@ export function LoadingSpinner({ className, size = 'md' }: LoadingSpinnerProps) 
     <div className={cn('flex items-center justify-center', className)}>
       <div
         className={cn(
-          'animate-spin rounded-full border-2 border-brandLightGray border-t-brandRed',
+          'animate-spin rounded-full border-2 border-brandLightGray border-t-brandRed motion-reduce:animate-pulse',
           sizeClasses[size],
         )}
         aria-label="Loading"

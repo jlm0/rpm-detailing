@@ -8,8 +8,12 @@
   --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-archivo), var(--font-geist), ui-sans-serif, sans-serif;
 
-  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --animate-rise: rise 0.9s var(--ease-out-expo) both;
+  --ease-enter: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --default-transition-duration: var(--duration-quick);
+  --default-transition-timing-function: var(--ease-standard);
+  --animate-rise: rise var(--duration-slow) var(--ease-enter) both;
 
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
@@ -65,10 +69,30 @@
   text-wrap: balance;
 }
 
+@utility duration-press {
+  --tw-duration: var(--duration-press);
+  transition-duration: var(--duration-press);
+}
+
+@utility duration-quick {
+  --tw-duration: var(--duration-quick);
+  transition-duration: var(--duration-quick);
+}
+
+@utility duration-base {
+  --tw-duration: var(--duration-base);
+  transition-duration: var(--duration-base);
+}
+
+@utility duration-slow {
+  --tw-duration: var(--duration-slow);
+  transition-duration: var(--duration-slow);
+}
+
 @keyframes rise {
   from {
     opacity: 0;
-    transform: translateY(1rem);
+    translate: 0 var(--rise-distance);
   }
 }
 
@@ -115,6 +139,13 @@
     --input: 0 0% 89.8%;
     --ring: 0 0% 3.9%;
     --radius: 0.5rem;
+
+    --duration-press: 100ms;
+    --duration-quick: 200ms;
+    --duration-base: 350ms;
+    --duration-slow: 600ms;
+    --stagger: 80ms;
+    --rise-distance: 1rem;
   }
 
   *,
@@ -162,13 +193,12 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    *,
-    ::before,
-    ::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
+    :root {
+      --rise-distance: 0px;
+    }
+
+    html {
       scroll-behavior: auto !important;
-      transition-duration: 0.01ms !important;
     }
   }
 

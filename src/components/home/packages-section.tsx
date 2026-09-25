@@ -44,14 +44,14 @@ export function PackagesSection({ packages, services }: PackagesSectionProps) {
             const photo = image(service.image, 'card')
             return (
               <ScrollAnimate variantName="fadeInUp" key={service.id}>
-                <article className="group relative flex h-full flex-col overflow-hidden rounded-lg bg-white/[0.035] ring-1 ring-white/10 transition-[box-shadow,transform] duration-500 ease-out hover:-translate-y-1 hover:ring-brandRed/60">
+                <article className="group relative flex h-full flex-col overflow-hidden rounded-lg bg-white/[0.035] ring-1 ring-white/10 transition-[box-shadow,transform] duration-500 ease-out hover:ring-brandRed/60 motion-safe:hover:-translate-y-1">
                   <div className="relative aspect-[4/3] overflow-hidden bg-brandInk">
                     {photo && (
                       <Image
                         src={photo.url}
                         alt={photo.alt}
                         fill
-                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                        className="object-cover transition-transform duration-700 ease-out motion-safe:group-hover:scale-[1.04]"
                         sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       />
                     )}

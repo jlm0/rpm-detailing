@@ -93,7 +93,7 @@ export function ProcessSteps({ steps }: { steps: ProcessStep[] }) {
               {step.title}
               <span
                 aria-hidden
-                className="absolute inset-x-4 bottom-0 h-0.5 origin-left scale-x-0 bg-brandRed transition-transform duration-300 ease-out group-aria-selected:scale-x-100"
+                className="absolute inset-x-4 bottom-0 h-0.5 origin-left scale-x-0 bg-brandRed transition-transform duration-300 ease-out group-aria-selected:scale-x-100 motion-reduce:transition-none"
               />
             </button>
           ))}
