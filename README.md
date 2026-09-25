@@ -96,4 +96,4 @@ Payload syncs schema automatically in development, but deployed environments onl
 
 ## License
 
-Copyright © 2025–2026 Jordy McNab. All rights reserved. The RPM Detailing name, brand and content belong to RPM Detailing. This code is not open source; see [LICENSE](LICENSE).
+Copyright © 2025–2026 RPM Detailing. All rights reserved. This code is not open source; see [LICENSE](LICENSE).
