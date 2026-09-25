@@ -11,7 +11,7 @@ import SiteHeader from '@/components/layout/site-header'
 import { getContent, getGlobal, populated } from '@/lib/cms'
 import { pageMetadata } from '@/lib/metadata'
 
-export const generateMetadata = () => pageMetadata('home-page', '/')
+export const generateMetadata = () => pageMetadata('home')
 
 export default async function Home() {
   const [home, settings, testimonials, brands] = await Promise.all([

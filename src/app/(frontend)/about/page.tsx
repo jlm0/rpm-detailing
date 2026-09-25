@@ -8,7 +8,7 @@ import SiteHeader from '@/components/layout/site-header'
 import { getGlobal } from '@/lib/cms'
 import { pageMetadata } from '@/lib/metadata'
 
-export const generateMetadata = () => pageMetadata('about-page', '/about')
+export const generateMetadata = () => pageMetadata('about')
 
 export default async function Page() {
   const { hero, story, values, team, cta } = await getGlobal('about-page')

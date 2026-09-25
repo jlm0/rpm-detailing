@@ -29,6 +29,9 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  outputFileTracingIncludes: {
+    '/og/[page]': ['./src/assets/fonts/*.ttf'],
+  },
   reactStrictMode: true,
   redirects,
   async headers() {

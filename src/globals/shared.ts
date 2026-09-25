@@ -70,14 +70,15 @@ export const collapsed = (label: string, fields: Field[]): Field => ({
 const metaImage = MetaImageField({ relationTo: 'media' })
 metaImage.admin = {
   ...metaImage.admin,
-  description: 'Best size: 1200 × 630 px. Leave empty to use the share image from Business & SEO.',
+  description:
+    "Replaces this page's automatic share card when links are shared. Leave empty to use the card built from the SEO title and page photo. Best size: 1200 × 630 px.",
 }
 
 export const seoTab = (slug: SiteSlug): Tab => ({
   name: 'meta',
   label: 'SEO',
   description:
-    'Titles up to 60 characters, descriptions up to 160. Leave empty to use the defaults from Business & SEO.',
+    'Titles up to 60 characters, descriptions up to 160. The SEO title also headlines the card shown when this page is shared. Leave empty to use the page heading and the defaults from Business & SEO.',
   fields: [
     cue(slug, 'meta'),
     OverviewField({

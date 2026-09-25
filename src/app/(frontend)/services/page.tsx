@@ -6,7 +6,7 @@ import ServicesDetail from '@/components/services/services-detail'
 import { getContent, getGlobal } from '@/lib/cms'
 import { pageMetadata } from '@/lib/metadata'
 
-export const generateMetadata = () => pageMetadata('services-page', '/services')
+export const generateMetadata = () => pageMetadata('services')
 
 export default async function Page() {
   const [page, services] = await Promise.all([getGlobal('services-page'), getContent('services')])

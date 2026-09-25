@@ -952,7 +952,7 @@ export interface HomePage {
     title?: string | null;
     description?: string | null;
     /**
-     * Best size: 1200 × 630 px. Leave empty to use the share image from Business & SEO.
+     * Replaces this page's automatic share card when links are shared. Leave empty to use the card built from the SEO title and page photo. Best size: 1200 × 630 px.
      */
     image?: (number | null) | Media;
   };
@@ -1026,7 +1026,7 @@ export interface ServicesPage {
     title?: string | null;
     description?: string | null;
     /**
-     * Best size: 1200 × 630 px. Leave empty to use the share image from Business & SEO.
+     * Replaces this page's automatic share card when links are shared. Leave empty to use the card built from the SEO title and page photo. Best size: 1200 × 630 px.
      */
     image?: (number | null) | Media;
   };
@@ -1179,7 +1179,7 @@ export interface AboutPage {
     title?: string | null;
     description?: string | null;
     /**
-     * Best size: 1200 × 630 px. Leave empty to use the share image from Business & SEO.
+     * Replaces this page's automatic share card when links are shared. Leave empty to use the card built from the SEO title and page photo. Best size: 1200 × 630 px.
      */
     image?: (number | null) | Media;
   };
@@ -1275,7 +1275,7 @@ export interface BookingPage {
     title?: string | null;
     description?: string | null;
     /**
-     * Best size: 1200 × 630 px. Leave empty to use the share image from Business & SEO.
+     * Replaces this page's automatic share card when links are shared. Leave empty to use the card built from the SEO title and page photo. Best size: 1200 × 630 px.
      */
     image?: (number | null) | Media;
   };
@@ -1515,7 +1515,7 @@ export interface SiteSetting {
      */
     description: string;
     /**
-     * Used when a page has no SEO image of its own. Best size: 1200 × 630 px.
+     * Shown in the share card of pages without a photo of their own, such as Booking. Best size: 1200 × 630 px.
      */
     image: number | Media;
     /**

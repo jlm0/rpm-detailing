@@ -10,7 +10,7 @@ import { getGlobal, image } from '@/lib/cms'
 import { pageMetadata } from '@/lib/metadata'
 
 export function generateMetadata() {
-  return pageMetadata('booking-page', '/booking')
+  return pageMetadata('booking')
 }
 
 export default async function BookingPage() {

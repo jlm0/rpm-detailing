@@ -2,17 +2,29 @@ import 'server-only'
 
 import type { Metadata } from 'next'
 
-import { getGlobal, image } from './cms'
+import { getGlobal } from './cms'
+import { getShareCard, SHARE_CARD_SIZE, sharePagePath, type SharePage } from './share-card'
 
-type PageSlug = 'home-page' | 'services-page' | 'about-page' | 'booking-page'
-
-export async function pageMetadata(slug: PageSlug, path: string): Promise<Metadata> {
-  const [page, settings] = await Promise.all([getGlobal(slug), getGlobal('site-settings')])
-  const { seo } = settings
-  const title = `${page.meta?.title || settings.business.name} ${seo.titleSuffix}`.trim()
-  const description = page.meta?.description || seo.description
-  const shareImage = image(page.meta?.image, 'og') ?? image(seo.image, 'og')
-  const images = shareImage ? [{ url: shareImage.url, alt: shareImage.alt }] : undefined
+export async function pageMetadata(page: SharePage): Promise<Metadata> {
+  const [card, settings] = await Promise.all([getShareCard(page), getGlobal('site-settings')])
+  const { business, seo } = settings
+  const path = sharePagePath(page)
+  const heading = card.headline
+  const title = heading === business.name ? heading : `${heading} ${seo.titleSuffix}`.trim()
+  const { description } = card
+  const shareImage = card.customImage
+    ? {
+        url: card.customImage.url,
+        alt: card.customImage.alt,
+        width: card.customImage.width,
+        height: card.customImage.height,
+      }
+    : {
+        url: `/og/${page}?v=${card.version}`,
+        alt: heading,
+        type: 'image/png',
+        ...SHARE_CARD_SIZE,
+      }
 
   return {
     metadataBase: new URL(seo.siteUrl),
@@ -21,18 +33,19 @@ export async function pageMetadata(slug: PageSlug, path: string): Promise<Metada
     keywords: seo.keywords ?? undefined,
     alternates: { canonical: path },
     openGraph: {
-      title,
+      title: heading,
       description,
       url: path,
-      siteName: settings.business.name,
+      siteName: business.name,
+      locale: 'en_US',
       type: 'website',
-      images,
+      images: [shareImage],
     },
     twitter: {
       card: 'summary_large_image',
-      title,
+      title: heading,
       description,
-      images,
+      images: [shareImage],
       creator: seo.twitterHandle ? `@${seo.twitterHandle}` : undefined,
     },
   }

@@ -164,9 +164,9 @@ export const SiteSettings = editableGlobal({
           }),
           image({
             name: 'image',
-            label: 'Share image',
+            label: 'Share card photo',
             size: '1200 × 630 px',
-            help: 'Used when a page has no SEO image of its own.',
+            help: 'Shown in the share card of pages without a photo of their own, such as Booking.',
           }),
           collapsed('Advanced', [
             {
