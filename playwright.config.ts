@@ -21,13 +21,13 @@ export default defineConfig({
       name: 'desktop',
       use: { ...devices['Desktop Chrome'] },
       grepInvert: remoteBaseURL ? /@local|@mobile/ : /@mobile/,
-      testIgnore: /cms(-editing)?\.spec\.ts/,
+      testIgnore: /cms(-editing|-admin)?\.spec\.ts/,
     },
     {
       name: 'cms',
       use: { ...devices['Desktop Chrome'] },
       grepInvert: remoteBaseURL ? /@local|@mobile/ : /@mobile/,
-      testMatch: /cms(-editing)?\.spec\.ts/,
+      testMatch: /cms(-editing|-admin)?\.spec\.ts/,
       // These specs share the editor account, and concurrent logins drop its sessions.
       workers: 1,
     },
@@ -35,7 +35,7 @@ export default defineConfig({
       name: 'mobile',
       use: { ...devices['Pixel 7'] },
       grepInvert: remoteBaseURL ? /@local/ : undefined,
-      testIgnore: /(admin|api|cms|cms-editing|headers|seo)\.spec\.ts/,
+      testIgnore: /(admin|api|cms|cms-admin|cms-editing|headers|seo)\.spec\.ts/,
     },
   ],
   webServer: remoteBaseURL
