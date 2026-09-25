@@ -2,7 +2,7 @@ import { MapPin, Phone } from 'lucide-react'
 import Image from 'next/image'
 
 import { CmsLink } from '@/components/layout/cms-link'
-import ScrollAnimate from '@/components/motion/scroll-animate'
+import { telHref } from '@/components/layout/contact'
 import { Button } from '@/components/ui/button'
 import { image } from '@/lib/cms'
 import type { HomePage, SiteSetting } from '@/payload-types'
@@ -18,55 +18,58 @@ export function HeroSection({ hero, business }: HeroSectionProps) {
   const background = image(hero.backgroundImage, 'hero')
 
   return (
-    <section className="relative flex h-[calc(100vh-80px)] min-h-[600px] items-center bg-brandDark text-white md:min-h-[700px]">
+    <section className="relative isolate flex min-h-[max(40rem,calc(100svh-5rem))] flex-col justify-end overflow-hidden bg-brandInk text-white md:justify-center">
       {background && (
-        <div className="absolute inset-0">
+        <div className="absolute inset-0 -z-10">
           <Image
             src={background.url}
             alt={background.alt}
             fill
             priority
-            className="object-cover opacity-40"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 100vw"
+            className="object-cover opacity-60"
+            sizes="100vw"
           />
+          <div className="absolute inset-0 bg-linear-to-t from-brandInk via-brandInk/30 to-brandInk/10 md:bg-linear-to-r md:from-brandInk/40 md:via-transparent" />
         </div>
       )}
 
-      <div className="absolute top-0 bottom-0 left-0 w-1/2 bg-brandRed bg-grunge-texture opacity-90 bg-blend-multiply md:w-2/5" />
+      <div
+        aria-hidden
+        className="absolute inset-y-0 left-0 -z-10 hidden w-1/2 bg-brandRed bg-grunge-texture bg-blend-multiply [clip-path:polygon(0_0,100%_0,calc(100%-4.5rem)_100%,0_100%)] md:block lg:w-[46%]"
+      />
 
-      <div className="relative z-10 container mx-auto flex h-full items-center justify-between px-4">
-        <HeroSlides slides={hero.slides}>
-          <Button asChild variant="light" size="lg" className="w-full sm:w-auto">
-            <CmsLink url={hero.cta.url}>{hero.cta.label}</CmsLink>
-          </Button>
-        </HeroSlides>
-
-        {(hero.showPhone || hero.showAddress) && (
-          <ScrollAnimate
-            variantName="fadeInRight"
-            delay={0.4}
-            className="absolute right-4 bottom-10 hidden flex-col space-y-4 rounded-sm bg-black/30 p-4 md:flex"
-          >
-            {hero.showPhone && (
-              <a
-                href={`tel:${business.phone.replace(/[^\d+]/g, '')}`}
-                className="flex items-center space-x-2"
-              >
-                <Phone className="h-5 w-5 text-brandRed" />
-                <span>
-                  {hero.phoneLabel} {business.phone}
-                </span>
-              </a>
-            )}
-            {hero.showAddress && (
-              <div className="flex items-center space-x-2">
-                <MapPin className="h-5 w-5 text-brandRed" />
-                <span>{business.address}</span>
-              </div>
-            )}
-          </ScrollAnimate>
-        )}
+      <div className="container">
+        <div className="-mx-4 px-4 pt-16 pb-10 max-md:bg-brandRed max-md:bg-grunge-texture max-md:bg-blend-multiply max-md:[clip-path:polygon(0_2.5rem,100%_0,100%_100%,0_100%)] md:mx-0 md:max-w-[calc(50vw-6rem)] md:px-0 md:py-24 lg:max-w-[34rem]">
+          <HeroSlides slides={hero.slides}>
+            <Button asChild variant="light" size="lg" className="w-full sm:w-auto">
+              <CmsLink url={hero.cta.url}>{hero.cta.label}</CmsLink>
+            </Button>
+          </HeroSlides>
+        </div>
       </div>
+
+      {(hero.showPhone || hero.showAddress) && (
+        <div className="absolute right-8 bottom-8 hidden animate-rise flex-col gap-3 rounded-md border border-white/10 bg-brandInk/55 px-5 py-4 text-sm backdrop-blur-md [animation-delay:400ms] md:flex lg:right-12 lg:bottom-12">
+          {hero.showPhone && (
+            <a
+              href={telHref(business.phone)}
+              className="flex items-center gap-3 text-white/90 transition-colors hover:text-white"
+            >
+              <Phone className="h-4 w-4 text-brandRed" aria-hidden />
+              <span>
+                {hero.phoneLabel}{' '}
+                <span className="font-medium text-white tabular-nums">{business.phone}</span>
+              </span>
+            </a>
+          )}
+          {hero.showAddress && (
+            <p className="flex items-center gap-3 text-white/90">
+              <MapPin className="h-4 w-4 text-brandRed" aria-hidden />
+              <span>{business.address}</span>
+            </p>
+          )}
+        </div>
+      )}
     </section>
   )
 }
