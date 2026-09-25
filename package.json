@@ -2,6 +2,7 @@
   "name": "rpm-detailing",
   "version": "1.0.0",
   "private": true,
+  "license": "UNLICENSED",
   "description": "RPM Detailing marketing site and Payload CMS",
   "type": "module",
   "packageManager": "pnpm@12.6.0",
