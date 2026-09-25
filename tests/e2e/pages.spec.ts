@@ -38,13 +38,10 @@ test('unknown routes render the 404 page', async ({ page }) => {
   await expect(page).toHaveURL(/\/$/)
 })
 
-test('mobile menu opens and closes', async ({ page, isMobile }) => {
-  test.skip(!isMobile, 'mobile navigation only')
-
+test('mobile menu opens and closes @mobile', async ({ page }) => {
   await page.goto('/')
-  const toggle = page.getByRole('button', { name: /mobile menu/i })
-  await toggle.click()
+  await page.getByRole('button', { name: /toggle mobile menu/i }).click()
   await expect(page.locator('header nav').last()).toBeVisible()
-  await toggle.click()
+  await page.getByRole('button', { name: /close mobile menu/i }).click()
   await expect(page.locator('header nav').last()).toBeHidden()
 })

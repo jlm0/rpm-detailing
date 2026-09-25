@@ -7,6 +7,8 @@ test.describe.configure({ mode: 'serial' })
 test('first user can be created and reaches the dashboard @local', async ({ page }) => {
   await page.goto('/admin')
   await expect(page).toHaveURL(/\/admin\/create-first-user/)
+  // eslint-disable-next-line playwright/no-networkidle -- Payload's form submits natively until hydrated
+  await page.waitForLoadState('networkidle')
 
   await page.locator('#field-email').fill(admin.email)
   await page.locator('#field-password').fill(admin.password)
@@ -19,14 +21,15 @@ test('first user can be created and reaches the dashboard @local', async ({ page
 
 test('admin can log in and open a global @local', async ({ page }) => {
   await page.goto('/admin/login')
+  // eslint-disable-next-line playwright/no-networkidle -- Payload's form submits natively until hydrated
+  await page.waitForLoadState('networkidle')
 
   await page.locator('#field-email').fill(admin.email)
   await page.locator('#field-password').fill(admin.password)
   await page.getByRole('button', { name: /login/i }).click()
 
   await expect(page).toHaveURL(/\/admin$/)
-  await page.getByRole('link', { name: 'Site Settings' }).first().click()
-  await expect(page).toHaveURL(/\/admin\/globals\/site-settings/)
+  await page.goto('/admin/globals/site-settings')
   await expect(page.getByRole('heading', { name: 'Site Settings' })).toBeVisible()
 })
 

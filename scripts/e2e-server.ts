@@ -15,7 +15,7 @@ const db = new EmbeddedPostgres({
   user: 'postgres',
   password: 'postgres',
   persistent: false,
-  onLog: () => {},
+  onLog: () => undefined,
 })
 
 await db.initialise()
@@ -29,13 +29,19 @@ const env = {
   NEXT_PUBLIC_SERVER_URL: `http://localhost:${appPort}`,
 }
 
-const migrate = spawnSync('pnpm', ['payload', 'migrate'], { env, stdio: 'inherit' })
-if (migrate.status !== 0) {
-  await db.stop()
-  process.exit(migrate.status ?? 1)
+for (const args of [['migrate'], ['run', 'scripts/e2e-seed.ts']]) {
+  const result = spawnSync('pnpm', ['payload', ...args], { env, stdio: 'inherit' })
+  if (result.status !== 0) {
+    await db.stop()
+    process.exit(result.status ?? 1)
+  }
 }
 
-const server = spawn('pnpm', ['start', '--port', String(appPort)], { env, stdio: 'inherit' })
+const server = spawn(
+  process.execPath,
+  ['node_modules/next/dist/bin/next', 'start', '--port', String(appPort)],
+  { env, stdio: ['ignore', 'inherit', 'inherit'] },
+)
 
 let stopping = false
 const stop = async (code: number) => {
@@ -46,6 +52,6 @@ const stop = async (code: number) => {
   process.exit(code)
 }
 
-process.on('SIGINT', () => stop(0))
-process.on('SIGTERM', () => stop(0))
-server.on('exit', (code) => stop(code ?? 0))
+process.on('SIGINT', () => void stop(0))
+process.on('SIGTERM', () => void stop(0))
+server.on('exit', (code) => void stop(code ?? 0))

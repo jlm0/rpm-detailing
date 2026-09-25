@@ -9,7 +9,6 @@ export default defineConfig({
   forbidOnly: true,
   retries: remoteBaseURL ? 1 : 0,
   reporter: [['list'], ['html', { open: 'never' }]],
-  grepInvert: remoteBaseURL ? /@local/ : undefined,
   use: {
     baseURL: remoteBaseURL ?? 'http://localhost:3100',
     trace: 'retain-on-failure',
@@ -18,10 +17,15 @@ export default defineConfig({
       : undefined,
   },
   projects: [
-    { name: 'desktop', use: { ...devices['Desktop Chrome'] } },
+    {
+      name: 'desktop',
+      use: { ...devices['Desktop Chrome'] },
+      grepInvert: remoteBaseURL ? /@local|@mobile/ : /@mobile/,
+    },
     {
       name: 'mobile',
       use: { ...devices['Pixel 7'] },
+      grepInvert: remoteBaseURL ? /@local/ : undefined,
       testIgnore: /(admin|api|headers|seo)\.spec\.ts/,
     },
   ],

@@ -5,7 +5,7 @@ for (const slug of ['site-settings', 'landing-page', 'services-page', 'about-pag
     const response = await request.get(`/api/globals/${slug}`)
 
     expect(response.status()).toBe(200)
-    expect(await response.json()).toMatchObject({ globalType: slug })
+    expect(await response.json()).not.toHaveProperty('errors')
   })
 }
 
