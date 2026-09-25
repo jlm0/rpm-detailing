@@ -7,6 +7,7 @@ import { RichText } from '@/components/rich-text'
 import { Button } from '@/components/ui/button'
 import { Price } from '@/components/ui/price'
 import { image } from '@/lib/cms'
+import { serviceAnchor } from '@/lib/site-map'
 import { cn } from '@/lib/utils'
 import type { Service, ServicesPage } from '@/payload-types'
 
@@ -28,7 +29,8 @@ export default function ServicesDetail({ services, labels }: ServicesDetailProps
           return (
             <article
               key={service.id}
-              className="grid gap-10 py-16 first:pt-0 last:pb-0 md:grid-cols-2 md:gap-14 md:py-24 lg:gap-24"
+              id={serviceAnchor(service.id)}
+              className="grid scroll-mt-28 gap-10 py-16 first:pt-0 last:pb-0 md:grid-cols-2 md:gap-14 md:py-24 lg:gap-24"
             >
               <Reveal className={cn('md:sticky md:top-28 md:self-start', reversed && 'md:order-2')}>
                 <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-brandInk">
