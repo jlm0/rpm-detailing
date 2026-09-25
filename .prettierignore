@@ -8,3 +8,5 @@ blob-report
 src/payload-types.ts
 src/migrations
 src/app/(payload)/admin/importMap.js
+tsconfig.json
+next-env.d.ts

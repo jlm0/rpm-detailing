@@ -42,6 +42,7 @@ const HeroSection = ({
 
   // Use the slides from props
   const heroContent = slides
+  const currentSlide = heroContent[activeSlide]
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -73,10 +74,10 @@ const HeroSection = ({
           <ScrollAnimate variantName="fadeInUp" delay={0.2}>
             <div className="flex min-h-[280px] flex-col justify-center lg:min-h-[320px]">
               <p className="mb-4 text-sm tracking-wider uppercase">
-                {heroContent[activeSlide].subtitle}
+                {currentSlide?.subtitle}
               </p>
               <h1 className="mb-8 text-4xl leading-tight font-bold sm:text-5xl lg:text-6xl">
-                {heroContent[activeSlide].title}
+                {currentSlide?.title}
               </h1>
             </div>
             <Link href={ctaLink}>
