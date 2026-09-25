@@ -3,7 +3,7 @@ import type { Payload, RequestContext } from 'payload'
 import type { Service } from '@/payload-types'
 
 import { localAccounts } from './accounts'
-import { detailingPhoto, photo, wordmark } from './images'
+import { photo, socialCard, wordmark } from './images'
 
 const context: RequestContext = { disableRevalidate: true }
 const published = { _status: 'published' } as const
@@ -62,7 +62,7 @@ export async function seed(payload: Payload) {
   payload.logger.info('Clearing content')
   await clearContent(payload)
 
-  payload.logger.info('Uploading placeholder photos')
+  payload.logger.info('Uploading photos')
   const upload = async (
     name: string,
     alt: string,
@@ -102,25 +102,49 @@ export async function seed(payload: Payload) {
     upload('rpm-logo', 'RPM Detailing', wordmark('RPM DETAILING', '#ffffff')),
     upload(
       'share-image',
-      'RPM Detailing premium auto detailing',
-      photo('RPM Detailing', 1200, 630),
+      'A freshly detailed black sedan in the RPM Detailing studio',
+      socialCard('hero'),
     ),
-    upload('hero', 'A freshly detailed car gleaming under studio lights', detailingPhoto()),
-    upload('about', 'Detailer polishing a car by hand', detailingPhoto()),
-    upload('gallery-wash', 'Premium hand wash and decontamination', photo('Hand Wash')),
-    upload('gallery-polish', 'Multi-stage paint correction', photo('Paint Correction')),
-    upload('gallery-coating', 'Ceramic coating application', photo('Ceramic Coating')),
-    upload('restore', 'Professional vehicle restoration service', photo('Restore')),
-    upload('protect', 'Applying ceramic coating to protect a vehicle', photo('Protect')),
-    upload('maintain', 'A perfectly maintained luxury car', photo('Maintain')),
-    upload('step-wash', 'Washing and decontaminating the paint', photo('Wash & Decon', 1600, 700)),
-    upload('step-correction', 'Machine polishing the paint', photo('Paint Correction', 1600, 700)),
-    upload('step-interior', 'Detailing the interior', photo('Interior Finishing', 1600, 700)),
-    upload('step-protection', 'Applying paint protection', photo('Protection', 1600, 700)),
-    upload('services-hero', 'Detailer working on a car', photo('Our Services', 1920, 800)),
-    upload('about-hero', 'The RPM Detailing studio', photo('About RPM', 1920, 800)),
-    upload('story', 'RPM Detailing at work', photo('Our Story')),
-    upload('team-lead', 'Portrait of the lead detailer', photo('Lead Detailer', 800, 800)),
+    upload('hero', 'A freshly detailed black sedan gleaming under studio lights', photo('hero')),
+    upload(
+      'about',
+      'Detailer hand-finishing glossy black paint with a microfibre cloth',
+      photo('about'),
+    ),
+    upload('gallery-wash', 'Snow foam hand wash on a black sports car', photo('gallery-wash')),
+    upload(
+      'gallery-polish',
+      'Machine polisher removing swirl marks from black paint',
+      photo('gallery-polish'),
+    ),
+    upload(
+      'gallery-coating',
+      'Ceramic coating being applied to a car hood',
+      photo('gallery-coating'),
+    ),
+    upload('restore', 'Before-and-after paint correction on a car door', photo('restore')),
+    upload('protect', 'Water beading on a ceramic-coated red car hood', photo('protect')),
+    upload('maintain', 'A spotless black SUV after a maintenance wash', photo('maintain')),
+    upload('step-wash', 'Pressure washing snow foam off a black coupe', photo('step-wash')),
+    upload(
+      'step-correction',
+      'Detailer machine polishing the side of a black sports car',
+      photo('step-correction'),
+    ),
+    upload('step-interior', 'Detailer brushing clean a leather car seat', photo('step-interior')),
+    upload(
+      'step-protection',
+      'Paint protection film being applied to a front bumper',
+      photo('step-protection'),
+    ),
+    upload(
+      'services-hero',
+      'A detailed black coupe in the RPM Detailing studio',
+      photo('services-hero'),
+    ),
+    upload('about-hero', 'The RPM Detailing garage at dusk', photo('about-hero')),
+    upload('story', 'Detailer inspecting paint with a swirl-finder light', photo('story')),
+    upload('team-lead', 'Portrait of the lead detailer', photo('team-lead')),
   ])
 
   payload.logger.info('Creating services, testimonials and brands')
