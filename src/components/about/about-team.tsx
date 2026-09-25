@@ -1,21 +1,12 @@
-'use client'
-
 import Image from 'next/image'
 
 import ScrollAnimate from '@/components/motion/scroll-animate'
 import { Card, CardContent } from '@/components/ui/card'
+import { image } from '@/lib/cms'
+import type { AboutPage } from '@/payload-types'
 
-interface TeamMember {
-  name: string
-  position?: string
-  bio?: string
-  image?: { url: string; alt?: string }
-}
-
-interface AboutTeamProps {
-  title: string
-  subtitle: string
-  members: TeamMember[]
+type AboutTeamProps = AboutPage['team'] & {
+  members: NonNullable<AboutPage['team']['members']>
 }
 
 export default function AboutTeam({ title, subtitle, members }: AboutTeamProps) {
@@ -32,29 +23,27 @@ export default function AboutTeam({ title, subtitle, members }: AboutTeamProps) 
           staggerChildren={0.1}
           className="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
         >
-          {members.map((member, index) => (
-            <ScrollAnimate key={index} variantName="fadeInUp">
-              <Card className="h-full min-h-[400px] transition-shadow hover:shadow-lg">
-                <div className="relative aspect-square overflow-hidden">
-                  <Image
-                    src={member.image?.url || '/placeholder.svg'}
-                    alt={member.image?.alt || member.name}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <CardContent className="p-6">
-                  <h3 className="mb-1 text-xl font-semibold text-brandDark">{member.name}</h3>
-                  {member.position && (
+          {members.map((member, index) => {
+            const photo = image(member.photo, 'card')
+            return (
+              <ScrollAnimate key={member.id ?? index} variantName="fadeInUp">
+                <Card className="h-full min-h-[400px] transition-shadow hover:shadow-lg">
+                  {photo && (
+                    <div className="relative aspect-square overflow-hidden">
+                      <Image src={photo.url} alt={photo.alt} fill className="object-cover" />
+                    </div>
+                  )}
+                  <CardContent className="p-6">
+                    <h3 className="mb-1 text-xl font-semibold text-brandDark">{member.name}</h3>
                     <p className="mb-3 font-medium text-brandRed">{member.position}</p>
-                  )}
-                  {member.bio && (
-                    <p className="line-clamp-3 text-sm text-brandMediumGray">{member.bio}</p>
-                  )}
-                </CardContent>
-              </Card>
-            </ScrollAnimate>
-          ))}
+                    {member.bio && (
+                      <p className="line-clamp-3 text-sm text-brandMediumGray">{member.bio}</p>
+                    )}
+                  </CardContent>
+                </Card>
+              </ScrollAnimate>
+            )
+          })}
         </ScrollAnimate>
       </div>
     </section>

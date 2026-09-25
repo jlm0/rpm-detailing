@@ -29,17 +29,9 @@ export default function Error({
             or contact us if the problem persists.
           </p>
 
-          <div className="space-y-4 md:space-y-8">
-            <Button onClick={reset} className="w-full bg-brandRed hover:bg-brandRed/90">
-              Try again
-            </Button>
-
-            <div className="text-sm text-brandMediumGray">
-              <p>Need help? Contact us:</p>
-              <p className="font-semibold">(425) 345-3564</p>
-              <p>info@rpmdetailing.com</p>
-            </div>
-          </div>
+          <Button onClick={reset} className="w-full bg-brandRed hover:bg-brandRed/90">
+            Try again
+          </Button>
         </div>
       </div>
     </div>

@@ -1,37 +1,27 @@
-'use client'
-
 import Image from 'next/image'
 
 import ScrollAnimate from '@/components/motion/scroll-animate'
+import { image } from '@/lib/cms'
+import type { AboutPage } from '@/payload-types'
 
-interface AboutHeroProps {
-  title: string
-  subtitle: string
-  backgroundImage: string
-  backgroundImageAlt?: string
-}
+export default function AboutHero({ title, subtitle, image: media }: AboutPage['hero']) {
+  const background = image(media, 'hero')
 
-export default function AboutHero({
-  title,
-  subtitle,
-  backgroundImage,
-  backgroundImageAlt = 'About hero background',
-}: AboutHeroProps) {
   return (
     <section className="relative overflow-hidden bg-brandDark py-24 text-white lg:py-32">
-      {/* Background Image */}
       <div className="absolute inset-0 z-0">
-        <Image
-          src={backgroundImage}
-          alt={backgroundImageAlt}
-          fill
-          className="object-cover opacity-30"
-          priority
-        />
+        {background && (
+          <Image
+            src={background.url}
+            alt={background.alt}
+            fill
+            className="object-cover opacity-30"
+            priority
+          />
+        )}
         <div className="absolute inset-0 bg-linear-to-r from-brandDark/90 to-brandDark/70" />
       </div>
 
-      {/* Content */}
       <div className="relative z-10 container mx-auto px-4">
         <ScrollAnimate variantName="fadeInUp" className="max-w-3xl space-y-4">
           <h1 className="text-4xl font-bold sm:text-5xl lg:text-6xl xl:text-7xl">{title}</h1>

@@ -1,12 +1,9 @@
 import type { MetadataRoute } from 'next'
 
-import { getGlobalSettings } from '@/lib/payload'
-
-export const dynamic = 'force-dynamic'
+import { getGlobal } from '@/lib/cms'
 
 export default async function robots(): Promise<MetadataRoute.Robots> {
-  const siteSettings = await getGlobalSettings('site-settings')
-  const siteUrl = siteSettings?.siteUrl || 'https://rpmdetail.co'
+  const { seo } = await getGlobal('site-settings')
 
   return {
     rules: {
@@ -14,6 +11,6 @@ export default async function robots(): Promise<MetadataRoute.Robots> {
       allow: '/',
       disallow: ['/admin', '/api'],
     },
-    sitemap: new URL('/sitemap.xml', siteUrl).toString(),
+    sitemap: new URL('/sitemap.xml', seo.siteUrl).toString(),
   }
 }

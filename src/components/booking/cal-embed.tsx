@@ -3,22 +3,28 @@
 import Cal, { getCalApi } from '@calcom/embed-react'
 import { useEffect, useState } from 'react'
 
+import { telHref } from '@/components/layout/contact'
 import { Button } from '@/components/ui/button'
 import { LoadingSpinner } from '@/components/ui/loading-spinner'
+import type { BookingPage } from '@/payload-types'
 
 interface CalEmbedProps {
   calLink: string
-  eventSlug?: string
-  config?: {
-    name?: string
-    email?: string
-    notes?: string
-    guests?: string[]
-    theme?: 'light' | 'dark' | 'auto'
-  }
+  eventSlug?: string | null
+  brandColor: string
+  loadingText: string
+  calendarError: BookingPage['calendarError']
+  phone: string
 }
 
-export default function CalEmbed({ calLink, eventSlug, config }: CalEmbedProps) {
+export default function CalEmbed({
+  calLink,
+  eventSlug,
+  brandColor,
+  loadingText,
+  calendarError,
+  phone,
+}: CalEmbedProps) {
   const [isLoading, setIsLoading] = useState(true)
   const [hasError, setHasError] = useState(false)
 
@@ -27,20 +33,20 @@ export default function CalEmbed({ calLink, eventSlug, config }: CalEmbedProps) 
       try {
         const cal = await getCalApi()
         cal('ui', {
-          theme: config?.theme || 'light',
+          theme: 'light',
           cssVarsPerTheme: {
             light: {
-              'cal-brand': '#d32f2f', // brandRed
-              'cal-text': '#1f2937', // brandDark
-              'cal-text-subtle': '#6b7280', // brandMediumGray
-              'cal-bg': '#f3f4f6', // brandLightGray
+              'cal-brand': brandColor,
+              'cal-text': '#1f2937',
+              'cal-text-subtle': '#6b7280',
+              'cal-bg': '#f3f4f6',
               'cal-bg-subtle': '#ffffff',
               'cal-bg-muted': '#f9fafb',
               'cal-border': '#e5e7eb',
               'cal-border-subtle': '#f3f4f6',
             },
             dark: {
-              'cal-brand': '#d32f2f', // brandRed
+              'cal-brand': brandColor,
               'cal-text': '#ffffff',
               'cal-text-subtle': '#9ca3af',
               'cal-bg': '#1f2937',
@@ -60,7 +66,7 @@ export default function CalEmbed({ calLink, eventSlug, config }: CalEmbedProps) 
         setIsLoading(false)
       }
     })()
-  }, [config?.theme])
+  }, [brandColor])
 
   const calUrl = eventSlug ? `${calLink}/${eventSlug}` : calLink
 
@@ -74,20 +80,17 @@ export default function CalEmbed({ calLink, eventSlug, config }: CalEmbedProps) 
     return (
       <div className="flex h-full min-h-[600px] w-full items-center justify-center rounded-lg bg-brandLightGray md:min-h-[800px]">
         <div className="max-w-md p-8 text-center">
-          <h3 className="mb-4 text-xl font-semibold text-brandDark">
-            Unable to Load Booking Calendar
-          </h3>
-          <p className="mb-6 text-brandMediumGray">
-            We&apos;re having trouble loading the booking calendar. Please try again or contact us
-            directly to schedule your appointment.
-          </p>
+          <h3 className="mb-4 text-xl font-semibold text-brandDark">{calendarError.title}</h3>
+          <p className="mb-6 text-brandMediumGray">{calendarError.message}</p>
           <div className="space-y-4">
             <Button onClick={handleRetry} className="w-full bg-brandRed hover:bg-brandRed/90">
-              Try Again
+              {calendarError.retryLabel}
             </Button>
             <div className="text-sm text-brandMediumGray">
-              <p>Or call us directly:</p>
-              <p className="text-lg font-semibold">(425) 345-3564</p>
+              <p>{calendarError.callLabel}</p>
+              <p className="text-lg font-semibold">
+                <a href={telHref(phone)}>{phone}</a>
+              </p>
             </div>
           </div>
         </div>
@@ -101,20 +104,14 @@ export default function CalEmbed({ calLink, eventSlug, config }: CalEmbedProps) 
         <div className="absolute inset-0 flex items-center justify-center rounded-lg bg-brandLightGray">
           <div className="text-center">
             <LoadingSpinner size="lg" />
-            <p className="mt-4 text-brandMediumGray">Loading booking calendar...</p>
+            <p className="mt-4 text-brandMediumGray">{loadingText}</p>
           </div>
         </div>
       )}
       <Cal
         calLink={calUrl}
         style={{ width: '100%', height: '100%', overflow: 'scroll' }}
-        config={{
-          ...(config?.name && { name: config.name }),
-          ...(config?.email && { email: config.email }),
-          ...(config?.notes && { notes: config.notes }),
-          ...(config?.guests && { guests: config.guests }),
-          theme: config?.theme || 'light',
-        }}
+        config={{ theme: 'light' }}
         onLoad={() => {
           setIsLoading(false)
         }}
