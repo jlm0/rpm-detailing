@@ -30,7 +30,7 @@ export default async function RootLayout({
   const preview = await isPreview()
 
   return (
-    <html lang="en" className={fontVariables}>
+    <html lang="en" className={fontVariables} data-scroll-behavior="smooth">
       <body>
         <MotionProvider>
           <div className="overflow-x-clip">{children}</div>
