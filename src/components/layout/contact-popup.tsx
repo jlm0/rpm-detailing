@@ -5,6 +5,7 @@ import { X } from 'lucide-react'
 import { useId, useRef } from 'react'
 
 import { Button } from '@/components/ui/button'
+import { backdrop, duration, ease } from '@/lib/motion'
 import type { Header, SiteSetting } from '@/payload-types'
 
 import { CmsLink } from './cms-link'
@@ -18,8 +19,6 @@ interface ContactPopupProps {
   business: SiteSetting['business']
 }
 
-const ease = [0.16, 1, 0.3, 1] as const
-
 function ContactDialog({ onClose, popup, business }: Omit<ContactPopupProps, 'isOpen'>) {
   const dialog = useRef<HTMLDivElement>(null)
   const titleId = useId()
@@ -30,10 +29,7 @@ function ContactDialog({ onClose, popup, business }: Omit<ContactPopupProps, 'is
       <motion.div
         className="absolute inset-0 bg-black/70 backdrop-blur-sm"
         onClick={onClose}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.25 }}
+        {...backdrop}
       />
       <motion.div
         ref={dialog}
@@ -41,9 +37,19 @@ function ContactDialog({ onClose, popup, business }: Omit<ContactPopupProps, 'is
         aria-modal="true"
         aria-labelledby={titleId}
         className="relative max-h-[90svh] w-full max-w-4xl overflow-y-auto rounded-xl bg-brandDark bg-grain text-white/75 shadow-2xl ring-1 ring-white/10"
-        initial={{ opacity: 0, y: 24, scale: 0.98 }}
-        animate={{ opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease } }}
-        exit={{ opacity: 0, y: 12, scale: 0.98, transition: { duration: 0.2 } }}
+        initial={{ opacity: 0, y: 16, scale: 0.98 }}
+        animate={{
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          transition: { duration: duration.base, ease: ease.enter },
+        }}
+        exit={{
+          opacity: 0,
+          y: 8,
+          scale: 0.98,
+          transition: { duration: duration.quick, ease: ease.exit },
+        }}
       >
         <div className="sticky top-0 z-10 flex items-center justify-between border-b border-white/10 bg-brandDark px-6 py-5 sm:px-8">
           <h2 id={titleId} className="text-2xl font-bold text-white sm:text-3xl">

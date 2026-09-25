@@ -8,6 +8,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useId, useRef, useState, type ReactNode } from 'react'
 
 import { Button } from '@/components/ui/button'
+import { backdrop, duration, ease, scrollBehavior } from '@/lib/motion'
 import type { Header, SiteSetting } from '@/payload-types'
 
 import { CmsLink } from './cms-link'
@@ -22,10 +23,8 @@ interface SiteHeaderClientProps {
   logo: { url: string; alt: string } | null
 }
 
-const ease = [0.16, 1, 0.3, 1] as const
-
 const desktopItemClass =
-  'relative py-2 text-sm font-medium text-white/70 transition-colors hover:text-white aria-[current=page]:text-white after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:origin-left after:scale-x-0 after:bg-brandRed after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100 motion-reduce:after:transition-none aria-[current=page]:after:scale-x-100'
+  'relative py-2 text-sm font-medium text-white/70 transition-colors hover:text-white aria-[current=page]:text-white after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:origin-right after:scale-x-0 after:bg-brandRed after:transition-transform after:duration-base after:ease-enter hover:after:origin-left hover:after:scale-x-100 motion-reduce:after:transition-none aria-[current=page]:after:scale-x-100'
 
 const mobileItemClass =
   'group flex w-full items-baseline gap-4 border-b border-white/10 py-4 text-left font-display text-2xl font-bold tracking-tight text-white/85 [font-stretch:112%] transition-colors hover:text-white aria-[current=page]:text-brandRed'
@@ -47,10 +46,7 @@ function MobileMenu({ header, renderNavItem, cta, menuId, onClose }: MobileMenuP
       <motion.div
         className="absolute inset-0 bg-black/60 backdrop-blur-sm"
         onClick={onClose}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.25 }}
+        {...backdrop}
       />
       <motion.div
         ref={panel}
@@ -60,8 +56,8 @@ function MobileMenu({ header, renderNavItem, cta, menuId, onClose }: MobileMenuP
         aria-label={header.mobileMenu.title}
         className="absolute inset-y-0 right-0 flex w-[min(22rem,88vw)] flex-col bg-brandDark bg-grain shadow-2xl ring-1 ring-white/10"
         initial={{ x: '100%' }}
-        animate={{ x: 0, transition: { duration: 0.5, ease } }}
-        exit={{ x: '100%', transition: { duration: 0.3, ease: 'easeIn' } }}
+        animate={{ x: 0, transition: { duration: duration.base, ease: ease.enter } }}
+        exit={{ x: '100%', transition: { duration: duration.quick, ease: ease.exit } }}
       >
         <div className="flex h-20 items-center justify-between border-b border-white/10 px-6">
           <span className="text-xs font-semibold tracking-[0.2em] text-white/60 uppercase">
@@ -78,7 +74,23 @@ function MobileMenu({ header, renderNavItem, cta, menuId, onClose }: MobileMenuP
         </div>
 
         <nav className="flex flex-1 flex-col overflow-y-auto px-6 pt-4 pb-8">
-          {header.navItems.map((item, index) => renderNavItem(item, mobileItemClass, index))}
+          {header.navItems.map((item, index) => (
+            <motion.div
+              key={item.id ?? item.label}
+              initial={{ opacity: 0, x: 12 }}
+              animate={{
+                opacity: 1,
+                x: 0,
+                transition: {
+                  duration: duration.base,
+                  ease: ease.enter,
+                  delay: duration.press + index * 0.04,
+                },
+              }}
+            >
+              {renderNavItem(item, mobileItemClass, index)}
+            </motion.div>
+          ))}
 
           {cta && (
             <Button asChild variant="brand" size="lg" className="mt-auto w-full">
@@ -109,7 +121,7 @@ export default function SiteHeaderClient({ header, business, logo }: SiteHeaderC
     if (pathname === '/' && window.location.hash) {
       const id = window.location.hash.substring(1)
       setTimeout(() => {
-        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        document.getElementById(id)?.scrollIntoView({ behavior: scrollBehavior(), block: 'start' })
       }, 100)
     }
   }, [pathname])
@@ -118,7 +130,7 @@ export default function SiteHeaderClient({ header, business, logo }: SiteHeaderC
     if (pathname === '/') {
       document
         .getElementById(hash.substring(1))
-        ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        ?.scrollIntoView({ behavior: scrollBehavior(), block: 'start' })
     } else {
       router.push(`/${hash}`)
     }

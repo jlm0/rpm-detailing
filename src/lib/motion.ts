@@ -10,3 +10,12 @@ export const duration = {
   base: 0.35,
   slow: 0.6,
 } as const
+
+export const backdrop = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1, transition: { duration: duration.base, ease: ease.standard } },
+  exit: { opacity: 0, transition: { duration: duration.quick, ease: ease.exit } },
+}
+
+export const scrollBehavior = (): ScrollBehavior =>
+  window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
