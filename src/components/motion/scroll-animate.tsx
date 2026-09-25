@@ -1,62 +1,57 @@
 'use client'
 
 import { motion, type Variants } from 'framer-motion'
-import type React from 'react'
-import { useInView } from 'react-intersection-observer'
+import { createContext, useContext, type ReactNode } from 'react'
 
 import { animationVariants, type AnimationVariantName } from '@/lib/animation-variants'
 
 interface ScrollAnimateProps {
-  children: React.ReactNode
+  children: ReactNode
   variantName?: AnimationVariantName
   delay?: number
   className?: string
   staggerChildren?: number
-  amount?: number // Viewport amount to trigger animation (0 to 1)
-  once?: boolean // Trigger animation only once
+  once?: boolean
 }
 
-const ScrollAnimate: React.FC<ScrollAnimateProps> = ({
+const StaggerContext = createContext(false)
+
+export default function ScrollAnimate({
   children,
   variantName = 'fadeInUp',
   delay = 0,
-  className = '',
+  className,
   staggerChildren,
-  amount = 0.3, // Trigger when 30% of the element is in view
   once = true,
-}) => {
-  const { ref, inView } = useInView({
-    triggerOnce: once,
-    threshold: amount,
-    rootMargin: '-100px',
-  })
+}: ScrollAnimateProps) {
+  const inheritsTrigger = useContext(StaggerContext)
+  const { hidden, visible } = animationVariants[variantName]
 
-  const selectedVariant = animationVariants[variantName]
-
-  const variantsWithDelay: Variants = {
-    hidden: selectedVariant.hidden,
+  const variants: Variants = {
+    hidden,
     visible: {
-      ...selectedVariant.visible,
+      ...visible,
       transition: {
-        ...selectedVariant.visible.transition,
-        delay: delay,
-        ...(staggerChildren && { when: 'beforeChildren' as const }),
-        staggerChildren: staggerChildren,
+        ...visible.transition,
+        delay,
+        ...(staggerChildren && { staggerChildren, delayChildren: delay }),
       },
     },
   }
 
+  const trigger = inheritsTrigger
+    ? {}
+    : {
+        initial: 'hidden',
+        whileInView: 'visible',
+        viewport: { once, amount: 0, margin: '0px 0px -48px 0px' },
+      }
+
   return (
-    <motion.div
-      className={className}
-      ref={ref}
-      variants={variantsWithDelay}
-      initial="hidden"
-      animate={inView ? 'visible' : 'hidden'}
-    >
-      {children}
-    </motion.div>
+    <StaggerContext.Provider value={Boolean(staggerChildren)}>
+      <motion.div className={className} variants={variants} {...trigger}>
+        {children}
+      </motion.div>
+    </StaggerContext.Provider>
   )
 }
-
-export default ScrollAnimate

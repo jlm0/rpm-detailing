@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from 'next'
 import '@/app/globals.css'
 
 import { LivePreviewListener } from '@/components/live-preview-listener'
+import { MotionProvider } from '@/components/motion/motion-provider'
 import { getGlobal, isPreview } from '@/lib/cms'
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -30,7 +31,9 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div className="overflow-x-clip">{children}</div>
+        <MotionProvider>
+          <div className="overflow-x-clip">{children}</div>
+        </MotionProvider>
         {preview && (
           <>
             <LivePreviewListener />
