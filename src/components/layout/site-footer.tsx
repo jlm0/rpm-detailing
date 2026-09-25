@@ -1,4 +1,4 @@
-import { Mail, MapPin, Phone } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -7,7 +7,10 @@ import { Button } from '@/components/ui/button'
 import { getGlobal, image } from '@/lib/cms'
 
 import { CmsLink } from './cms-link'
-import { OpeningHours, telHref } from './contact'
+import { ContactDetails, OpeningHours } from './contact'
+
+const labelClass =
+  'mb-6 font-sans text-xs font-semibold tracking-[0.2em] text-white/50 uppercase [font-stretch:100%]'
 
 export default async function SiteFooter() {
   const [footer, { business, branding }] = await Promise.all([
@@ -18,73 +21,54 @@ export default async function SiteFooter() {
   const copyright = footer.copyright.replaceAll('{year}', String(new Date().getFullYear()))
 
   return (
-    <footer id="contact" className="bg-brandDark py-16 text-neutral-300">
-      <div className="container mx-auto px-4">
+    <footer id="contact" className="border-t border-white/5 bg-brandDark bg-grain text-white/70">
+      <div className="container mx-auto px-4 pt-20 pb-10 md:pt-24">
         <ScrollAnimate
           variantName="fadeIn"
-          staggerChildren={0.1}
-          className="mb-12 grid gap-12 md:grid-cols-2 lg:grid-cols-4 xl:gap-16"
+          staggerChildren={0.08}
+          className="grid gap-12 md:grid-cols-2 lg:grid-cols-[1.2fr_1fr_1fr_1.2fr] lg:gap-14"
         >
           <ScrollAnimate variantName="fadeInUp">
-            <div>
-              <Link href="/" className="mb-4 flex items-center gap-2 text-2xl font-bold text-white">
-                {logo && (
-                  <div className="relative h-10 w-32">
-                    <Image
-                      src={logo.url}
-                      alt={logo.alt}
-                      fill
-                      className="object-contain"
-                      sizes="128px"
-                    />
-                  </div>
-                )}
-              </Link>
-              <p className="text-sm leading-relaxed">{footer.description}</p>
-            </div>
+            <Link href="/" className="mb-6 inline-flex rounded-sm">
+              {logo && (
+                <span className="relative block h-10 w-36">
+                  <Image
+                    src={logo.url}
+                    alt={logo.alt}
+                    fill
+                    className="object-contain object-left"
+                    sizes="144px"
+                  />
+                </span>
+              )}
+            </Link>
+            <p className="max-w-xs text-sm leading-relaxed">{footer.description}</p>
           </ScrollAnimate>
           <ScrollAnimate variantName="fadeInUp">
-            <div>
-              <h3 className="mb-4 text-xl font-semibold text-white">{footer.contactHeading}</h3>
-              <ul className="space-y-3 text-sm">
-                <li className="flex items-center space-x-2 transition-colors hover:text-white">
-                  <Phone className="h-4 w-4 text-brandRed" />
-                  <a href={telHref(business.phone)}>{business.phone}</a>
-                </li>
-                <li className="flex items-center space-x-2 transition-colors hover:text-white">
-                  <Mail className="h-4 w-4 text-brandRed" />
-                  <a href={`mailto:${business.email}`}>{business.email}</a>
-                </li>
-                <li className="flex items-center space-x-2 transition-colors hover:text-white">
-                  <MapPin className="h-4 w-4 text-brandRed" />
-                  <span>{business.address}</span>
-                </li>
-              </ul>
-            </div>
+            <h2 className={labelClass}>{footer.contactHeading}</h2>
+            <ContactDetails business={business} />
           </ScrollAnimate>
           <ScrollAnimate variantName="fadeInUp">
-            <div>
-              <h3 className="mb-4 text-xl font-semibold text-white">{footer.hoursHeading}</h3>
-              <OpeningHours hours={business.hours} />
-            </div>
+            <h2 className={labelClass}>{footer.hoursHeading}</h2>
+            <OpeningHours hours={business.hours} />
           </ScrollAnimate>
-          <ScrollAnimate variantName="fadeInUp">
-            <div>
-              <h3 className="mb-4 text-xl font-semibold text-white">{footer.cta.heading}</h3>
-              <p className="mb-4 text-sm">{footer.cta.text}</p>
-              <Button asChild variant="brand" size="lg" className="w-full">
-                <CmsLink url={footer.cta.button.url}>{footer.cta.button.label}</CmsLink>
-              </Button>
-            </div>
+          <ScrollAnimate
+            variantName="fadeInUp"
+            className="rounded-lg bg-white/[0.04] p-6 ring-1 ring-white/10"
+          >
+            <h2 className="mb-3 text-xl font-bold text-white">{footer.cta.heading}</h2>
+            <p className="mb-6 text-sm leading-relaxed">{footer.cta.text}</p>
+            <Button asChild variant="brand" size="lg" className="w-full">
+              <CmsLink url={footer.cta.button.url}>
+                {footer.cta.button.label}
+                <ArrowRight />
+              </CmsLink>
+            </Button>
           </ScrollAnimate>
         </ScrollAnimate>
-        <ScrollAnimate
-          variantName="fadeInUp"
-          delay={0.5}
-          className="border-t border-neutral-700 pt-8 text-center text-sm"
-        >
-          <p>{copyright}</p>
-        </ScrollAnimate>
+        <p className="mt-16 border-t border-white/10 pt-8 text-xs text-white/50 md:mt-20">
+          {copyright}
+        </p>
       </div>
     </footer>
   )
