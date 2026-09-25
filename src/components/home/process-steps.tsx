@@ -60,7 +60,7 @@ export function ProcessSteps({ steps }: { steps: ProcessStep[] }) {
           onClick={() => {
             select(active - 1)
           }}
-          className="hidden shrink-0 text-brandInk hover:bg-neutral-200 sm:inline-flex"
+          className="hidden shrink-0 text-brandInk hover:bg-neutral-200 sm:inline-flex motion-safe:hover:[&_svg]:-translate-x-0.5"
         >
           <ChevronLeft />
         </Button>
@@ -110,7 +110,7 @@ export function ProcessSteps({ steps }: { steps: ProcessStep[] }) {
           onClick={() => {
             select(active + 1)
           }}
-          className="hidden shrink-0 text-brandInk hover:bg-neutral-200 sm:inline-flex"
+          className="hidden shrink-0 text-brandInk hover:bg-neutral-200 sm:inline-flex motion-safe:hover:[&_svg]:translate-x-0.5"
         >
           <ChevronRight />
         </Button>
