@@ -21,6 +21,7 @@ const contentSecurityPolicy = [
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  agentRules: false,
   experimental: {
     globalNotFound: true,
   },
