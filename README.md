@@ -15,17 +15,37 @@ Requires Node 24+ (`nvm use`) and pnpm (the pinned version is installed automati
 
 ```bash
 pnpm install
-cp .env.example .env.local   # fill in DATABASE_URI and PAYLOAD_SECRET
 pnpm dev
 ```
 
-The site runs at http://localhost:3000 and the CMS at http://localhost:3000/admin.
+`pnpm dev` starts a local embedded Postgres in `.tmp/dev-db`, seeds it on first run and serves the site at http://localhost:3000 with the CMS at http://localhost:3000/admin. No `.env.local` is needed.
+
+Local accounts (local databases only):
+
+| Role                        | Email                   | Password            |
+| --------------------------- | ----------------------- | ------------------- |
+| Admin (developer)           | `admin@rpmdetail.test`  | `local-Password-1!` |
+| Editor (client permissions) | `client@rpmdetail.test` | `local-Password-1!` |
+
+`pnpm seed` resets the local content and accounts; `pnpm dev:reset` wipes the local database and starts fresh.
+
+## Content editing
+
+Everything on the site comes from Payload:
+
+- **Pages** (Home, Services, About, Booking) and **Site** (Business & SEO, Header & Menu, Footer) are globals.
+- **Service Packages**, **Testimonials**, **Brands** and **Photos** are collections, ordered by drag and drop.
+
+Edits autosave as drafts. Use the eye icon for live preview, or open the preview link to see drafts on the real site, then **Publish changes** to go live. Publishing clears the page cache immediately; no redeploy is needed.
+
+Editors can manage all content and photos. Only admins can manage users, and the last admin can't be removed or demoted.
 
 ## Scripts
 
 | Script                       | What it does                                                          |
 | ---------------------------- | --------------------------------------------------------------------- |
-| `pnpm dev`                   | Start the dev server                                                  |
+| `pnpm dev`                   | Start the dev server with a local seeded database                     |
+| `pnpm seed`                  | Reset local content and accounts                                      |
 | `pnpm build` / `pnpm start`  | Production build and serve                                            |
 | `pnpm check`                 | Typecheck, lint, format check and dead-code check (knip)              |
 | `pnpm format`                | Format everything with Prettier                                       |
@@ -39,7 +59,7 @@ The site runs at http://localhost:3000 and the CMS at http://localhost:3000/admi
 
 ## Testing
 
-`pnpm test:e2e` needs no setup. It starts an embedded Postgres instance, runs migrations, seeds test data, serves a production build on port 3100 and runs the suite on desktop and mobile Chrome. Tests tagged `@local` (for example admin sign-up) only run against that throwaway database.
+`pnpm test:e2e` needs no setup. It starts an embedded Postgres instance, runs migrations, seeds the same content and accounts as `pnpm dev`, serves a production build on port 3100 and runs the suite on desktop and mobile Chrome. Tests tagged `@local` (signing in, drafting, previewing, publishing and uploading) only run against that throwaway database.
 
 ## Deploying
 
