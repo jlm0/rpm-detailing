@@ -15,14 +15,16 @@ export function PageHero({ title, subtitle, image: media }: PageHeroProps) {
   return (
     <section className="relative isolate flex min-h-[26rem] items-end overflow-hidden bg-brandInk text-white md:min-h-[34rem]">
       {background && (
-        <Image
-          src={background.url}
-          alt={background.alt}
-          fill
-          priority
-          className="-z-20 object-cover opacity-55"
-          sizes="100vw"
-        />
+        <div className="absolute inset-0 -z-20 hero-parallax">
+          <Image
+            src={background.url}
+            alt={background.alt}
+            fill
+            priority
+            className="object-cover opacity-55 motion-safe:animate-settle"
+            sizes="100vw"
+          />
+        </div>
       )}
       <div className="absolute inset-0 -z-10 bg-linear-to-t from-brandInk via-brandInk/60 to-brandInk/20 md:bg-linear-to-r md:from-brandInk/95 md:via-brandInk/60 md:to-brandInk/10" />
       <div

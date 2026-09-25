@@ -20,13 +20,13 @@ export function HeroSection({ hero, business }: HeroSectionProps) {
   return (
     <section className="relative isolate flex min-h-[max(40rem,calc(100svh-5rem))] flex-col justify-end overflow-hidden bg-brandInk text-white md:justify-center">
       {background && (
-        <div className="absolute inset-x-0 top-0 -z-10 h-[58%] md:inset-0 md:h-auto">
+        <div className="absolute inset-x-0 top-0 -z-10 h-[58%] hero-parallax md:inset-0 md:h-auto">
           <Image
             src={background.url}
             alt={background.alt}
             fill
             priority
-            className="object-cover opacity-60"
+            className="object-cover opacity-60 motion-safe:animate-settle"
             sizes="100vw"
           />
           <div className="absolute inset-0 bg-linear-to-t from-brandInk via-brandInk/30 to-brandInk/10 md:bg-linear-to-r md:from-brandInk/40 md:via-transparent" />
@@ -49,7 +49,7 @@ export function HeroSection({ hero, business }: HeroSectionProps) {
       </div>
 
       {(hero.showPhone || hero.showAddress) && (
-        <div className="absolute right-8 bottom-8 hidden animate-rise flex-col gap-3 rounded-md border border-white/10 bg-brandInk/55 px-5 py-4 text-sm backdrop-blur-md [animation-delay:400ms] md:flex lg:right-12 lg:bottom-12">
+        <div className="absolute right-8 bottom-8 hidden animate-rise flex-col gap-3 rounded-md border border-white/10 bg-brandInk/55 px-5 py-4 text-sm backdrop-blur-md [animation-delay:360ms] md:flex lg:right-12 lg:bottom-12">
           {hero.showPhone && (
             <a
               href={telHref(business.phone)}

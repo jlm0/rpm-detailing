@@ -3,6 +3,7 @@
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { useEffect, useState, type ReactNode } from 'react'
 
+import { duration, ease } from '@/lib/motion'
 import { cn } from '@/lib/utils'
 import type { HomePage } from '@/payload-types'
 
@@ -34,7 +35,6 @@ export function HeroSlides({ slides, children }: { slides: Slides; children: Rea
 
   return (
     <div
-      className="animate-rise"
       onPointerEnter={() => {
         setPaused(true)
       }}
@@ -48,7 +48,7 @@ export function HeroSlides({ slides, children }: { slides: Slides; children: Rea
         setPaused(false)
       }}
     >
-      <div className="mb-10 grid">
+      <div className="mb-10 grid animate-rise">
         {slides.map((slide, index) => (
           <div key={slide.id ?? index} aria-hidden className="invisible col-start-1 row-start-1">
             <p className={eyebrowClass}>{slide.eyebrow}</p>
@@ -59,9 +59,13 @@ export function HeroSlides({ slides, children }: { slides: Slides; children: Rea
           <motion.div
             key={activeSlide}
             className="col-start-1 row-start-1"
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } }}
-            exit={{ opacity: 0, y: -8, transition: { duration: 0.3, ease: 'easeIn' } }}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{
+              opacity: 1,
+              y: 0,
+              transition: { duration: duration.slow, ease: ease.enter },
+            }}
+            exit={{ opacity: 0, y: -6, transition: { duration: duration.quick, ease: ease.exit } }}
           >
             <p className={eyebrowClass}>{currentSlide?.eyebrow}</p>
             <h1 className={titleClass}>{currentSlide?.title}</h1>
@@ -69,10 +73,10 @@ export function HeroSlides({ slides, children }: { slides: Slides; children: Rea
         </AnimatePresence>
       </div>
 
-      {children}
+      <div className="animate-rise [animation-delay:120ms]">{children}</div>
 
       {slides.length > 1 && (
-        <div className="mt-10 flex gap-2">
+        <div className="mt-10 flex animate-rise gap-2 [animation-delay:240ms]">
           {slides.map((slide, index) => {
             const isActive = activeSlide === index
             return (
