@@ -1,5 +1,5 @@
 import { Icon } from '@/components/icon'
-import ScrollAnimate from '@/components/motion/scroll-animate'
+import Reveal from '@/components/motion/reveal'
 import { SectionHeading } from '@/components/ui/section-heading'
 import type { AboutPage } from '@/payload-types'
 
@@ -16,17 +16,13 @@ export default function AboutValues({ title, subtitle, items }: AboutValuesProps
           className="mb-14 md:mb-20"
         />
 
-        <ScrollAnimate
-          variantName="fadeIn"
-          staggerChildren={0.1}
+        <Reveal
+          stagger
+          order={1}
           className="grid gap-10 md:grid-cols-2 md:gap-8 lg:grid-cols-3 lg:gap-12"
         >
           {items.map((value, index) => (
-            <ScrollAnimate
-              key={value.id ?? index}
-              variantName="fadeInUp"
-              className="border-t border-white/15 pt-6"
-            >
+            <Reveal key={value.id ?? index} className="border-t border-white/15 pt-6">
               <div className="mb-10 flex items-center justify-between">
                 <span className="text-xs font-semibold tracking-[0.2em] text-white/50 tabular-nums">
                   {String(index + 1).padStart(2, '0')}
@@ -35,9 +31,9 @@ export default function AboutValues({ title, subtitle, items }: AboutValuesProps
               </div>
               <h3 className="mb-3 text-2xl font-bold">{value.title}</h3>
               <p className="max-w-sm leading-relaxed text-white/65">{value.description}</p>
-            </ScrollAnimate>
+            </Reveal>
           ))}
-        </ScrollAnimate>
+        </Reveal>
       </div>
     </section>
   )

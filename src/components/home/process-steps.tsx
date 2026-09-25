@@ -5,7 +5,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import Image from 'next/image'
 import { useId, useRef, useState, type KeyboardEvent } from 'react'
 
-import ScrollAnimate from '@/components/motion/scroll-animate'
+import Reveal from '@/components/motion/reveal'
 import { Button } from '@/components/ui/button'
 
 import type { CmsImage } from './types'
@@ -48,11 +48,7 @@ export function ProcessSteps({ steps }: { steps: ProcessStep[] }) {
 
   return (
     <>
-      <ScrollAnimate
-        variantName="fadeInUp"
-        delay={0.1}
-        className="mx-auto mb-6 flex max-w-5xl items-center gap-2 md:mb-8"
-      >
+      <Reveal order={1} className="mx-auto mb-6 flex max-w-5xl items-center gap-2 md:mb-8">
         <Button
           variant="ghost"
           size="icon"
@@ -110,10 +106,10 @@ export function ProcessSteps({ steps }: { steps: ProcessStep[] }) {
         >
           <ChevronRight />
         </Button>
-      </ScrollAnimate>
-      <ScrollAnimate
-        variantName="zoomIn"
-        delay={0.2}
+      </Reveal>
+      <Reveal
+        variant="fade"
+        order={2}
         className="relative mx-auto aspect-[4/3] w-full max-w-5xl overflow-hidden rounded-lg bg-brandInk shadow-[0_40px_80px_-40px_rgb(17_17_17/0.45)] sm:aspect-[16/8]"
       >
         <div
@@ -152,7 +148,7 @@ export function ProcessSteps({ steps }: { steps: ProcessStep[] }) {
             </p>
           </div>
         </div>
-      </ScrollAnimate>
+      </Reveal>
     </>
   )
 }

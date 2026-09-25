@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 import CalEmbed from '@/components/booking/cal-embed'
 import { telHref } from '@/components/layout/contact'
-import ScrollAnimate from '@/components/motion/scroll-animate'
+import Reveal from '@/components/motion/reveal'
 import { Button } from '@/components/ui/button'
 import { getGlobal, image } from '@/lib/cms'
 import { pageMetadata } from '@/lib/metadata'
@@ -75,11 +75,7 @@ export default async function BookingPage() {
       </div>
 
       <main className="container mx-auto -mt-28 px-4 pb-20 md:-mt-36 md:px-8">
-        <ScrollAnimate
-          variantName="fadeInUp"
-          delay={0.15}
-          className="mx-auto h-[600px] max-w-5xl overflow-auto rounded-xl bg-white p-3 shadow-[0_40px_80px_-40px_rgb(17_17_17/0.5)] ring-1 ring-black/5 md:h-[800px] md:p-6"
-        >
+        <div className="mx-auto h-[600px] max-w-5xl animate-rise overflow-auto rounded-xl bg-white p-3 shadow-[0_40px_80px_-40px_rgb(17_17_17/0.5)] ring-1 ring-black/5 [animation-delay:160ms] md:h-[800px] md:p-6">
           <CalEmbed
             calLink={calendar.calLink}
             eventSlug={calendar.eventSlug}
@@ -88,13 +84,9 @@ export default async function BookingPage() {
             calendarError={calendarError}
             phone={business.phone}
           />
-        </ScrollAnimate>
+        </div>
 
-        <ScrollAnimate
-          variantName="fadeInUp"
-          delay={0.25}
-          className="mx-auto mt-6 flex max-w-5xl flex-col gap-4 rounded-xl bg-white p-6 ring-1 ring-black/5 md:flex-row md:items-center md:justify-between md:px-8"
-        >
+        <Reveal className="mx-auto mt-6 flex max-w-5xl flex-col gap-4 rounded-xl bg-white p-6 ring-1 ring-black/5 md:flex-row md:items-center md:justify-between md:px-8">
           <p className="text-brandMediumGray">{content.helpText}</p>
           <div className="flex flex-col gap-2 text-sm sm:flex-row sm:gap-8">
             <p className="text-brandMediumGray">
@@ -110,7 +102,7 @@ export default async function BookingPage() {
               </a>
             </p>
           </div>
-        </ScrollAnimate>
+        </Reveal>
       </main>
     </div>
   )

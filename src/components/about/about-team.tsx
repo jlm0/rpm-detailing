@@ -1,6 +1,6 @@
 import Image from 'next/image'
 
-import ScrollAnimate from '@/components/motion/scroll-animate'
+import Reveal from '@/components/motion/reveal'
 import { SectionHeading } from '@/components/ui/section-heading'
 import { image } from '@/lib/cms'
 import type { AboutPage } from '@/payload-types'
@@ -20,17 +20,12 @@ export default function AboutTeam({ title, subtitle, members }: AboutTeamProps) 
           className="mb-14 md:mb-16"
         />
 
-        <ScrollAnimate
-          variantName="fadeIn"
-          staggerChildren={0.1}
-          className="flex flex-wrap justify-center gap-x-6 gap-y-12"
-        >
+        <Reveal stagger order={1} className="flex flex-wrap justify-center gap-x-6 gap-y-12">
           {members.map((member, index) => {
             const photo = image(member.photo, 'card')
             return (
-              <ScrollAnimate
+              <Reveal
                 key={member.id ?? index}
-                variantName="fadeInUp"
                 className="group w-full max-w-sm sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)]"
               >
                 <figure>
@@ -55,10 +50,10 @@ export default function AboutTeam({ title, subtitle, members }: AboutTeamProps) 
                     )}
                   </figcaption>
                 </figure>
-              </ScrollAnimate>
+              </Reveal>
             )
           })}
-        </ScrollAnimate>
+        </Reveal>
       </div>
     </section>
   )

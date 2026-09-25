@@ -119,6 +119,47 @@
   background-size: 56px 32px;
 }
 
+@layer components {
+  [data-reveal] {
+    --reveal-index: 0;
+  }
+
+  [data-reveal='group'] > :nth-child(2) {
+    --reveal-index: 1;
+  }
+
+  [data-reveal='group'] > :nth-child(3) {
+    --reveal-index: 2;
+  }
+
+  [data-reveal='group'] > :nth-child(4) {
+    --reveal-index: 3;
+  }
+
+  [data-reveal='group'] > :nth-child(n + 5) {
+    --reveal-index: 4;
+  }
+
+  [data-reveal='rise'],
+  [data-reveal='fade'] {
+    transition-property: opacity, translate;
+    transition-duration: var(--duration-slow);
+    transition-timing-function: var(--ease-enter);
+    transition-delay: calc((var(--reveal-order, 0) + var(--reveal-index)) * var(--stagger));
+  }
+
+  [data-reveal-pending]:is([data-reveal='rise'], [data-reveal='fade']),
+  [data-reveal-pending][data-reveal='group'] > [data-reveal] {
+    opacity: 0;
+    transition: none;
+  }
+
+  [data-reveal-pending][data-reveal='rise'],
+  [data-reveal-pending][data-reveal='group'] > [data-reveal='rise'] {
+    translate: 0 var(--rise-distance);
+  }
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

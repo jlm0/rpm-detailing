@@ -1,7 +1,7 @@
 import Image from 'next/image'
 
 import { CmsLink } from '@/components/layout/cms-link'
-import ScrollAnimate from '@/components/motion/scroll-animate'
+import Reveal from '@/components/motion/reveal'
 import { Button } from '@/components/ui/button'
 import { SectionHeading } from '@/components/ui/section-heading'
 import { image } from '@/lib/cms'
@@ -17,19 +17,17 @@ export function BrandsSection({ section, brands }: BrandsSectionProps) {
     <section className="bg-brandInk py-20 text-white md:py-28">
       <div className="container mx-auto px-4">
         <SectionHeading title={section.title} tone="dark" align="center" className="mb-12" />
-        <ScrollAnimate
-          variantName="fadeIn"
-          staggerChildren={0.05}
+        <Reveal
+          variant="fade"
           className="mx-auto flex max-w-5xl flex-wrap items-center justify-center gap-x-4 gap-y-2 md:gap-x-10"
         >
           {brands.map((brand) => {
             const logo = image(brand.logo, 'thumbnail')
             return (
               logo && (
-                <ScrollAnimate
-                  variantName="fadeInUp"
+                <div
                   key={brand.id}
-                  className="flex h-16 w-24 items-center justify-center opacity-55 grayscale transition-opacity duration-300 hover:opacity-100 md:w-32"
+                  className="flex h-16 w-24 items-center justify-center opacity-55 grayscale transition-opacity duration-base hover:opacity-100 hover:duration-quick md:w-32"
                 >
                   <Image
                     src={logo.url}
@@ -39,16 +37,16 @@ export function BrandsSection({ section, brands }: BrandsSectionProps) {
                     className="h-auto max-h-10 w-full object-contain"
                     sizes="128px"
                   />
-                </ScrollAnimate>
+                </div>
               )
             )
           })}
-        </ScrollAnimate>
-        <ScrollAnimate variantName="fadeInUp" delay={0.2} className="mt-12 text-center">
+        </Reveal>
+        <Reveal order={1} className="mt-12 text-center">
           <Button asChild variant="light" size="lg">
             <CmsLink url={section.button.url}>{section.button.label}</CmsLink>
           </Button>
-        </ScrollAnimate>
+        </Reveal>
       </div>
     </section>
   )

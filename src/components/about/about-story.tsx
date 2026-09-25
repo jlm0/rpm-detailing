@@ -1,6 +1,6 @@
 import Image from 'next/image'
 
-import ScrollAnimate from '@/components/motion/scroll-animate'
+import Reveal from '@/components/motion/reveal'
 import { RichText } from '@/components/rich-text'
 import { SectionHeading } from '@/components/ui/section-heading'
 import { image } from '@/lib/cms'
@@ -15,15 +15,15 @@ export default function AboutStory({ title, content, image: media }: AboutPage['
         <div className="grid items-center gap-12 md:grid-cols-2 lg:grid-cols-[1fr_1.15fr] lg:gap-24">
           <div>
             <SectionHeading title={title} />
-            <ScrollAnimate variantName="fadeInUp" delay={0.1} className="mt-6">
+            <Reveal order={1} className="mt-6">
               <RichText
                 data={content}
                 className="prose max-w-prose text-brandMediumGray md:prose-lg"
               />
-            </ScrollAnimate>
+            </Reveal>
           </div>
 
-          <ScrollAnimate variantName="fadeInUp" delay={0.15}>
+          <Reveal order={1}>
             <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-brandInk lg:aspect-[5/4]">
               {photo && (
                 <Image
@@ -35,7 +35,7 @@ export default function AboutStory({ title, content, image: media }: AboutPage['
                 />
               )}
             </div>
-          </ScrollAnimate>
+          </Reveal>
         </div>
       </div>
     </section>

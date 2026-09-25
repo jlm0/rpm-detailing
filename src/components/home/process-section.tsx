@@ -1,5 +1,5 @@
 import { Icon } from '@/components/icon'
-import ScrollAnimate from '@/components/motion/scroll-animate'
+import Reveal from '@/components/motion/reveal'
 import { SectionHeading } from '@/components/ui/section-heading'
 import { image } from '@/lib/cms'
 import type { HomePage } from '@/payload-types'
@@ -23,14 +23,12 @@ export function ProcessSection({ process }: { process: HomePage['process'] }) {
         />
         <ProcessSteps steps={steps} />
         {process.stats && process.stats.length > 0 && (
-          <ScrollAnimate
-            variantName="fadeIn"
-            staggerChildren={0.1}
+          <Reveal
+            stagger
             className="mx-auto mt-16 grid max-w-6xl grid-cols-2 gap-y-10 md:mt-24 md:grid-cols-4"
           >
             {process.stats.map((stat, index) => (
-              <ScrollAnimate
-                variantName="fadeInUp"
+              <Reveal
                 key={stat.id ?? index}
                 className="flex flex-col items-center gap-2 border-neutral-300 px-4 text-center md:border-l md:first:border-l-0"
               >
@@ -39,9 +37,9 @@ export function ProcessSection({ process }: { process: HomePage['process'] }) {
                   {stat.value}
                 </p>
                 <p className="text-sm text-brandMediumGray">{stat.label}</p>
-              </ScrollAnimate>
+              </Reveal>
             ))}
-          </ScrollAnimate>
+          </Reveal>
         )}
       </div>
     </section>

@@ -2,7 +2,7 @@ import { ArrowRight, Check, Clock } from 'lucide-react'
 import Image from 'next/image'
 
 import { CmsLink } from '@/components/layout/cms-link'
-import ScrollAnimate from '@/components/motion/scroll-animate'
+import Reveal from '@/components/motion/reveal'
 import { RichText } from '@/components/rich-text'
 import { Button } from '@/components/ui/button'
 import { image } from '@/lib/cms'
@@ -27,10 +27,7 @@ export default function ServicesDetail({ services, labels }: ServicesDetailProps
               key={service.id}
               className="grid gap-10 py-16 first:pt-0 last:pb-0 md:grid-cols-2 md:gap-14 md:py-24 lg:gap-24"
             >
-              <ScrollAnimate
-                variantName="fadeInUp"
-                className={cn('md:sticky md:top-28 md:self-start', reversed && 'md:order-2')}
-              >
+              <Reveal className={cn('md:sticky md:top-28 md:self-start', reversed && 'md:order-2')}>
                 <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-brandInk">
                   {photo && (
                     <Image
@@ -50,9 +47,9 @@ export default function ServicesDetail({ services, labels }: ServicesDetailProps
                     {String(services.length).padStart(2, '0')}
                   </span>
                 </div>
-              </ScrollAnimate>
+              </Reveal>
 
-              <ScrollAnimate variantName="fadeInUp" delay={0.1} className="flex flex-col">
+              <Reveal order={1} className="flex flex-col">
                 <h2 className="mb-6 text-[clamp(2.25rem,4vw,3.5rem)] leading-none font-bold tracking-[-0.03em] text-brandInk">
                   {service.title}
                 </h2>
@@ -106,7 +103,7 @@ export default function ServicesDetail({ services, labels }: ServicesDetailProps
                     </CmsLink>
                   </Button>
                 </div>
-              </ScrollAnimate>
+              </Reveal>
             </article>
           )
         })}

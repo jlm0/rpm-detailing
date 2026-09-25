@@ -1,6 +1,6 @@
 import Image from 'next/image'
 
-import ScrollAnimate from '@/components/motion/scroll-animate'
+import Reveal from '@/components/motion/reveal'
 import { SectionHeading } from '@/components/ui/section-heading'
 import { image } from '@/lib/cms'
 import type { HomePage, Testimonial } from '@/payload-types'
@@ -28,7 +28,7 @@ export function TestimonialsSection({ section, testimonials }: TestimonialsSecti
           title={section.title}
           className="mb-12 md:mb-16"
         />
-        <ScrollAnimate variantName="fadeInUp" delay={0.15}>
+        <Reveal order={1}>
           <TestimonialsCarousel>
             {testimonials.map((testimonial) => {
               const avatar = image(testimonial.avatar, 'thumbnail')
@@ -74,7 +74,7 @@ export function TestimonialsSection({ section, testimonials }: TestimonialsSecti
               )
             })}
           </TestimonialsCarousel>
-        </ScrollAnimate>
+        </Reveal>
       </div>
     </section>
   )

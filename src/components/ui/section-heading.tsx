@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 
-import ScrollAnimate from '@/components/motion/scroll-animate'
+import Reveal from '@/components/motion/reveal'
 import { cn } from '@/lib/utils'
 
 const tones = {
@@ -31,10 +31,7 @@ export function SectionHeading({
   const colors = tones[tone]
 
   return (
-    <ScrollAnimate
-      variantName="fadeInUp"
-      className={cn('max-w-3xl', align === 'center' && 'mx-auto text-center', className)}
-    >
+    <Reveal className={cn('max-w-3xl', align === 'center' && 'mx-auto text-center', className)}>
       {eyebrow && (
         <p className={cn('mb-4 text-xs font-semibold tracking-[0.2em] uppercase', colors.eyebrow)}>
           {eyebrow}
@@ -59,6 +56,6 @@ export function SectionHeading({
           {description}
         </div>
       )}
-    </ScrollAnimate>
+    </Reveal>
   )
 }

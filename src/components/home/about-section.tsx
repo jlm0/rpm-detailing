@@ -2,7 +2,7 @@ import { Check } from 'lucide-react'
 import Image from 'next/image'
 
 import { CmsLink } from '@/components/layout/cms-link'
-import ScrollAnimate from '@/components/motion/scroll-animate'
+import Reveal from '@/components/motion/reveal'
 import { Button } from '@/components/ui/button'
 import { SectionHeading } from '@/components/ui/section-heading'
 import { image } from '@/lib/cms'
@@ -38,7 +38,7 @@ export function AboutSection({ about, transformation, yearsOfExperience }: About
     <section id="about" className="overflow-hidden bg-white py-20 md:py-28 lg:py-36">
       <div className="container mx-auto px-4">
         <div className="grid items-center gap-16 md:grid-cols-2 lg:grid-cols-[1.1fr_1fr] lg:gap-24">
-          <ScrollAnimate variantName="fadeInUp" className="relative mr-4 mb-8 md:mr-0">
+          <Reveal className="relative mr-4 mb-8 md:mr-0">
             {aboutImage && (
               <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-brandLightGray lg:aspect-[5/4]">
                 <Image
@@ -58,18 +58,18 @@ export function AboutSection({ about, transformation, yearsOfExperience }: About
                 {about.badgeLabel}
               </p>
             </div>
-          </ScrollAnimate>
+          </Reveal>
           <div>
             <SectionHeading
               eyebrow={about.eyebrow}
               title={about.title}
               description={<Paragraphs text={about.body} />}
             />
-            <ScrollAnimate variantName="fadeInUp" delay={0.15} className="mt-10">
+            <Reveal order={1} className="mt-10">
               <Button asChild variant="brandOutline" size="lg">
                 <CmsLink url={about.cta.url}>{about.cta.label}</CmsLink>
               </Button>
-            </ScrollAnimate>
+            </Reveal>
           </div>
         </div>
 
@@ -81,37 +81,28 @@ export function AboutSection({ about, transformation, yearsOfExperience }: About
               description={<Paragraphs text={transformation.body} />}
             />
             {transformation.features && transformation.features.length > 0 && (
-              <ScrollAnimate
-                variantName="fadeIn"
-                staggerChildren={0.08}
-                delay={0.1}
+              <Reveal
+                stagger
+                order={1}
                 className="mt-8 divide-y divide-neutral-200 border-y border-neutral-200"
               >
                 {transformation.features.map((item, index) => (
-                  <ScrollAnimate
-                    variantName="fadeInUp"
-                    key={item.id ?? index}
-                    className="flex items-center gap-4 py-4"
-                  >
+                  <Reveal key={item.id ?? index} className="flex items-center gap-4 py-4">
                     <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-brandRed/10">
                       <Check className="size-3.5 text-brandRed" strokeWidth={3} aria-hidden />
                     </span>
                     <span className="text-base text-brandInk md:text-lg">{item.feature}</span>
-                  </ScrollAnimate>
+                  </Reveal>
                 ))}
-              </ScrollAnimate>
+              </Reveal>
             )}
           </div>
-          <ScrollAnimate
-            variantName="fadeIn"
-            staggerChildren={0.12}
-            className="grid grid-cols-2 grid-rows-2 gap-3 md:gap-4"
-          >
+          <Reveal stagger className="grid grid-cols-2 grid-rows-2 gap-3 md:gap-4">
             {gallery.map(
               (photo, index) =>
                 photo && (
-                  <ScrollAnimate
-                    variantName="zoomIn"
+                  <Reveal
+                    variant="fade"
                     key={index}
                     className={cn(
                       'relative overflow-hidden rounded-lg bg-brandLightGray',
@@ -125,10 +116,10 @@ export function AboutSection({ about, transformation, yearsOfExperience }: About
                       className="object-cover transition-transform duration-700 ease-out motion-safe:hover:scale-[1.03]"
                       sizes="(max-width: 768px) 50vw, 25vw"
                     />
-                  </ScrollAnimate>
+                  </Reveal>
                 ),
             )}
-          </ScrollAnimate>
+          </Reveal>
         </div>
       </div>
     </section>

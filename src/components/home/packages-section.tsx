@@ -2,7 +2,7 @@ import { ArrowRight } from 'lucide-react'
 import Image from 'next/image'
 
 import { CmsLink } from '@/components/layout/cms-link'
-import ScrollAnimate from '@/components/motion/scroll-animate'
+import Reveal from '@/components/motion/reveal'
 import { Button } from '@/components/ui/button'
 import { SectionHeading } from '@/components/ui/section-heading'
 import { image } from '@/lib/cms'
@@ -31,19 +31,15 @@ export function PackagesSection({ packages, services }: PackagesSectionProps) {
       <div className="container mx-auto px-4">
         <div className="mb-12 flex flex-col gap-8 md:mb-16 md:flex-row md:items-end md:justify-between">
           <SectionHeading eyebrow={packages.eyebrow} title={packages.title} tone="dark" />
-          <ScrollAnimate variantName="fadeInUp" delay={0.1} className="hidden shrink-0 md:block">
+          <Reveal order={1} className="hidden shrink-0 md:block">
             {viewAll}
-          </ScrollAnimate>
+          </Reveal>
         </div>
-        <ScrollAnimate
-          variantName="fadeIn"
-          staggerChildren={0.12}
-          className="grid gap-5 md:grid-cols-2 lg:grid-cols-3 lg:gap-6"
-        >
+        <Reveal stagger order={1} className="grid gap-5 md:grid-cols-2 lg:grid-cols-3 lg:gap-6">
           {services.map((service, index) => {
             const photo = image(service.image, 'card')
             return (
-              <ScrollAnimate variantName="fadeInUp" key={service.id}>
+              <Reveal key={service.id}>
                 <article className="group relative flex h-full flex-col overflow-hidden rounded-lg bg-white/[0.035] ring-1 ring-white/10 transition-[box-shadow,transform] duration-500 ease-out hover:ring-brandRed/60 motion-safe:hover:-translate-y-1">
                   <div className="relative aspect-[4/3] overflow-hidden bg-brandInk">
                     {photo && (
@@ -81,13 +77,11 @@ export function PackagesSection({ packages, services }: PackagesSectionProps) {
                     </div>
                   </div>
                 </article>
-              </ScrollAnimate>
+              </Reveal>
             )
           })}
-        </ScrollAnimate>
-        <ScrollAnimate variantName="fadeInUp" className="mt-10 md:hidden">
-          {viewAll}
-        </ScrollAnimate>
+        </Reveal>
+        <Reveal className="mt-10 md:hidden">{viewAll}</Reveal>
       </div>
     </section>
   )

@@ -1,7 +1,7 @@
 import { ArrowRight } from 'lucide-react'
 
 import { CmsLink } from '@/components/layout/cms-link'
-import ScrollAnimate from '@/components/motion/scroll-animate'
+import Reveal from '@/components/motion/reveal'
 import { Button } from '@/components/ui/button'
 import { SectionHeading } from '@/components/ui/section-heading'
 import type { AboutPage } from '@/payload-types'
@@ -11,14 +11,14 @@ export default function AboutCta({ title, button }: AboutPage['cta']) {
     <section className="bg-brandRed bg-grunge-texture py-20 text-white bg-blend-multiply md:py-28">
       <div className="container mx-auto flex flex-col items-center px-4 text-center">
         <SectionHeading title={title} tone="red" align="center" />
-        <ScrollAnimate variantName="fadeInUp" delay={0.1} className="mt-10">
+        <Reveal order={1} className="mt-10">
           <Button asChild size="lg" variant="light">
             <CmsLink url={button.url}>
               {button.label}
               <ArrowRight />
             </CmsLink>
           </Button>
-        </ScrollAnimate>
+        </Reveal>
       </div>
     </section>
   )
