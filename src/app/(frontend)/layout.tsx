@@ -5,6 +5,7 @@ import '@/app/globals.css'
 import { LivePreviewListener } from '@/components/live-preview-listener'
 import { MotionProvider } from '@/components/motion/motion-provider'
 import { getGlobal, isPreview } from '@/lib/cms'
+import { fontVariables } from '@/lib/fonts'
 
 export async function generateMetadata(): Promise<Metadata> {
   const { business, seo } = await getGlobal('site-settings')
@@ -29,7 +30,7 @@ export default async function RootLayout({
   const preview = await isPreview()
 
   return (
-    <html lang="en">
+    <html lang="en" className={fontVariables}>
       <body>
         <MotionProvider>
           <div className="overflow-x-clip">{children}</div>

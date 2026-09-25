@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import '@/app/globals.css'
 
 import { getGlobal } from '@/lib/cms'
+import { fontVariables } from '@/lib/fonts'
 
 import NotFound from './(frontend)/not-found'
 
@@ -13,7 +14,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default function GlobalNotFound() {
   return (
-    <html lang="en">
+    <html lang="en" className={fontVariables}>
       <body className="overflow-x-clip">
         <NotFound />
       </body>

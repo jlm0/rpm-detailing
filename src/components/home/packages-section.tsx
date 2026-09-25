@@ -15,10 +15,7 @@ interface PackagesSectionProps {
 
 export function PackagesSection({ packages, services }: PackagesSectionProps) {
   return (
-    <section
-      id="services"
-      className="bg-tire-track-pattern bg-brandDark bg-cover py-16 text-white lg:py-24"
-    >
+    <section id="services" className="bg-brandDark bg-tire-track-pattern py-16 text-white lg:py-24">
       <div className="container mx-auto px-4">
         <ScrollAnimate variantName="fadeInDown" className="mb-12 text-center">
           <p className="mb-2 text-sm font-semibold tracking-wider text-brandRed uppercase">

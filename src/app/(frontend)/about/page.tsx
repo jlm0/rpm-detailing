@@ -16,7 +16,7 @@ export default async function Page() {
   return (
     <div className="flex min-h-screen flex-col bg-white">
       <SiteHeader />
-      <main className="flex flex-1 flex-col gap-0 md:gap-8">
+      <main className="flex flex-1 flex-col">
         <AboutHero {...hero} />
         <AboutStory {...story} />
         <AboutValues {...values} />

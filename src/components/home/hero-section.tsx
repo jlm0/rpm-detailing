@@ -32,7 +32,7 @@ export function HeroSection({ hero, business }: HeroSectionProps) {
         </div>
       )}
 
-      <div className="bg-grunge-texture absolute top-0 bottom-0 left-0 w-1/2 bg-brandRed opacity-90 bg-blend-multiply md:w-2/5" />
+      <div className="absolute top-0 bottom-0 left-0 w-1/2 bg-brandRed bg-grunge-texture opacity-90 bg-blend-multiply md:w-2/5" />
 
       <div className="relative z-10 container mx-auto flex h-full items-center justify-between px-4">
         <HeroSlides slides={hero.slides}>
