@@ -23,7 +23,7 @@ export default function CalEmbed({ calLink, eventSlug, config }: CalEmbedProps) 
   const [hasError, setHasError] = useState(false)
 
   useEffect(() => {
-    ;(async function () {
+    void (async function () {
       try {
         const cal = await getCalApi()
         cal('ui', {
@@ -115,7 +115,9 @@ export default function CalEmbed({ calLink, eventSlug, config }: CalEmbedProps) 
           ...(config?.guests && { guests: config.guests }),
           theme: config?.theme || 'light',
         }}
-        onLoad={() => setIsLoading(false)}
+        onLoad={() => {
+          setIsLoading(false)
+        }}
       />
     </div>
   )

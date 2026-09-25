@@ -83,14 +83,14 @@ export default function AboutPage({
           image={storyImage}
           imageAlt={storyImageAlt}
         />
-        {values && values.length > 0 && (
+        {values.length > 0 && (
           <AboutValues
             values={values}
             sectionTitle={valuesSectionTitle}
             sectionSubtitle={valuesSectionSubtitle}
           />
         )}
-        {teamMembers && teamMembers.length > 0 && (
+        {teamMembers.length > 0 && (
           <AboutTeam title={teamTitle} subtitle={teamSubtitle} members={teamMembers} />
         )}
         <AboutCta title={ctaTitle} buttonText={ctaButtonText} buttonLink={ctaButtonLink} />

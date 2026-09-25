@@ -146,13 +146,14 @@ const LandingHeader = ({
           </div>
         </Link>
         <nav className="hidden items-center space-x-6 md:flex md:space-x-8">
-          {navigation &&
-            navigation.length > 0 &&
+          {navigation.length > 0 &&
             navigation.map((item) =>
               item.label === 'Contact' ? (
                 <button
                   key={item.label}
-                  onClick={() => setIsContactModalOpen(true)}
+                  onClick={() => {
+                    setIsContactModalOpen(true)
+                  }}
                   className="transition-colors hover:text-brandRed"
                 >
                   {item.label}
@@ -160,7 +161,9 @@ const LandingHeader = ({
               ) : item.link.startsWith('#') ? (
                 <button
                   key={item.label}
-                  onClick={() => handleNavClick(item)}
+                  onClick={() => {
+                    handleNavClick(item)
+                  }}
                   className="transition-colors hover:text-brandRed"
                 >
                   {item.label}
@@ -219,41 +222,40 @@ const LandingHeader = ({
             </div>
 
             <nav className="flex flex-col space-y-2 p-4">
-              {navigation &&
-                navigation.map((item) =>
-                  item.label === 'Contact' ? (
-                    <button
-                      key={item.label}
-                      onClick={() => {
-                        closeMobileMenu()
-                        setIsContactModalOpen(true)
-                      }}
-                      className="rounded-lg px-4 py-3 text-left text-white transition-colors hover:bg-white/10"
-                    >
-                      {item.label}
-                    </button>
-                  ) : item.link.startsWith('#') ? (
-                    <button
-                      key={item.label}
-                      onClick={() => {
-                        closeMobileMenu()
-                        handleNavClick(item)
-                      }}
-                      className="w-full rounded-lg px-4 py-3 text-left text-white transition-colors hover:bg-white/10"
-                    >
-                      {item.label}
-                    </button>
-                  ) : (
-                    <Link
-                      key={item.label}
-                      href={getNavLink(item)}
-                      onClick={closeMobileMenu}
-                      className="rounded-lg px-4 py-3 text-white transition-colors hover:bg-white/10"
-                    >
-                      {item.label}
-                    </Link>
-                  ),
-                )}
+              {navigation.map((item) =>
+                item.label === 'Contact' ? (
+                  <button
+                    key={item.label}
+                    onClick={() => {
+                      closeMobileMenu()
+                      setIsContactModalOpen(true)
+                    }}
+                    className="rounded-lg px-4 py-3 text-left text-white transition-colors hover:bg-white/10"
+                  >
+                    {item.label}
+                  </button>
+                ) : item.link.startsWith('#') ? (
+                  <button
+                    key={item.label}
+                    onClick={() => {
+                      closeMobileMenu()
+                      handleNavClick(item)
+                    }}
+                    className="w-full rounded-lg px-4 py-3 text-left text-white transition-colors hover:bg-white/10"
+                  >
+                    {item.label}
+                  </button>
+                ) : (
+                  <Link
+                    key={item.label}
+                    href={getNavLink(item)}
+                    onClick={closeMobileMenu}
+                    className="rounded-lg px-4 py-3 text-white transition-colors hover:bg-white/10"
+                  >
+                    {item.label}
+                  </Link>
+                ),
+              )}
 
               {headerCTA.show && (
                 <Link href={headerCTA.link} onClick={closeMobileMenu} className="mt-4">
@@ -270,7 +272,9 @@ const LandingHeader = ({
       {/* Contact Modal */}
       <ContactModal
         isOpen={isContactModalOpen}
-        onClose={() => setIsContactModalOpen(false)}
+        onClose={() => {
+          setIsContactModalOpen(false)
+        }}
         phone={contactInfo?.phone}
         email={contactInfo?.email}
         address={contactInfo?.address}

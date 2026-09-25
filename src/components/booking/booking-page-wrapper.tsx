@@ -8,7 +8,7 @@ import BookingPageContent from './booking-page-content'
 export default async function BookingPageWrapper() {
   const siteSettings = await getGlobalSettings('site-settings')
 
-  const calcomConfig = siteSettings?.calcom || {}
+  const calcomConfig = siteSettings?.calcom ?? {}
 
   // If Cal.com is not enabled or configured, show a fallback
   if (!calcomConfig.enabled || !calcomConfig.link) {

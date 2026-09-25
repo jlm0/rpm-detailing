@@ -45,7 +45,7 @@ export async function getPayloadData<T = unknown>(
   try {
     const data = await payload.find({
       collection,
-      where: options?.where || {},
+      where: options?.where ?? {},
       limit: options?.limit || 10,
       sort: options?.sort,
       depth: options?.depth || 1,
@@ -61,7 +61,7 @@ export async function getPayloadData<T = unknown>(
 /**
  * Type mapping for global slugs to their types
  */
-type GlobalTypeMap = {
+interface GlobalTypeMap {
   'site-settings': SiteSetting
   'landing-page': LandingPage
   'services-page': ServicesPage
@@ -85,7 +85,7 @@ export async function getGlobalSettings<T extends keyof GlobalTypeMap>(
       slug,
     })
 
-    return data as GlobalTypeMap[T]
+    return data
   } catch (error) {
     console.error(`Error fetching global ${slug}:`, error)
     return null

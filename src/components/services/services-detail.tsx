@@ -11,7 +11,9 @@ import type { ServicesPage } from '@/payload-types'
 
 type ServiceDescription = string | NonNullable<ServicesPage['services']>[0]['description']
 
-type RichTextLeaf = { text?: string }
+interface RichTextLeaf {
+  text?: string
+}
 
 interface Service {
   title: string
@@ -33,7 +35,7 @@ function RenderServiceDescription({ description }: { description: Service['descr
   if (typeof description === 'string') {
     return description
   }
-  if (description && description.root && description.root.children) {
+  if (description?.root.children) {
     return (
       <div>
         {description.root.children.map((paragraph, i) => (
@@ -110,7 +112,7 @@ export default function ServicesDetail({
   startingAtLabel = 'Starting at',
   bookServiceButtonText = 'Book This Service',
 }: ServicesDetailProps) {
-  const displayServices = services && services.length > 0 ? services : defaultServices
+  const displayServices = services.length > 0 ? services : defaultServices
 
   return (
     <section className="bg-white py-16 lg:py-24">

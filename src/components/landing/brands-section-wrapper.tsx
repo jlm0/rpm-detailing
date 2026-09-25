@@ -18,25 +18,26 @@ async function getBrandsSectionProps(): Promise<ComponentProps<typeof BrandsSect
       getGlobalSettings('landing-page'),
     ])
 
-    const brands = brandsResult?.docs || []
+    const brands = brandsResult?.docs ?? []
 
     if (brands.length === 0) {
       return null
     }
 
     // Transform Payload Brand type to match component's expected interface
-    const transformedBrands = brands
-      .filter((brand) => brand.name && brand.logo && typeof brand.logo === 'object')
-      .map((brand) => ({
-        name: brand.name!,
-        logo: {
-          url: typeof brand.logo === 'object' && brand.logo !== null ? brand.logo.url || '' : '',
-          alt:
-            typeof brand.logo === 'object' && brand.logo !== null
-              ? brand.logo.alt || undefined
-              : undefined,
-        },
-      }))
+    const transformedBrands = brands.flatMap((brand) =>
+      brand.name && brand.logo && typeof brand.logo === 'object'
+        ? [
+            {
+              name: brand.name,
+              logo: {
+                url: brand.logo.url || '',
+                alt: brand.logo.alt || undefined,
+              },
+            },
+          ]
+        : [],
+    )
 
     // Note: The BrandsSection component currently doesn't use title/subtitle props
     // but they're available in landingPageData?.brandsSection if needed

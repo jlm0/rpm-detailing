@@ -5,7 +5,9 @@ import Image from 'next/image'
 import ScrollAnimate from '@/components/motion/scroll-animate'
 import type { AboutPage } from '@/payload-types'
 
-type RichTextLeaf = { text?: string }
+interface RichTextLeaf {
+  text?: string
+}
 
 interface AboutStoryProps {
   title: string
@@ -18,7 +20,7 @@ function RenderStoryContent({ content }: { content: string | AboutPage['storyCon
   if (typeof content === 'string') {
     return <p>{content}</p>
   }
-  if (content && content.root && content.root.children) {
+  if (content?.root.children) {
     return (
       <div>
         {content.root.children.map((paragraph, i) => (

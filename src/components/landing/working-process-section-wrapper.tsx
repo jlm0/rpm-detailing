@@ -6,10 +6,10 @@ export default async function WorkingProcessSectionWrapper() {
   // Fetch landing page data
   const landingPageData = await getGlobalSettings('landing-page')
 
-  const processSteps = landingPageData?.processSection?.steps || []
+  const processSteps = landingPageData?.processSection?.steps ?? []
   const sortedSteps = [...processSteps].sort((a, b) => (a.order || 0) - (b.order || 0))
 
-  const stats = landingPageData?.aboutSection?.stats || []
+  const stats = landingPageData?.aboutSection?.stats ?? []
 
   const processData = {
     preHeading: landingPageData?.processSection?.subtitle || '// OUR DETAILING METHOD',

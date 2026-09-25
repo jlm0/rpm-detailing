@@ -9,6 +9,7 @@ import {
   ChevronRight,
   Trophy,
   Clock,
+  type LucideIcon,
 } from 'lucide-react'
 import Image from 'next/image'
 import { useState } from 'react'
@@ -16,7 +17,7 @@ import { useState } from 'react'
 import ScrollAnimate from '@/components/motion/scroll-animate'
 import { Button } from '@/components/ui/button'
 
-const iconMap = {
+const iconMap: Record<string, LucideIcon> = {
   Users,
   Car,
   Award,
@@ -80,7 +81,9 @@ const WorkingProcessSection = ({
             <Button
               key={tab}
               variant={index === activeTab ? 'destructive' : 'outline'}
-              onClick={() => setActiveTab(index)}
+              onClick={() => {
+                setActiveTab(index)
+              }}
               className={`${
                 index === activeTab
                   ? 'bg-brandRed text-white'
@@ -114,7 +117,7 @@ const WorkingProcessSection = ({
           className="grid grid-cols-2 gap-8 text-center md:grid-cols-4"
         >
           {stats.map((stat) => {
-            const IconComponent = iconMap[stat.iconName as keyof typeof iconMap] || Users
+            const IconComponent = iconMap[stat.iconName] ?? Users
             return (
               <ScrollAnimate variantName="fadeInUp" key={stat.label}>
                 <div className="flex flex-col items-center">

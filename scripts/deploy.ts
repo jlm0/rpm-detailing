@@ -42,10 +42,11 @@ const deploy = run('pnpm', ['exec', 'vercel', 'deploy', '--prebuilt', ...prodFla
   stdio: ['inherit', 'pipe', 'inherit'],
   encoding: 'utf8',
 })
-const url = String(deploy.stdout).trim().split('\n').at(-1)
+const output = String(deploy.stdout)
+const url = output.trim().split('\n').at(-1)
 
 if (!url?.startsWith('https://')) {
-  console.error(`\n✖ Could not read the deployment URL from Vercel output:\n${deploy.stdout}`)
+  console.error(`\n✖ Could not read the deployment URL from Vercel output:\n${output}`)
   process.exit(1)
 }
 

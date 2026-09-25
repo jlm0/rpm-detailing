@@ -10,7 +10,7 @@ async function getServicesOverviewBarProps(): Promise<ComponentProps<typeof Serv
   try {
     const landingPageData = await getGlobalSettings('landing-page')
 
-    const services = landingPageData?.servicesBar || []
+    const services = landingPageData?.servicesBar ?? []
 
     const sortedServices = [...services].sort((a, b) => (a.order || 0) - (b.order || 0))
 

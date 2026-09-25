@@ -10,7 +10,9 @@ import type { LandingPage } from '@/payload-types'
 
 type AboutContent = string | NonNullable<LandingPage['aboutSection']>['content']
 
-type RichTextLeaf = { text?: string }
+interface RichTextLeaf {
+  text?: string
+}
 
 interface AboutUsSectionProps {
   whyChooseSection?: {
@@ -34,7 +36,7 @@ function RenderAboutContent({ content }: { content: AboutContent }) {
       <p className="mb-6 text-base leading-relaxed text-brandMediumGray md:text-lg">{content}</p>
     )
   }
-  if (content && content.root && content.root.children) {
+  if (content?.root.children) {
     return (
       <div className="mb-6 text-base leading-relaxed text-brandMediumGray md:text-lg">
         {content.root.children.map((paragraph, i) => (

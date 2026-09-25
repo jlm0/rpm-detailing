@@ -3,7 +3,7 @@
   "entry": ["src/migrations/index.ts", "scripts/*.ts"],
   "project": ["src/**/*.{ts,tsx,js,css}", "scripts/**/*.ts", "tests/**/*.ts"],
   "ignoreExportsUsedInFile": true,
-  "ignoreDependencies": ["tailwindcss", "@tailwindcss/typography", "vercel"],
+  "ignoreDependencies": ["vercel"],
   "ignoreIssues": {
     "src/components/ui/**": ["exports", "types"]
   }

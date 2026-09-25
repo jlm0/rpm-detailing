@@ -6,7 +6,7 @@ export default async function DetailedServicesSectionWrapper() {
   // Fetch landing page content from global
   const landingPageData = await getGlobalSettings('landing-page')
 
-  const services = landingPageData?.detailedServices || []
+  const services = landingPageData?.detailedServices ?? []
   const sortedServices = [...services].sort((a, b) => (a.order || 0) - (b.order || 0))
 
   // Default packages if CMS data not available

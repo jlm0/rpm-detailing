@@ -31,7 +31,7 @@ const ScrollAnimate: React.FC<ScrollAnimateProps> = ({
     rootMargin: '-100px',
   })
 
-  const selectedVariant = animationVariants[variantName] || animationVariants.fadeInUp
+  const selectedVariant = animationVariants[variantName]
 
   const variantsWithDelay: Variants = {
     hidden: selectedVariant.hidden,

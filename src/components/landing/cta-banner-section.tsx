@@ -1,12 +1,12 @@
 'use client'
 
-import { Wrench, CalendarDays, Car, Sparkles, SprayCan } from 'lucide-react'
+import { Wrench, CalendarDays, Car, Sparkles, SprayCan, type LucideIcon } from 'lucide-react'
 import Link from 'next/link'
 
 import ScrollAnimate from '@/components/motion/scroll-animate'
 import { Button } from '@/components/ui/button'
 
-const iconMap = {
+const iconMap: Record<string, LucideIcon> = {
   Wrench,
   CalendarDays,
   Car,
@@ -71,7 +71,7 @@ const CtaBannerSection = ({
           className="mb-12 grid gap-8 text-center md:grid-cols-3 lg:gap-12"
         >
           {ctaItems.map((item) => {
-            const IconComponent = iconMap[item.iconName as keyof typeof iconMap] || Car
+            const IconComponent = iconMap[item.iconName] ?? Car
             return (
               <ScrollAnimate variantName="fadeInUp" key={item.title}>
                 <div className="flex flex-col items-center">

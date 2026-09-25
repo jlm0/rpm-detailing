@@ -4,7 +4,6 @@ import { ErrorBoundary } from 'react-error-boundary'
 import { LoadingSpinner } from '@/components/ui/loading-spinner'
 import { getGlobalSettings, getMediaUrl } from '@/lib/payload'
 import { defaultValues, defaultTeamMembers } from '@/lib/default-content'
-import type { AboutPage as AboutPageData } from '@/payload-types'
 
 import AboutPage from './about-page'
 
@@ -20,19 +19,18 @@ async function getAboutPageProps(): Promise<ComponentProps<typeof AboutPage>> {
 
   try {
     const siteSettings = await getGlobalSettings('site-settings')
-    const pageData = (await getGlobalSettings('about-page')) as AboutPageData | null
+    const pageData = await getGlobalSettings('about-page')
 
     // Sort navigation by order field if it exists
-    const navigation = siteSettings?.navigation || defaultNavigation
+    const navigation = siteSettings?.navigation ?? defaultNavigation
     const sortedNavigation =
       Array.isArray(navigation) && navigation.length > 0
         ? [...navigation]
-            .filter((item) => item.label && item.link)
-            .map((item) => ({
-              label: item.label!,
-              link: item.link!,
-              order: item.order || 0,
-            }))
+            .flatMap((item) =>
+              item.label && item.link
+                ? [{ label: item.label, link: item.link, order: item.order || 0 }]
+                : [],
+            )
             .sort((a, b) => (a.order || 0) - (b.order || 0))
         : defaultNavigation
 
@@ -49,7 +47,7 @@ async function getAboutPageProps(): Promise<ComponentProps<typeof AboutPage>> {
           : 'About hero background',
       storyTitle: pageData?.storyTitle || 'Our Story',
       storyContent:
-        (pageData?.storyContent as AboutPageData['storyContent']) ||
+        pageData?.storyContent ??
         'RPM Detailing was founded with a passion for excellence and a commitment to providing the highest quality auto detailing services.',
       storyImage:
         pageData?.storyImage &&

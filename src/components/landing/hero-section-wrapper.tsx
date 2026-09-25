@@ -14,8 +14,8 @@ async function getHeroSectionProps(): Promise<ComponentProps<typeof HeroSection>
     // Fetch site settings for contact info
     const siteSettings = await getGlobalSettings('site-settings')
 
-    const heroSlides = landingPageData?.heroSlides || []
-    const heroSettings = landingPageData?.hero || {}
+    const heroSlides = landingPageData?.heroSlides ?? []
+    const heroSettings = landingPageData?.hero ?? {}
 
     // Default slides if none in CMS
     const defaultSlides = [
@@ -36,7 +36,7 @@ async function getHeroSectionProps(): Promise<ComponentProps<typeof HeroSection>
     // Merge CMS slides with defaults to ensure we always have 3 slides
     const slides = defaultSlides.map((defaultSlide, index) => {
       const cmsSlide = heroSlides[index]
-      if (cmsSlide && cmsSlide.title) {
+      if (cmsSlide?.title) {
         return {
           title: cmsSlide.title,
           subtitle: cmsSlide.subtitle || defaultSlide.subtitle,

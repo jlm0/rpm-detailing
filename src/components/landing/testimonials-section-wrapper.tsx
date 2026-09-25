@@ -50,7 +50,7 @@ async function getTestimonialsSectionProps(): Promise<ComponentProps<typeof Test
       },
     ]
 
-    const testimonials = testimonialsData?.docs?.length
+    const testimonials = testimonialsData?.docs.length
       ? testimonialsData.docs.map((t) => ({
           name: t.name || '',
           title: t.title || '',

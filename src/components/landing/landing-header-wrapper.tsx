@@ -18,16 +18,15 @@ export default async function LandingHeaderWrapper() {
   ]
 
   // Sort navigation by order field if it exists
-  const navigation = siteSettings?.navigation || defaultNavigation
+  const navigation = siteSettings?.navigation ?? defaultNavigation
   const sortedNavigation =
     Array.isArray(navigation) && navigation.length > 0
       ? [...navigation]
-          .filter((item) => item.label && item.link) // Filter out items without required fields
-          .map((item) => ({
-            label: item.label!,
-            link: item.link!,
-            order: item.order || 0,
-          }))
+          .flatMap((item) =>
+            item.label && item.link
+              ? [{ label: item.label, link: item.link, order: item.order || 0 }]
+              : [],
+          )
           .sort((a, b) => (a.order || 0) - (b.order || 0))
       : defaultNavigation
 

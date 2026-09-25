@@ -5,7 +5,7 @@ import { Shield, Star, Heart, Users, Sparkles, Award } from 'lucide-react'
 import ScrollAnimate from '@/components/motion/scroll-animate'
 import { Card, CardContent } from '@/components/ui/card'
 
-const iconMap: { [key: string]: React.ComponentType<{ className?: string }> } = {
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Shield,
   Star,
   Heart,
@@ -45,7 +45,7 @@ export default function AboutValues({
           className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
         >
           {values.map((value, index) => {
-            const IconComponent = value.icon ? iconMap[value.icon] || Star : Star
+            const IconComponent = value.icon ? (iconMap[value.icon] ?? Star) : Star
             return (
               <ScrollAnimate key={index} variantName="fadeInUp">
                 <Card className="h-full transition-shadow hover:shadow-lg">

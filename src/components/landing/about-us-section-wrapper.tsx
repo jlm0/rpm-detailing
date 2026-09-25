@@ -33,7 +33,7 @@ async function getAboutUsSectionProps(): Promise<ComponentProps<typeof AboutUsSe
         "From a meticulous hand wash to full paint correction and ceramic coatings, we provide a complete suite of detailing services. We're the preferred choice for discerning car owners who value quality and lasting results.",
       features: aboutSection?.features
         ?.map((f) => f.feature)
-        .filter((f): f is string => f != null) || [
+        .filter((f): f is string => f != null) ?? [
         'Premium hand wash and decontamination',
         'Multi-stage paint correction and polishing',
         'Durable ceramic coatings and paint protection',

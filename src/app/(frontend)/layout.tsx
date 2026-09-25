@@ -78,7 +78,7 @@ export async function generateMetadata(): Promise<Metadata> {
       ],
     },
     twitter: {
-      card: twitterCardType as 'summary' | 'summary_large_image',
+      card: twitterCardType,
       title,
       description,
       images: [ogImage],

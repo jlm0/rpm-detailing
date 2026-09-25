@@ -16,7 +16,7 @@ export default async function CtaBannerSectionWrapper() {
       title: item.title || 'Item Title',
       description: item.description || 'Item description',
       iconName: item.iconName || 'Wrench',
-    })) || [
+    })) ?? [
       {
         title: 'Choose Your Package',
         description:

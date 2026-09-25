@@ -13,7 +13,7 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 const isAdmin: Access<User> = ({ req: { user } }) => {
-  return Boolean(user && user.role === 'admin')
+  return user?.role === 'admin'
 }
 
 const isAdminOrEditor: Access<User> = ({ req: { user } }) => {

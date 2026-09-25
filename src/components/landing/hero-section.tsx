@@ -49,7 +49,9 @@ const HeroSection = ({
       setActiveSlide((prev) => (prev + 1) % heroContent.length)
     }, 3000) // Change slide every 3 seconds
 
-    return () => clearInterval(interval)
+    return () => {
+      clearInterval(interval)
+    }
   }, [heroContent.length])
   return (
     <section className="relative flex h-[calc(100vh-80px)] min-h-[600px] items-center bg-brandDark text-white md:min-h-[700px]">
@@ -73,9 +75,7 @@ const HeroSection = ({
         <div className="relative w-full md:w-1/2 lg:w-2/5">
           <ScrollAnimate variantName="fadeInUp" delay={0.2}>
             <div className="flex min-h-[280px] flex-col justify-center lg:min-h-[320px]">
-              <p className="mb-4 text-sm tracking-wider uppercase">
-                {currentSlide?.subtitle}
-              </p>
+              <p className="mb-4 text-sm tracking-wider uppercase">{currentSlide?.subtitle}</p>
               <h1 className="mb-8 text-4xl leading-tight font-bold sm:text-5xl lg:text-6xl">
                 {currentSlide?.title}
               </h1>
@@ -93,7 +93,9 @@ const HeroSection = ({
             {['01', '02', '03'].map((num, index) => (
               <button
                 key={num}
-                onClick={() => setActiveSlide(index)}
+                onClick={() => {
+                  setActiveSlide(index)
+                }}
                 className={`block text-sm transition-all duration-300 ${
                   activeSlide === index
                     ? 'scale-110 font-bold text-white'

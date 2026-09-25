@@ -4,7 +4,6 @@ import { ErrorBoundary } from 'react-error-boundary'
 import { LoadingSpinner } from '@/components/ui/loading-spinner'
 import { getGlobalSettings, getMediaUrl } from '@/lib/payload'
 import { defaultServices } from '@/lib/default-content'
-import type { ServicesPage as ServicesPageData } from '@/payload-types'
 
 import ServicesPage from './services-page'
 
@@ -20,19 +19,18 @@ async function getServicesPageProps(): Promise<ComponentProps<typeof ServicesPag
 
   try {
     const siteSettings = await getGlobalSettings('site-settings')
-    const pageData = (await getGlobalSettings('services-page')) as ServicesPageData | null
+    const pageData = await getGlobalSettings('services-page')
 
     // Sort navigation by order field if it exists
-    const navigation = siteSettings?.navigation || defaultNavigation
+    const navigation = siteSettings?.navigation ?? defaultNavigation
     const sortedNavigation =
       Array.isArray(navigation) && navigation.length > 0
         ? [...navigation]
-            .filter((item) => item.label && item.link)
-            .map((item) => ({
-              label: item.label!,
-              link: item.link!,
-              order: item.order || 0,
-            }))
+            .flatMap((item) =>
+              item.label && item.link
+                ? [{ label: item.label, link: item.link, order: item.order || 0 }]
+                : [],
+            )
             .sort((a, b) => (a.order || 0) - (b.order || 0))
         : defaultNavigation
 
@@ -40,7 +38,7 @@ async function getServicesPageProps(): Promise<ComponentProps<typeof ServicesPag
       pageData?.services && pageData.services.length > 0
         ? pageData.services.map((s) => ({
             title: s.title || '',
-            description: s.description || 'Service description',
+            description: s.description ?? 'Service description',
             features: s.features?.map((f) => ({ feature: f.feature || '' })),
             image:
               s.image && typeof s.image === 'object' && 'url' in s.image

@@ -1,10 +1,10 @@
 'use client'
 
-import { SprayCan, Car, Sparkles, Wind, ShieldCheck, Palette } from 'lucide-react'
+import { SprayCan, Car, Sparkles, Wind, ShieldCheck, Palette, type LucideIcon } from 'lucide-react'
 
 import ScrollAnimate from '@/components/motion/scroll-animate'
 
-const iconMap = {
+const iconMap: Record<string, LucideIcon> = {
   SprayCan,
   Car,
   Sparkles,
@@ -41,7 +41,7 @@ const ServicesOverviewBar = ({ services = defaultServices }: ServicesOverviewBar
           className="grid grid-cols-2 gap-8 text-center sm:grid-cols-3 md:grid-cols-6"
         >
           {services.map((service) => {
-            const IconComponent = iconMap[service.icon as keyof typeof iconMap] || Car
+            const IconComponent = iconMap[service.icon] ?? Car
             return (
               <ScrollAnimate
                 variantName="fadeInUp"
