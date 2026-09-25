@@ -5,6 +5,7 @@ import { CmsLink } from '@/components/layout/cms-link'
 import Reveal from '@/components/motion/reveal'
 import { RichText } from '@/components/rich-text'
 import { Button } from '@/components/ui/button'
+import { Price } from '@/components/ui/price'
 import { image } from '@/lib/cms'
 import { cn } from '@/lib/utils'
 import type { Service, ServicesPage } from '@/payload-types'
@@ -16,6 +17,8 @@ interface ServicesDetailProps {
 
 export default function ServicesDetail({ services, labels }: ServicesDetailProps) {
   const { bookButton } = labels
+  if (services.length === 0) return null
+
   return (
     <section className="bg-white py-20 md:py-28 lg:py-32">
       <div className="container mx-auto divide-y divide-neutral-200 px-4">
@@ -35,6 +38,7 @@ export default function ServicesDetail({ services, labels }: ServicesDetailProps
                       alt={photo.alt}
                       fill
                       className="object-cover"
+                      style={{ objectPosition: photo.position }}
                       sizes="(max-width: 768px) 100vw, 50vw"
                     />
                   )}
@@ -81,13 +85,13 @@ export default function ServicesDetail({ services, labels }: ServicesDetailProps
                   </div>
                 )}
 
-                <div className="mt-10 flex flex-col gap-6 rounded-lg bg-brandLightGray p-6 sm:flex-row sm:items-center sm:justify-between md:p-7">
-                  <div>
+                <div className="mt-10 flex flex-col gap-6 rounded-lg bg-brandLightGray p-6 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between md:p-7">
+                  <div className="min-w-0">
                     <p className="mb-1 text-xs font-semibold tracking-[0.2em] text-brandRed uppercase">
                       {labels.price}
                     </p>
-                    <p className="font-display text-4xl leading-none font-bold tracking-tight text-brandInk [font-stretch:112%] tabular-nums">
-                      {service.price}
+                    <p className="font-display text-4xl leading-none font-bold tracking-tight [overflow-wrap:break-word] text-brandInk [font-stretch:112%] tabular-nums">
+                      <Price amount={service.price} suffix={service.priceSuffix} />
                     </p>
                     {service.duration && (
                       <p className="mt-3 flex items-center gap-2 text-sm text-brandMediumGray">

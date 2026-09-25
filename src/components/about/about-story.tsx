@@ -31,6 +31,7 @@ export default function AboutStory({ title, content, image: media }: AboutPage['
                   alt={photo.alt}
                   fill
                   className="object-cover"
+                  style={{ objectPosition: photo.position }}
                   sizes="(max-width: 768px) 100vw, 55vw"
                 />
               )}

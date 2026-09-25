@@ -88,7 +88,7 @@ export default async function BookingPage() {
 
         <Reveal className="mx-auto mt-6 flex max-w-5xl flex-col gap-4 rounded-xl bg-white p-6 ring-1 ring-black/5 md:flex-row md:items-center md:justify-between md:px-8">
           <p className="text-brandMediumGray">{content.helpText}</p>
-          <div className="flex flex-col gap-2 text-sm sm:flex-row sm:gap-8">
+          <div className="flex min-w-0 flex-col gap-2 text-sm sm:flex-row sm:gap-8">
             <p className="text-brandMediumGray">
               {content.phoneLabel}{' '}
               <a href={telHref(business.phone)} className={`${contactLinkClass} tabular-nums`}>
@@ -97,7 +97,7 @@ export default async function BookingPage() {
             </p>
             <p className="text-brandMediumGray">
               {content.emailLabel}{' '}
-              <a href={`mailto:${business.email}`} className={contactLinkClass}>
+              <a href={`mailto:${business.email}`} className={`${contactLinkClass} break-all`}>
                 {business.email}
               </a>
             </p>

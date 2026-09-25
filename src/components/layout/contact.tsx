@@ -13,7 +13,7 @@ function ContactItem({ icon: Icon, children }: { icon: LucideIcon; children: Rea
       <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-white/5 ring-1 ring-white/10">
         <Icon className="size-4 text-brandRed" aria-hidden />
       </span>
-      {children}
+      <div className="min-w-0">{children}</div>
     </li>
   )
 }
@@ -49,8 +49,10 @@ export function OpeningHours({ hours }: { hours: Business['hours'] }) {
           key={entry.id ?? entry.days}
           className="flex items-baseline justify-between gap-6 border-b border-white/10 py-2.5 first:pt-0 last:border-0"
         >
-          <dt className="text-white/60">{entry.days}</dt>
-          <dd className="text-white tabular-nums">{entry.time}</dd>
+          <dt className="min-w-0 [overflow-wrap:break-word] text-white/60">{entry.days}</dt>
+          <dd className="min-w-0 text-right [overflow-wrap:break-word] text-white tabular-nums">
+            {entry.time}
+          </dd>
         </div>
       ))}
     </dl>

@@ -1,6 +1,7 @@
 import { Icon } from '@/components/icon'
 import Reveal from '@/components/motion/reveal'
 import { SectionHeading } from '@/components/ui/section-heading'
+import { cn, columnsFor } from '@/lib/utils'
 import type { AboutPage } from '@/payload-types'
 
 type AboutValuesProps = AboutPage['values']
@@ -19,7 +20,7 @@ export default function AboutValues({ title, subtitle, items }: AboutValuesProps
         <Reveal
           stagger
           order={1}
-          className="grid gap-10 md:grid-cols-2 md:gap-8 lg:grid-cols-3 lg:gap-12"
+          className={cn('grid gap-10 md:gap-8 lg:gap-12', columnsFor(items.length))}
         >
           {items.map((value, index) => (
             <Reveal key={value.id ?? index} className="border-t border-white/15 pt-6">

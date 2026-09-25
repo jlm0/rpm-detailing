@@ -34,11 +34,14 @@ export default async function Home() {
           transformation={home.transformation}
           yearsOfExperience={settings.business.yearsOfExperience}
         />
-        <PackagesSection packages={home.packages} services={services} />
+        {services.length > 0 && <PackagesSection packages={home.packages} services={services} />}
         <CtaBannerSection ctaBanner={home.ctaBanner} />
         <ProcessSection process={home.process} />
         {testimonials.length > 0 && (
-          <TestimonialsSection section={home.testimonials} testimonials={testimonials} />
+          <TestimonialsSection
+            section={home.testimonials}
+            testimonials={testimonials.slice(0, home.testimonials.limit)}
+          />
         )}
         {brands.length > 0 && <BrandsSection section={home.brands} brands={brands} />}
       </main>

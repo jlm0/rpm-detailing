@@ -6,8 +6,10 @@ import { Magnetic } from '@/components/motion/magnetic'
 import Reveal from '@/components/motion/reveal'
 import { Spotlight } from '@/components/motion/spotlight'
 import { Button } from '@/components/ui/button'
+import { Price } from '@/components/ui/price'
 import { SectionHeading } from '@/components/ui/section-heading'
 import { image } from '@/lib/cms'
+import { cn, columnsFor } from '@/lib/utils'
 import type { HomePage, Service } from '@/payload-types'
 
 interface PackagesSectionProps {
@@ -39,7 +41,15 @@ export function PackagesSection({ packages, services }: PackagesSectionProps) {
             {viewAll}
           </Reveal>
         </div>
-        <Reveal stagger order={1} className="grid gap-5 md:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+        <Reveal
+          stagger
+          order={1}
+          className={cn(
+            'grid gap-5 lg:gap-6',
+            columnsFor(services.length),
+            services.length === 1 && 'md:max-w-md',
+          )}
+        >
           {services.map((service, index) => {
             const photo = image(service.image, 'card')
             return (
@@ -52,6 +62,7 @@ export function PackagesSection({ packages, services }: PackagesSectionProps) {
                         alt={photo.alt}
                         fill
                         className="object-cover transition-transform duration-slow ease-enter motion-safe:group-hover/card:scale-[1.03]"
+                        style={{ objectPosition: photo.position }}
                         sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       />
                     )}
@@ -68,9 +79,9 @@ export function PackagesSection({ packages, services }: PackagesSectionProps) {
                     <p className="mb-8 line-clamp-3 text-sm leading-relaxed text-white/65">
                       {service.summary}
                     </p>
-                    <div className="mt-auto flex items-center justify-between gap-4 border-t border-white/10 pt-5">
-                      <p className="font-display text-xl font-bold [font-stretch:112%] tabular-nums">
-                        {service.price}
+                    <div className="mt-auto flex flex-wrap items-center justify-between gap-x-4 gap-y-3 border-t border-white/10 pt-5">
+                      <p className="font-display text-xl font-bold [overflow-wrap:break-word] [font-stretch:112%] tabular-nums">
+                        <Price amount={service.price} suffix={service.priceSuffix} />
                       </p>
                       <Button asChild variant="light" size="sm">
                         <CmsLink url={packages.cardButton.url}>

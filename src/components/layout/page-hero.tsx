@@ -22,6 +22,7 @@ export function PageHero({ title, subtitle, image: media }: PageHeroProps) {
             fill
             priority
             className="object-cover opacity-55 motion-safe:animate-settle"
+            style={{ objectPosition: background.position }}
             sizes="100vw"
           />
         </div>

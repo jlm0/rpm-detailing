@@ -28,6 +28,7 @@ export function HeroSection({ hero, business }: HeroSectionProps) {
             fill
             priority
             className="object-cover opacity-60 motion-safe:animate-settle"
+            style={{ objectPosition: background.position }}
             sizes="100vw"
           />
           <div className="absolute inset-0 bg-linear-to-t from-brandInk via-brandInk/30 to-brandInk/10 md:bg-linear-to-r md:from-brandInk/40 md:via-transparent" />
@@ -52,22 +53,24 @@ export function HeroSection({ hero, business }: HeroSectionProps) {
       </div>
 
       {(hero.showPhone || hero.showAddress) && (
-        <div className="absolute right-8 bottom-8 hidden animate-rise flex-col gap-3 rounded-md border border-white/10 bg-brandInk/55 px-5 py-4 text-sm backdrop-blur-md enter-step-4 md:flex lg:right-12 lg:bottom-12">
+        <div className="absolute right-8 bottom-8 hidden max-w-xs animate-rise flex-col gap-3 rounded-md border border-white/10 bg-brandInk/55 px-5 py-4 text-sm backdrop-blur-md enter-step-4 md:flex lg:right-12 lg:bottom-12">
           {hero.showPhone && (
             <a
               href={telHref(business.phone)}
               className="flex items-center gap-3 text-white/90 transition-colors hover:text-white"
             >
-              <Phone className="h-4 w-4 text-brandRed" aria-hidden />
+              <Phone className="size-4 shrink-0 text-brandRed" aria-hidden />
               <span>
                 {hero.phoneLabel}{' '}
-                <span className="font-medium text-white tabular-nums">{business.phone}</span>
+                <span className="font-medium whitespace-nowrap text-white tabular-nums">
+                  {business.phone}
+                </span>
               </span>
             </a>
           )}
           {hero.showAddress && (
             <p className="flex items-center gap-3 text-white/90">
-              <MapPin className="h-4 w-4 text-brandRed" aria-hidden />
+              <MapPin className="size-4 shrink-0 text-brandRed" aria-hidden />
               <span>{business.address}</span>
             </p>
           )}

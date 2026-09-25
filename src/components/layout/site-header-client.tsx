@@ -9,6 +9,7 @@ import { useEffect, useId, useRef, useState, type ReactNode } from 'react'
 
 import { Button } from '@/components/ui/button'
 import { backdrop, duration, ease, scrollBehavior } from '@/lib/motion'
+import { cn } from '@/lib/utils'
 import type { Header, SiteSetting } from '@/payload-types'
 
 import { CmsLink } from './cms-link'
@@ -26,6 +27,26 @@ interface SiteHeaderClientProps {
 const desktopItemClass =
   'relative py-2 text-sm font-medium text-white/70 transition-colors hover:text-white aria-[current=page]:text-white after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:origin-right after:scale-x-0 after:bg-brandRed after:transition-transform after:duration-base after:ease-enter hover:after:origin-left hover:after:scale-x-100 motion-reduce:after:transition-none aria-[current=page]:after:scale-x-100'
 
+const breakpoints = [
+  { width: 768, gap: 32, nav: 'md:flex', toggle: 'md:hidden' },
+  { width: 1024, gap: 40, nav: 'lg:flex', toggle: 'lg:hidden' },
+  { width: 1280, gap: 40, nav: 'xl:flex', toggle: 'xl:hidden' },
+  { width: 1376, gap: 40, nav: '2xl:flex', toggle: '2xl:hidden' },
+] as const
+
+const textWidth = (label: string) => label.length * 8
+const logoAndPadding = 256
+
+const desktopBreakpoint = (items: NavItem[], ctaLabel: string | undefined) => {
+  const labels = items.reduce((width, item) => width + textWidth(item.label), 0)
+  const cta = ctaLabel ? textWidth(ctaLabel) + 32 : 0
+  return (
+    breakpoints.find(
+      ({ width, gap }) => labels + gap * (items.length - 1) <= width - logoAndPadding - cta,
+    ) ?? breakpoints[3]
+  )
+}
+
 const mobileItemClass =
   'group flex w-full items-baseline gap-4 border-b border-white/10 py-4 text-left font-display text-2xl font-bold tracking-tight text-white/85 [font-stretch:112%] transition-colors hover:text-white aria-[current=page]:text-brandRed'
 
@@ -34,15 +55,16 @@ interface MobileMenuProps {
   renderNavItem: (item: NavItem, className: string, index: number) => ReactNode
   cta: Header['cta'] | undefined
   menuId: string
+  hiddenFrom: string
   onClose: () => void
 }
 
-function MobileMenu({ header, renderNavItem, cta, menuId, onClose }: MobileMenuProps) {
+function MobileMenu({ header, renderNavItem, cta, menuId, hiddenFrom, onClose }: MobileMenuProps) {
   const panel = useRef<HTMLDivElement>(null)
   useModal(panel, onClose)
 
   return (
-    <div className="fixed inset-0 z-50 md:hidden">
+    <div className={cn('fixed inset-0 z-50', hiddenFrom)}>
       <motion.div
         className="absolute inset-0 bg-black/60 backdrop-blur-sm"
         onClick={onClose}
@@ -112,6 +134,7 @@ export default function SiteHeaderClient({ header, business, logo }: SiteHeaderC
   const router = useRouter()
   const menuId = useId()
   const cta = header.showCta ? header.cta : undefined
+  const desktop = desktopBreakpoint(header.navItems, cta?.label)
 
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false)
@@ -227,7 +250,7 @@ export default function SiteHeaderClient({ header, business, logo }: SiteHeaderC
             </div>
           )}
         </Link>
-        <nav className="hidden items-center gap-8 md:flex lg:gap-10">
+        <nav className={cn('hidden items-center gap-8 lg:gap-10', desktop.nav)}>
           {header.navItems.map((item) => renderNavItem(item, desktopItemClass))}
         </nav>
         <div className="flex items-center gap-4">
@@ -241,7 +264,10 @@ export default function SiteHeaderClient({ header, business, logo }: SiteHeaderC
             onClick={() => {
               setIsMobileMenuOpen((open) => !open)
             }}
-            className="-mr-2 rounded-md p-2 transition-colors hover:bg-white/10 md:hidden"
+            className={cn(
+              '-mr-2 rounded-md p-2 transition-colors hover:bg-white/10',
+              desktop.toggle,
+            )}
             aria-label={header.mobileMenu.openLabel}
             aria-expanded={isMobileMenuOpen}
             aria-controls={isMobileMenuOpen ? menuId : undefined}
@@ -258,6 +284,7 @@ export default function SiteHeaderClient({ header, business, logo }: SiteHeaderC
             renderNavItem={renderNavItem}
             cta={cta}
             menuId={menuId}
+            hiddenFrom={desktop.toggle}
             onClose={closeMobileMenu}
           />
         )}

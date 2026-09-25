@@ -231,6 +231,7 @@
   body {
     @apply bg-background font-sans text-foreground antialiased;
     font-feature-settings: 'ss01';
+    overflow-wrap: anywhere;
   }
 
   h1,
