@@ -90,6 +90,10 @@
   transition-duration: var(--duration-slow);
 }
 
+@utility enter-step-* {
+  animation-delay: calc(var(--stagger) * --value(integer));
+}
+
 @keyframes rise {
   from {
     opacity: 0;

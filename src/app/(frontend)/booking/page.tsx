@@ -75,7 +75,7 @@ export default async function BookingPage() {
       </div>
 
       <main className="container mx-auto -mt-28 px-4 pb-20 md:-mt-36 md:px-8">
-        <div className="mx-auto h-[600px] max-w-5xl animate-rise overflow-auto rounded-xl bg-white p-3 shadow-[0_40px_80px_-40px_rgb(17_17_17/0.5)] ring-1 ring-black/5 [animation-delay:160ms] md:h-[800px] md:p-6">
+        <div className="mx-auto h-[600px] max-w-5xl animate-rise overflow-auto rounded-xl bg-white p-3 shadow-[0_40px_80px_-40px_rgb(17_17_17/0.5)] ring-1 ring-black/5 enter-step-2 md:h-[800px] md:p-6">
           <CalEmbed
             calLink={calendar.calLink}
             eventSlug={calendar.eventSlug}

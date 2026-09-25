@@ -73,10 +73,10 @@ export function HeroSlides({ slides, children }: { slides: Slides; children: Rea
         </AnimatePresence>
       </div>
 
-      <div className="animate-rise [animation-delay:120ms]">{children}</div>
+      <div className="animate-rise enter-step-2">{children}</div>
 
       {slides.length > 1 && (
-        <div className="mt-10 flex animate-rise gap-2 [animation-delay:240ms]">
+        <div className="mt-10 flex animate-rise gap-2 enter-step-3">
           {slides.map((slide, index) => {
             const isActive = activeSlide === index
             return (

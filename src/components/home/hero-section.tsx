@@ -52,7 +52,7 @@ export function HeroSection({ hero, business }: HeroSectionProps) {
       </div>
 
       {(hero.showPhone || hero.showAddress) && (
-        <div className="absolute right-8 bottom-8 hidden animate-rise flex-col gap-3 rounded-md border border-white/10 bg-brandInk/55 px-5 py-4 text-sm backdrop-blur-md [animation-delay:360ms] md:flex lg:right-12 lg:bottom-12">
+        <div className="absolute right-8 bottom-8 hidden animate-rise flex-col gap-3 rounded-md border border-white/10 bg-brandInk/55 px-5 py-4 text-sm backdrop-blur-md enter-step-4 md:flex lg:right-12 lg:bottom-12">
           {hero.showPhone && (
             <a
               href={telHref(business.phone)}
