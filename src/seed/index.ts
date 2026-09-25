@@ -67,12 +67,13 @@ export async function seed(payload: Payload) {
     name: string,
     alt: string,
     file: Promise<{ data: Buffer; mimetype: string }>,
+    focus?: { x: number; y: number },
   ) => {
     const { data, mimetype } = await file
     const extension = mimetype === 'image/png' ? 'png' : 'jpg'
     const doc = await payload.create({
       collection: 'media',
-      data: { alt },
+      data: { alt, focalX: focus?.x, focalY: focus?.y },
       file: { data, mimetype, name: `${name}.${extension}`, size: data.length },
       context,
     })
@@ -102,10 +103,14 @@ export async function seed(payload: Payload) {
     upload('rpm-logo', 'RPM Detailing', wordmark('RPM DETAILING', '#ffffff')),
     upload(
       'share-image',
-      'A freshly detailed black sedan in the RPM Detailing studio',
-      socialCard('hero'),
+      'Snow foam being rinsed off a black coupe in the RPM Detailing studio',
+      socialCard('step-wash'),
+      { x: 62, y: 50 },
     ),
-    upload('hero', 'A freshly detailed black sedan gleaming under studio lights', photo('hero')),
+    upload('hero', 'A freshly detailed black sedan gleaming under studio lights', photo('hero'), {
+      x: 72,
+      y: 55,
+    }),
     upload(
       'about',
       'Detailer hand-finishing glossy black paint with a microfibre cloth',
@@ -141,6 +146,7 @@ export async function seed(payload: Payload) {
       'services-hero',
       'A detailed black coupe in the RPM Detailing studio',
       photo('services-hero'),
+      { x: 52, y: 62 },
     ),
     upload('about-hero', 'The RPM Detailing garage at dusk', photo('about-hero')),
     upload('story', 'Detailer inspecting paint with a swirl-finder light', photo('story')),
@@ -359,6 +365,11 @@ export async function seed(payload: Payload) {
     context,
     data: {
       ...published,
+      meta: {
+        title: 'Premium Car Detailing in Boise, Idaho',
+        description:
+          'Paint correction, ceramic coating and full interior and exterior detailing in Boise, Idaho. Book your detail online with RPM Detailing.',
+      },
       hero: {
         slides: [
           {
@@ -476,6 +487,11 @@ export async function seed(payload: Payload) {
     context,
     data: {
       ...published,
+      meta: {
+        title: 'Detailing Packages & Pricing',
+        description:
+          'Compare the Restore, Protect and RPM+ maintenance packages, with pricing and everything included in each RPM Detailing service.',
+      },
       hero: {
         title: 'Our Premium Detailing Services',
         subtitle: 'Professional auto detailing services tailored to your needs',
@@ -499,6 +515,11 @@ export async function seed(payload: Payload) {
     context,
     data: {
       ...published,
+      meta: {
+        title: 'About Our Boise Detailing Studio',
+        description:
+          'Meet the team behind RPM Detailing and the standards we bring to every paint correction, ceramic coating and interior detail.',
+      },
       hero: {
         title: 'About RPM Detailing',
         subtitle: 'Your trusted partner in premium auto detailing',
@@ -556,6 +577,11 @@ export async function seed(payload: Payload) {
     context,
     data: {
       ...published,
+      meta: {
+        title: 'Book Your Car Detail Online',
+        description:
+          'Pick a package and a time that suits you, and book your RPM Detailing appointment online in a couple of minutes.',
+      },
       calendar: { enabled: true, calLink: 'rpm-detailing' },
       content: {
         backLabel: 'Back to Home',
