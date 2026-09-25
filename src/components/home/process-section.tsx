@@ -1,5 +1,6 @@
 import { Icon } from '@/components/icon'
 import ScrollAnimate from '@/components/motion/scroll-animate'
+import { SectionHeading } from '@/components/ui/section-heading'
 import { image } from '@/lib/cms'
 import type { HomePage } from '@/payload-types'
 
@@ -12,29 +13,32 @@ export function ProcessSection({ process }: { process: HomePage['process'] }) {
   })
 
   return (
-    <section className="bg-brandLightGray py-16 lg:py-24">
+    <section className="bg-brandLightGray py-20 md:py-28 lg:py-36">
       <div className="container mx-auto px-4">
-        <ScrollAnimate variantName="fadeInDown" className="mb-12 text-center">
-          <p className="mb-2 text-sm font-semibold tracking-wider text-brandRed uppercase">
-            {process.eyebrow}
-          </p>
-          <h2 className="mb-4 text-3xl font-bold text-brandDark lg:text-4xl">{process.title}</h2>
-        </ScrollAnimate>
+        <SectionHeading
+          eyebrow={process.eyebrow}
+          title={process.title}
+          align="center"
+          className="mb-12 md:mb-14"
+        />
         <ProcessSteps steps={steps} />
         {process.stats && process.stats.length > 0 && (
           <ScrollAnimate
             variantName="fadeIn"
             staggerChildren={0.1}
-            delay={0.3}
-            className="grid grid-cols-2 gap-8 text-center md:grid-cols-4"
+            className="mx-auto mt-16 grid max-w-6xl grid-cols-2 gap-y-10 md:mt-24 md:grid-cols-4"
           >
             {process.stats.map((stat, index) => (
-              <ScrollAnimate variantName="fadeInUp" key={stat.id ?? index}>
-                <div className="flex flex-col items-center">
-                  <Icon name={stat.icon} className="mb-3 h-10 w-10 text-brandRed" />
-                  <p className="text-4xl font-bold text-brandDark">{stat.value}</p>
-                  <p className="text-sm text-brandMediumGray">{stat.label}</p>
-                </div>
+              <ScrollAnimate
+                variantName="fadeInUp"
+                key={stat.id ?? index}
+                className="flex flex-col items-center gap-2 border-neutral-300 px-4 text-center md:border-l md:first:border-l-0"
+              >
+                <Icon name={stat.icon} strokeWidth={1.5} className="mb-2 size-6 text-brandRed" />
+                <p className="font-display text-5xl leading-none font-bold tracking-tight text-brandInk [font-stretch:118%] tabular-nums lg:text-6xl">
+                  {stat.value}
+                </p>
+                <p className="text-sm text-brandMediumGray">{stat.label}</p>
               </ScrollAnimate>
             ))}
           </ScrollAnimate>

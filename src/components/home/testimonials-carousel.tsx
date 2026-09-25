@@ -22,17 +22,24 @@ export function TestimonialsCarousel({ children }: { children: ReactNode }) {
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="-ml-4 flex">{children}</div>
       </div>
-      <div className="mt-8 flex justify-center gap-4 md:mt-12">
+      <div className="mt-8 flex justify-end gap-2 md:mt-10">
         <Button
           variant="outline"
           size="icon"
           aria-label="Previous testimonial"
           onClick={scrollPrev}
+          className="size-12 border-neutral-300 bg-transparent hover:border-brandInk hover:bg-brandInk hover:text-white"
         >
-          <ArrowLeft className="h-4 w-4" />
+          <ArrowLeft />
         </Button>
-        <Button variant="outline" size="icon" aria-label="Next testimonial" onClick={scrollNext}>
-          <ArrowRight className="h-4 w-4" />
+        <Button
+          variant="outline"
+          size="icon"
+          aria-label="Next testimonial"
+          onClick={scrollNext}
+          className="size-12 border-neutral-300 bg-transparent hover:border-brandInk hover:bg-brandInk hover:text-white"
+        >
+          <ArrowRight />
         </Button>
       </div>
     </>

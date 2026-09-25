@@ -1,10 +1,12 @@
-import { CheckCircle2 } from 'lucide-react'
+import { Check } from 'lucide-react'
 import Image from 'next/image'
 
 import { CmsLink } from '@/components/layout/cms-link'
 import ScrollAnimate from '@/components/motion/scroll-animate'
 import { Button } from '@/components/ui/button'
+import { SectionHeading } from '@/components/ui/section-heading'
 import { image } from '@/lib/cms'
+import { cn } from '@/lib/utils'
 import type { HomePage } from '@/payload-types'
 
 interface AboutSectionProps {
@@ -20,7 +22,7 @@ function Paragraphs({ text }: { text: string }) {
     .filter(Boolean)
 
   return (
-    <div className="mb-6 space-y-4 text-base leading-relaxed text-brandMediumGray md:text-lg">
+    <div className="space-y-4">
       {paragraphs.map((paragraph, index) => (
         <p key={index}>{paragraph}</p>
       ))}
@@ -33,76 +35,95 @@ export function AboutSection({ about, transformation, yearsOfExperience }: About
   const gallery = transformation.gallery.map((media) => image(media, 'card'))
 
   return (
-    <section id="about" className="bg-white py-16 lg:py-24">
+    <section id="about" className="overflow-hidden bg-white py-20 md:py-28 lg:py-36">
       <div className="container mx-auto px-4">
-        <div className="grid items-center gap-12 md:grid-cols-2 lg:gap-16">
-          <ScrollAnimate variantName="slideInLeft" className="relative">
+        <div className="grid items-center gap-16 md:grid-cols-2 lg:grid-cols-[1.1fr_1fr] lg:gap-24">
+          <ScrollAnimate variantName="fadeInUp" className="relative mr-4 mb-8 md:mr-0">
             {aboutImage && (
-              <Image
-                src={aboutImage.url}
-                alt={aboutImage.alt}
-                width={600}
-                height={400}
-                className="rounded-lg object-cover shadow-xl"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
-              />
+              <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-brandLightGray lg:aspect-[5/4]">
+                <Image
+                  src={aboutImage.url}
+                  alt={aboutImage.alt}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+              </div>
             )}
-            <div className="absolute -bottom-8 -left-8 w-52 rounded-lg bg-brandRed p-6 text-center text-white shadow-lg">
-              <p className="text-4xl font-bold">{yearsOfExperience}+</p>
-              <p className="text-sm">{about.badgeLabel}</p>
+            <div className="absolute -right-4 -bottom-8 flex min-w-40 flex-col gap-1 rounded-md bg-brandRed bg-grunge-texture px-6 py-5 text-white bg-blend-multiply shadow-[0_24px_48px_-24px_rgb(217_35_45/0.8)] md:right-auto md:-left-6 lg:-left-10">
+              <p className="font-display text-5xl leading-none font-bold tracking-tight [font-stretch:118%]">
+                {yearsOfExperience}+
+              </p>
+              <p className="text-xs font-semibold tracking-[0.16em] text-white/85 uppercase">
+                {about.badgeLabel}
+              </p>
             </div>
           </ScrollAnimate>
-          <ScrollAnimate variantName="slideInRight" delay={0.2}>
-            <p className="mb-2 text-sm font-semibold tracking-wider text-brandRed uppercase">
-              {about.eyebrow}
-            </p>
-            <h2 className="mb-4 text-3xl font-bold text-brandDark lg:text-4xl">{about.title}</h2>
-            <Paragraphs text={about.body} />
-            <Button asChild variant="brandOutline" size="lg">
-              <CmsLink url={about.cta.url}>{about.cta.label}</CmsLink>
-            </Button>
-          </ScrollAnimate>
+          <div>
+            <SectionHeading
+              eyebrow={about.eyebrow}
+              title={about.title}
+              description={<Paragraphs text={about.body} />}
+            />
+            <ScrollAnimate variantName="fadeInUp" delay={0.15} className="mt-10">
+              <Button asChild variant="brandOutline" size="lg">
+                <CmsLink url={about.cta.url}>{about.cta.label}</CmsLink>
+              </Button>
+            </ScrollAnimate>
+          </div>
         </div>
 
-        <div className="mt-16 grid items-center gap-12 md:grid-cols-2 lg:mt-24 lg:gap-16">
-          <ScrollAnimate variantName="slideInRight" delay={0.1} className="order-2 md:order-1">
-            <p className="mb-2 text-sm font-semibold tracking-wider text-brandRed uppercase">
-              {transformation.eyebrow}
-            </p>
-            <h2 className="mb-4 text-3xl font-bold text-brandDark lg:text-4xl">
-              {transformation.title}
-            </h2>
-            <Paragraphs text={transformation.body} />
+        <div className="mt-28 grid items-center gap-16 md:grid-cols-2 lg:mt-40 lg:grid-cols-[1fr_1.1fr] lg:gap-24">
+          <div>
+            <SectionHeading
+              eyebrow={transformation.eyebrow}
+              title={transformation.title}
+              description={<Paragraphs text={transformation.body} />}
+            />
             {transformation.features && transformation.features.length > 0 && (
-              <ul className="space-y-3">
+              <ScrollAnimate
+                variantName="fadeIn"
+                staggerChildren={0.08}
+                delay={0.1}
+                className="mt-8 divide-y divide-neutral-200 border-y border-neutral-200"
+              >
                 {transformation.features.map((item, index) => (
-                  <li key={item.id ?? index} className="flex items-center space-x-3">
-                    <CheckCircle2 className="h-5 w-5 shrink-0 text-brandRed" />
-                    <span className="text-base text-brandMediumGray md:text-lg">
-                      {item.feature}
+                  <ScrollAnimate
+                    variantName="fadeInUp"
+                    key={item.id ?? index}
+                    className="flex items-center gap-4 py-4"
+                  >
+                    <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-brandRed/10">
+                      <Check className="size-3.5 text-brandRed" strokeWidth={3} aria-hidden />
                     </span>
-                  </li>
+                    <span className="text-base text-brandInk md:text-lg">{item.feature}</span>
+                  </ScrollAnimate>
                 ))}
-              </ul>
+              </ScrollAnimate>
             )}
-          </ScrollAnimate>
+          </div>
           <ScrollAnimate
-            variantName="slideInLeft"
-            delay={0.2}
-            staggerChildren={0.1}
-            className="order-1 grid grid-cols-1 gap-4 sm:grid-cols-3 md:order-2"
+            variantName="fadeIn"
+            staggerChildren={0.12}
+            className="grid grid-cols-2 grid-rows-2 gap-3 md:gap-4"
           >
             {gallery.map(
               (photo, index) =>
                 photo && (
-                  <ScrollAnimate variantName="zoomIn" key={index}>
+                  <ScrollAnimate
+                    variantName="zoomIn"
+                    key={index}
+                    className={cn(
+                      'relative overflow-hidden rounded-lg bg-brandLightGray',
+                      index === 0 ? 'row-span-2' : 'aspect-square',
+                    )}
+                  >
                     <Image
                       src={photo.url}
                       alt={photo.alt}
-                      width={200}
-                      height={150}
-                      className="aspect-[4/3] w-full rounded-lg object-cover shadow-md"
-                      sizes="(max-width: 640px) 100vw, (max-width: 768px) 33vw, 200px"
+                      fill
+                      className="object-cover transition-transform duration-700 ease-out hover:scale-[1.03]"
+                      sizes="(max-width: 768px) 50vw, 25vw"
                     />
                   </ScrollAnimate>
                 ),

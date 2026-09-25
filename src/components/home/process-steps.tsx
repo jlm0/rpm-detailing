@@ -1,5 +1,6 @@
 'use client'
 
+import { AnimatePresence, motion } from 'framer-motion'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import Image from 'next/image'
 import { useId, useRef, useState, type KeyboardEvent } from 'react'
@@ -50,7 +51,7 @@ export function ProcessSteps({ steps }: { steps: ProcessStep[] }) {
       <ScrollAnimate
         variantName="fadeInUp"
         delay={0.1}
-        className="mb-8 flex items-center justify-center space-x-2 sm:space-x-4"
+        className="mx-auto mb-6 flex max-w-5xl items-center gap-2 md:mb-8"
       >
         <Button
           variant="ghost"
@@ -60,38 +61,41 @@ export function ProcessSteps({ steps }: { steps: ProcessStep[] }) {
           onClick={() => {
             select(active - 1)
           }}
-          className="text-brandDark hover:bg-neutral-200"
+          className="hidden shrink-0 text-brandInk hover:bg-neutral-200 sm:inline-flex"
         >
           <ChevronLeft />
         </Button>
         <div
           role="tablist"
           onKeyDown={onKeyDown}
-          className="flex items-center space-x-2 sm:space-x-4"
+          className="-mx-4 flex flex-1 snap-x [scrollbar-width:none] gap-1 overflow-x-auto px-4 sm:mx-0 sm:justify-center sm:px-0"
         >
           {steps.map((step, index) => (
-            <Button
+            <button
               key={tabId(index)}
               ref={(element) => {
                 tabs.current[index] = element
               }}
               id={tabId(index)}
+              type="button"
               role="tab"
               aria-selected={index === active}
               aria-controls={panelId}
               tabIndex={index === active ? 0 : -1}
-              variant={index === active ? 'destructive' : 'outline'}
               onClick={() => {
                 select(index)
               }}
-              className={`${
-                index === active
-                  ? 'bg-brandRed text-white'
-                  : 'border-brandMediumGray text-brandMediumGray hover:bg-brandMediumGray hover:text-white'
-              } px-3 py-1 text-xs sm:px-6 sm:py-2 sm:text-sm`}
+              className="group relative flex shrink-0 snap-start items-baseline gap-2 px-4 pt-2 pb-4 text-sm font-medium whitespace-nowrap text-brandMediumGray transition-colors hover:text-brandInk aria-selected:text-brandInk"
             >
+              <span className="text-xs text-neutral-400 tabular-nums group-aria-selected:text-brandRed">
+                {String(index + 1).padStart(2, '0')}
+              </span>
               {step.title}
-            </Button>
+              <span
+                aria-hidden
+                className="absolute inset-x-4 bottom-0 h-0.5 origin-left scale-x-0 bg-brandRed transition-transform duration-300 ease-out group-aria-selected:scale-x-100"
+              />
+            </button>
           ))}
         </div>
         <Button
@@ -102,7 +106,7 @@ export function ProcessSteps({ steps }: { steps: ProcessStep[] }) {
           onClick={() => {
             select(active + 1)
           }}
-          className="text-brandDark hover:bg-neutral-200"
+          className="hidden shrink-0 text-brandInk hover:bg-neutral-200 sm:inline-flex"
         >
           <ChevronRight />
         </Button>
@@ -110,7 +114,7 @@ export function ProcessSteps({ steps }: { steps: ProcessStep[] }) {
       <ScrollAnimate
         variantName="zoomIn"
         delay={0.2}
-        className="relative mx-auto mb-12 aspect-[16/7] w-full max-w-5xl overflow-hidden rounded-lg shadow-xl"
+        className="relative mx-auto aspect-[4/3] w-full max-w-5xl overflow-hidden rounded-lg bg-brandInk shadow-[0_40px_80px_-40px_rgb(17_17_17/0.45)] sm:aspect-[16/8]"
       >
         <div
           id={panelId}
@@ -118,13 +122,35 @@ export function ProcessSteps({ steps }: { steps: ProcessStep[] }) {
           aria-labelledby={tabId(active)}
           className="absolute inset-0"
         >
-          <Image
-            src={activeStep.image.url}
-            alt={activeStep.image.alt}
-            fill
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, 1200px"
-          />
+          <AnimatePresence initial={false}>
+            <motion.div
+              key={active}
+              className="absolute inset-0"
+              initial={{ opacity: 0, scale: 1.03 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <Image
+                src={activeStep.image.url}
+                alt={activeStep.image.alt}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 1024px"
+              />
+            </motion.div>
+          </AnimatePresence>
+          <div
+            aria-hidden
+            className="absolute inset-x-0 bottom-0 flex items-end justify-between bg-linear-to-t from-brandInk/80 to-transparent px-6 pt-16 pb-5 text-white md:px-8 md:pb-7"
+          >
+            <p className="font-display text-xl font-bold [font-stretch:112%] md:text-2xl">
+              {activeStep.title}
+            </p>
+            <p className="text-xs font-medium tracking-[0.2em] text-white/70 tabular-nums">
+              {String(active + 1).padStart(2, '0')} / {String(steps.length).padStart(2, '0')}
+            </p>
+          </div>
         </div>
       </ScrollAnimate>
     </>

@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { CmsLink } from '@/components/layout/cms-link'
 import ScrollAnimate from '@/components/motion/scroll-animate'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
+import { SectionHeading } from '@/components/ui/section-heading'
 import { image } from '@/lib/cms'
 import type { HomePage, Service } from '@/payload-types'
 
@@ -14,59 +14,79 @@ interface PackagesSectionProps {
 }
 
 export function PackagesSection({ packages, services }: PackagesSectionProps) {
+  const viewAll = (
+    <Button asChild variant="brand" size="lg">
+      <CmsLink url={packages.viewAll.url}>
+        {packages.viewAll.label}
+        <ArrowRight />
+      </CmsLink>
+    </Button>
+  )
+
   return (
-    <section id="services" className="bg-brandDark bg-tire-track-pattern py-16 text-white lg:py-24">
+    <section
+      id="services"
+      className="bg-brandDark bg-tire-track-pattern py-20 text-white md:py-28 lg:py-36"
+    >
       <div className="container mx-auto px-4">
-        <ScrollAnimate variantName="fadeInDown" className="mb-12 text-center">
-          <p className="mb-2 text-sm font-semibold tracking-wider text-brandRed uppercase">
-            {packages.eyebrow}
-          </p>
-          <h2 className="mb-4 text-3xl font-bold lg:text-4xl">{packages.title}</h2>
-        </ScrollAnimate>
+        <div className="mb-12 flex flex-col gap-8 md:mb-16 md:flex-row md:items-end md:justify-between">
+          <SectionHeading eyebrow={packages.eyebrow} title={packages.title} tone="dark" />
+          <ScrollAnimate variantName="fadeInUp" delay={0.1} className="hidden shrink-0 md:block">
+            {viewAll}
+          </ScrollAnimate>
+        </div>
         <ScrollAnimate
           variantName="fadeIn"
-          staggerChildren={0.15}
-          className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
+          staggerChildren={0.12}
+          className="grid gap-5 md:grid-cols-2 lg:grid-cols-3 lg:gap-6"
         >
           {services.map((service, index) => {
             const photo = image(service.image, 'card')
             return (
-              <ScrollAnimate variantName="zoomIn" key={service.id}>
-                <Card className="group flex h-full flex-col overflow-hidden border-neutral-700 bg-brandMediumGray text-white">
-                  <div className="relative aspect-[4/3]">
+              <ScrollAnimate variantName="fadeInUp" key={service.id}>
+                <article className="group relative flex h-full flex-col overflow-hidden rounded-lg bg-white/[0.035] ring-1 ring-white/10 transition-[box-shadow,transform] duration-500 ease-out hover:-translate-y-1 hover:ring-brandRed/60">
+                  <div className="relative aspect-[4/3] overflow-hidden bg-brandInk">
                     {photo && (
                       <Image
                         src={photo.url}
                         alt={photo.alt}
                         fill
-                        className="object-cover transition-transform duration-300 group-hover:scale-105"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                       />
                     )}
-                  </div>
-                  <CardContent className="flex flex-grow flex-col p-6">
-                    <p className="mb-3 text-5xl font-bold text-brandRed">
+                    <div className="absolute inset-0 bg-linear-to-t from-brandDark via-brandDark/10 to-transparent" />
+                    <span
+                      aria-hidden
+                      className="absolute bottom-4 left-6 font-display text-6xl leading-none font-bold text-brandRed [font-stretch:118%]"
+                    >
                       {String(index + 1).padStart(2, '0')}
-                    </p>
-                    <h3 className="mb-3 text-2xl font-semibold">{service.title}</h3>
-                    <p className="mb-4 line-clamp-4 flex-grow overflow-hidden text-sm leading-relaxed text-neutral-300">
+                    </span>
+                  </div>
+                  <div className="flex flex-1 flex-col p-6 pt-5">
+                    <h3 className="mb-3 text-2xl font-bold">{service.title}</h3>
+                    <p className="mb-8 line-clamp-3 text-sm leading-relaxed text-white/65">
                       {service.summary}
                     </p>
-                    <Button asChild variant="light" className="self-start">
-                      <CmsLink url={packages.cardButton.url}>
-                        {packages.cardButton.label} <ArrowRight />
-                      </CmsLink>
-                    </Button>
-                  </CardContent>
-                </Card>
+                    <div className="mt-auto flex items-center justify-between gap-4 border-t border-white/10 pt-5">
+                      <p className="font-display text-xl font-bold [font-stretch:112%] tabular-nums">
+                        {service.price}
+                      </p>
+                      <Button asChild variant="light" size="sm">
+                        <CmsLink url={packages.cardButton.url}>
+                          {packages.cardButton.label}
+                          <ArrowRight />
+                        </CmsLink>
+                      </Button>
+                    </div>
+                  </div>
+                </article>
               </ScrollAnimate>
             )
           })}
         </ScrollAnimate>
-        <ScrollAnimate variantName="fadeInUp" delay={0.3} className="mt-12 text-center">
-          <Button asChild variant="brand" size="lg">
-            <CmsLink url={packages.viewAll.url}>{packages.viewAll.label}</CmsLink>
-          </Button>
+        <ScrollAnimate variantName="fadeInUp" className="mt-10 md:hidden">
+          {viewAll}
         </ScrollAnimate>
       </div>
     </section>
