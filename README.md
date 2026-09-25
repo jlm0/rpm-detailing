@@ -1,6 +1,19 @@
+![RPM Detailing](docs/banner.jpg)
+
 # RPM Detailing
 
-Marketing site and CMS for RPM Detailing, built with Next.js and Payload CMS on Postgres (Neon), deployed to Vercel.
+Marketing site and CMS for RPM Detailing, a premium car detailing studio in Boise, Idaho. The client manages every page, photo, price and review themselves through Payload CMS; changes go live without a redeploy.
+
+> [!IMPORTANT]
+> This repository is public for viewing only. It is proprietary and **all rights are reserved**: it may not be used, copied, modified, deployed or redistributed, in whole or in part. See [LICENSE](LICENSE).
+
+## Highlights
+
+- **Client self-service:** every page, photo, price, review and label is editable in the admin, which is laid out in the same order as the site with an "Appears on" cue for every section.
+- **Draft, preview, publish:** edits autosave as drafts, live preview updates as you type on phone, tablet and desktop, and publishing refreshes the site within seconds.
+- **Guardrails:** every field has limits and help text sized to the layout, so content changes can't break the design.
+- **Motion and accessibility:** restrained, purposeful motion that respects reduced-motion settings, a skip link, and accessible menus and dialogs.
+- **Tested end to end:** Playwright covers the public site and the everyday editing flows through the admin.
 
 ## Stack
 
@@ -33,10 +46,10 @@ Local accounts (local databases only):
 
 Everything on the site comes from Payload:
 
-- **Pages** (Home, Services, About, Booking) and **Site** (Business & SEO, Header & Menu, Footer) are globals.
-- **Service Packages**, **Testimonials**, **Brands** and **Photos** are collections, ordered by drag and drop.
+- **Pages** (Home, Services, About, Booking) and **Site** (Business & SEO, Header & Menu, Footer) are globals, with tabs in the same order as the page.
+- **Service Packages**, **Reviews**, **Brands** and **Photos** are collections, ordered by drag and drop.
 
-Edits autosave as drafts. Use the eye icon for live preview, or open the preview link to see drafts on the real site, then **Publish changes** to go live. Publishing clears the page cache immediately; no redeploy is needed.
+The dashboard links each page to its editor and live URL. Edits autosave as drafts; use the eye icon for live preview, or the preview link to see drafts on the real site with each section labelled and linked back to its editor. **Publish changes** then clears the page cache immediately, with no redeploy.
 
 Editors can manage all content and photos. Only admins can manage users, and the last admin can't be removed or demoted.
 
@@ -80,3 +93,7 @@ Payload syncs schema automatically in development, but deployed environments onl
 1. `pnpm generate:types`
 2. stop the dev server, then `pnpm migrate:create <description>`
 3. review and commit the generated files in `src/migrations/`; never edit a migration once committed
+
+## License
+
+Copyright © 2025–2026 Jordy McNab. All rights reserved. The RPM Detailing name, brand and content belong to RPM Detailing. This code is not open source; see [LICENSE](LICENSE).
