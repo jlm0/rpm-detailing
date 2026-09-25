@@ -20,7 +20,8 @@ export function HeroSlides({ slides, children }: { slides: Slides; children: Rea
   const [paused, setPaused] = useState(false)
   const reduceMotion = useReducedMotion()
   const currentSlide = slides.at(activeSlide)
-  const rotates = slides.length > 1 && !paused && !reduceMotion
+  const running = slides.length > 1 && !paused
+  const rotates = running && !reduceMotion
 
   useEffect(() => {
     if (!rotates) return
@@ -93,14 +94,16 @@ export function HeroSlides({ slides, children }: { slides: Slides; children: Rea
                 {String(index + 1).padStart(2, '0')}
                 <span className="relative h-0.5 w-full overflow-hidden bg-white/25">
                   <span
-                    key={isActive && rotates ? `run-${String(activeSlide)}` : 'idle'}
+                    key={isActive && running ? `run-${String(activeSlide)}` : 'idle'}
                     className={cn(
                       'absolute inset-0 origin-left bg-white',
                       isActive ? 'scale-x-100' : 'scale-x-0',
-                      isActive && rotates && 'animate-[slide-progress_linear_both]',
+                      isActive &&
+                        running &&
+                        'animate-[slide-progress_linear_both] motion-reduce:animate-none',
                     )}
                     style={
-                      isActive && rotates
+                      isActive && running
                         ? { animationDuration: `${String(SLIDE_DURATION_MS)}ms` }
                         : undefined
                     }
